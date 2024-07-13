@@ -1,0 +1,28 @@
+.container {
+  margin-top: 30px;
+}
+
+.item {
+  font-size: 16px;
+  margin: 20px 10px;
+  list-style: none;
+  border-radius: 8px;
+  user-select: none;
+}
+
+.item a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  padding: 10px;
+}
+
+.item:hover {
+  background-color: #045676;
+  cursor: pointer;
+}
+
+.item.selected {
+  color: #26bcf7;
+  background-color: #045676;
+}

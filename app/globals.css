@@ -1,0 +1,17 @@
+:root {
+  --background-color: #f7f7f7;
+  --seperator-color: #ccc;
+  --text-color: #333;
+  --primary-color: #05668d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 24px;
+  color: var(--text-color);
+}

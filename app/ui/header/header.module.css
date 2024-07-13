@@ -1,0 +1,7 @@
+.header {
+  color: var(--text-color);
+  font-size: 24px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--seperator-color);
+  margin-bottom: 20px;
+}
