@@ -1,6 +1,6 @@
 # Argon
 
-Argon is a inventory management system. It can track quentities of products held in locations.
+Argon is a inventory management system. It can track quantities of products held in locations.
 
 ## Installation
 
