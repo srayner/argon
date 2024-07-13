@@ -5,6 +5,7 @@ import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the 
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the Data Grid
 import { useState } from "react";
 import Header from "../ui/header/header";
+import Button from "../ui/button/button";
 import data from "../../data/products.json";
 
 export default function productsPage() {
@@ -27,6 +28,9 @@ export default function productsPage() {
   return (
     <>
       <Header>Products</Header>
+      <Button color="primary" size="small" href="/products/add">
+        Add
+      </Button>
 
       <div
         className="ag-theme-quartz" // applying the Data Grid theme

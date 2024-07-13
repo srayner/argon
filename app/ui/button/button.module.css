@@ -1,0 +1,42 @@
+.btn {
+  padding: 10px 20px;
+  border: 1px solid var(--seperator-color);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.btnSmall {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+.btnMedium {
+  font-size: 16px;
+  padding: 10px 20px;
+}
+
+.btnLarge {
+  font-size: 20px;
+  padding: 15px 30px;
+}
+
+.btnPrimary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btnSecondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btnDanger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
