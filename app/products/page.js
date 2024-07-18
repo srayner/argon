@@ -7,6 +7,7 @@ import { useState } from "react";
 import Header from "../ui/header/header";
 import Button from "../ui/button/button";
 import data from "../../data/products.json";
+import styles from "./page.module.css";
 
 export default function productsPage() {
   // Row Data: The data to be displayed.
@@ -28,9 +29,15 @@ export default function productsPage() {
   return (
     <>
       <Header>Products</Header>
-      <Button color="primary" size="small" href="/products/add">
-        Add
-      </Button>
+      <div className={styles.actionBar}>
+        <form>
+          <label className={styles.searchLabel}>Search</label>
+          <input className={styles.searchInput} type="text" />
+        </form>
+        <Button color="primary" size="small" href="/products/add">
+          Add
+        </Button>
+      </div>
 
       <div
         className="ag-theme-quartz" // applying the Data Grid theme
