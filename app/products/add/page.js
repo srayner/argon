@@ -7,7 +7,7 @@ import styles from "./page.module.css";
 import manufacturers from "../../../data/manufacturers.json";
 import suppliers from "../../../data/suppliers.json";
 
-export default function productAddPage() {
+export default function ProductAddPage() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
@@ -28,7 +28,11 @@ export default function productAddPage() {
           <label>Manufacturer</label>
           <select>
             {manufacturers.map((m) => {
-              return <option value={m.id}>{m.name}</option>;
+              return (
+                <option key={m.id} value={m.id}>
+                  {m.name}
+                </option>
+              );
             })}
           </select>
         </div>
@@ -46,7 +50,11 @@ export default function productAddPage() {
           <label>Supplier</label>
           <select>
             {suppliers.map((s) => {
-              return <option value={s.id}>{s.name}</option>;
+              return (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              );
             })}
           </select>
         </div>

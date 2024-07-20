@@ -23,6 +23,7 @@ export default function menu({ currentPage }) {
         {menuItems.map((item) => {
           return (
             <li
+              key={item.url}
               className={`${styles.item} ${
                 item.url === currentPage ? styles.selected : ""
               }`}

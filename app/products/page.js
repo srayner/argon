@@ -9,7 +9,7 @@ import Button from "../ui/button/button";
 import data from "../../data/products.json";
 import styles from "./page.module.css";
 
-export default function productsPage() {
+export default function ProductsPage() {
   // Row Data: The data to be displayed.
   const [rowData, setRowData] = useState(data);
 

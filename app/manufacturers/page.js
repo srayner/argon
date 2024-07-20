@@ -7,7 +7,7 @@ import { useState } from "react";
 import Header from "../ui/header/header";
 import data from "../../data/manufacturers.json";
 
-export default function suppliersPage() {
+export default function ManufacturersPage() {
   // Row Data: The data to be displayed.
   const [rowData, setRowData] = useState(data);
 
