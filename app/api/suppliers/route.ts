@@ -15,20 +15,20 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const totalItems = await prisma.product.count();
+    const totalItems = await prisma.supplier.count();
     const totalPages = Math.ceil(totalItems / pageSize);
 
     if (page > 1 && page > totalPages) {
       return NextResponse.json({ error: "Page not found" }, { status: 404 });
     }
 
-    const products = await prisma.product.findMany({
+    const suppliers = await prisma.supplier.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
     });
 
     return NextResponse.json({
-      data: products,
+      data: suppliers,
       meta: {
         totalItems,
         totalPages,
@@ -50,15 +50,15 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    const createdProduct = await prisma.product.create({ data: data });
+    const createdSupplier = await prisma.supplier.create({ data: data });
 
-    return NextResponse.json(createdProduct, { status: 201 });
+    return NextResponse.json(createdSupplier, { status: 201 });
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       switch (error.code) {
         case "P2002":
           return NextResponse.json(
-            { error: "A product with this unique field already exists" },
+            { error: "A supplier with this unique field already exists" },
             { status: 409 }
           );
         case "P2003":
