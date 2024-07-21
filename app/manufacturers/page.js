@@ -1,26 +1,43 @@
 "use client";
 
-import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
-import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the Data Grid
-import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the Data Grid
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
 import Header from "../ui/header/header";
-import data from "../../data/manufacturers.json";
 
 export default function ManufacturersPage() {
-  // Row Data: The data to be displayed.
-  const [rowData, setRowData] = useState(data);
-
-  // Column Definitions: Defines the columns to be displayed.
+  const [rowData, setRowData] = useState([]);
   const [colDefs, setColDefs] = useState([{ field: "name", sortable: true }]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/manufacturers");
+        const { data } = await response.json();
+        setRowData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const onPaginationChanged = (params) => {
+    console.log(params);
+  };
   return (
     <>
       <Header>Manufactuers</Header>
-      <div
-        className="ag-theme-quartz" // applying the Data Grid theme
-        style={{ height: 500 }} // the Data Grid will fill the size of the parent container
-      >
-        <AgGridReact rowData={rowData} columnDefs={colDefs} />
+      <div className="ag-theme-quartz" style={{ height: 500 }}>
+        <AgGridReact
+          rowData={rowData}
+          columnDefs={colDefs}
+          pagination={true}
+          paginationPageSizeSelector={[2, 5, 10]}
+          onPaginationChanged={onPaginationChanged}
+        />
       </div>
     </>
   );
