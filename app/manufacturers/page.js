@@ -1,41 +1,63 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 import Header from "../ui/header/header";
 
 export default function ManufacturersPage() {
-  const [rowData, setRowData] = useState([]);
-  const [colDefs, setColDefs] = useState([{ field: "name", sortable: true }]);
+  const fetchData = async (page, pageSize, successCallback) => {
+    const response = await fetch(
+      `/api/manufacturers?page=${page}&pageSize=${pageSize}`
+    );
+    const { data, meta } = await response.json();
+    const lastRow = meta.totalItems;
+    successCallback(data, lastRow);
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/manufacturers");
-        const { data } = await response.json();
-        setRowData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+  const onGridReady = (params) => {
+    const api = params.api;
+    const dataSource = {
+      rowCount: null,
+      getRows: (params) => {
+        const pageSize = api.paginationGetPageSize();
+        const page = Math.floor(params.startRow / pageSize) + 1;
+        fetchData(page, pageSize, params.successCallback);
+      },
     };
 
-    fetchData();
-  }, []);
+    params.api.setGridOption("datasource", dataSource);
+    params.api.setGridOption(
+      "cacheBlockSize",
+      params.api.paginationGetPageSize()
+    );
+  };
 
   const onPaginationChanged = (params) => {
-    console.log(params);
+    if (params.newPageSize) {
+      params.api.setGridOption(
+        "cacheBlockSize",
+        params.api.paginationGetPageSize()
+      );
+    }
   };
+
+  const columnDefs = [
+    { headerName: "ID", field: "id" },
+    { headerName: "Name", field: "name" },
+  ];
+
   return (
     <>
-      <Header>Manufactuers</Header>
-      <div className="ag-theme-quartz" style={{ height: 500 }}>
+      <Header>Manufacturers</Header>
+      <div className="ag-theme-alpine" style={{ height: 500 }}>
         <AgGridReact
-          rowData={rowData}
-          columnDefs={colDefs}
+          columnDefs={columnDefs}
+          rowModelType={"infinite"}
           pagination={true}
-          paginationPageSizeSelector={[2, 5, 10]}
+          paginationPageSizeSelector={[10, 20, 50]}
+          paginationPageSize={20}
+          onGridReady={onGridReady}
           onPaginationChanged={onPaginationChanged}
         />
       </div>
