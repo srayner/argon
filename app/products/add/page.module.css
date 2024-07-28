@@ -50,3 +50,8 @@
   background-color: var(--primary-color);
   color: white;
 }
+
+.errorMessage {
+  color: red;
+  font-size: 14px;
+}

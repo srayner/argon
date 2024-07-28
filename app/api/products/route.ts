@@ -25,6 +25,10 @@ export async function GET(request: NextRequest) {
     const products = await prisma.product.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
+      include: {
+        manufacturer: true,
+        supplier: true
+      }
     });
 
     return NextResponse.json({
@@ -73,6 +77,6 @@ export async function POST(request: NextRequest) {
           );
       }
     }
-    return NextResponse.json({ error: "An error occurred" }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

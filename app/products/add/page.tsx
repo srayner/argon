@@ -1,32 +1,77 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues, useForm } from "react-hook-form";
 import Header from "@/app/ui/header/header";
 import Button from "@/app/ui/button/button";
 import styles from "./page.module.css";
 import manufacturers from "../../../data/manufacturers.json";
 import suppliers from "../../../data/suppliers.json";
+import { useRouter } from "next/navigation";
 
-export default function ProductAddPage() {
-  const { register, handleSubmit } = useForm();
+const ProductAddPage: React.FC = () => {
+  const addProductSchema = z.object({
+    name: z.string().min(1, {message: "Name is required."}),
+    manufacturerId: z.number().optional(),
+    manufacturerPartNo: z.string().optional(),
+    supplierId: z.number().optional(),
+    supplierPartNumber: z.string().optional(),
+    cost: z.number().optional(),
+    qtyInStock: z.number({message: "Quantity is required, but may be zero."}).int(),
+    location: z.string().optional()
+  });
 
-  const onSubmit = (data) => {
+  type AddProductSchema = z.infer<typeof addProductSchema>;
+
+  const router = useRouter();
+  
+  const {
+    formState: {errors, isSubmitting},
+    register,
+    handleSubmit
+  } = useForm<AddProductSchema>({
+    resolver: zodResolver(addProductSchema)
+  });
+  
+  const onSubmit = async (data: FieldValues) => {
     console.log(data);
+    const response = await fetch('/api/products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    router.push('/products');
   };
 
+  console.log(errors);
   return (
     <>
       <Header>Add Product</Header>
 
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+
         <div className={styles.formItem}>
           <label>Name</label>
-          <input {...register("name")} type="text" autoComplete="off" />
+          <div>
+          <input
+            {...register("name")}
+            type="text"
+            autoComplete="off"
+          />
+          {errors.name && (
+            <p className={styles.errorMessage}>{`${errors.name.message}`}</p>
+          )}
+          </div>
         </div>
 
         <div className={styles.formItem}>
           <label>Manufacturer</label>
-          <select>
+          <select
+          {...register("manufacturerId", {valueAsNumber: true})}
+          >
             {manufacturers.map((m) => {
               return (
                 <option key={m.id} value={m.id}>
@@ -48,7 +93,9 @@ export default function ProductAddPage() {
 
         <div className={styles.formItem}>
           <label>Supplier</label>
-          <select>
+          <select
+            {...register("supplierId", {valueAsNumber: true})}
+          >
             {suppliers.map((s) => {
               return (
                 <option key={s.id} value={s.id}>
@@ -61,7 +108,7 @@ export default function ProductAddPage() {
         <div className={styles.formItem}>
           <label>Supplier Part No</label>
           <input
-            {...register("supplierPartNo")}
+            {...register("supplierPartNo", {valueAsNumber: true})}
             type="text"
             autoComplete="off"
           />
@@ -69,17 +116,29 @@ export default function ProductAddPage() {
 
         <div className={styles.formItem}>
           <label>Cost</label>
-          <input {...register("cost")} type="text" autocomplete="off" />
+          <input
+            {...register("cost", {
+              setValueAs: (v) => v === "" ? undefined : parseInt(v, 10),
+            })}
+            type="text"
+            autocomplete="off"
+          />
         </div>
 
         <div className={styles.formItem}>
           <label>Qty In Stock</label>
+          <div>
           <input
-            {...register("qtyInStock")}
+            {...register("qtyInStock", {valueAsNumber: true})}
             type="text"
             autoComplete="off"
-          ></input>
+          />
+          {errors.qtyInStock && (
+            <p className={styles.errorMessage}>{`${errors.qtyInStock.message}`}</p>
+          )}
+          </div>
         </div>
+
 
         <div className={styles.formItem}>
           <label>Location</label>
@@ -102,3 +161,5 @@ export default function ProductAddPage() {
     </>
   );
 }
+
+export default ProductAddPage;

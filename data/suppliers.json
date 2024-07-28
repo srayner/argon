@@ -1,14 +1,14 @@
 [
   {
-    "id": "1",
+    "id": 1,
     "name": "Mouser"
   },
   {
-    "id": "2",
+    "id": 2,
     "name": "Digikey"
   },
   {
-    "id": "3",
+    "id": 3,
     "name": "Farnell"
   }
 ]

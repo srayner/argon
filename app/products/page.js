@@ -1,30 +1,80 @@
 "use client";
 
-import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
-import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the Data Grid
-import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the Data Grid
-import { useState } from "react";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
 import Header from "../ui/header/header";
 import Button from "../ui/button/button";
-import data from "../../data/products.json";
 import styles from "./page.module.css";
 
 export default function ProductsPage() {
-  // Row Data: The data to be displayed.
-  const [rowData, setRowData] = useState(data);
+  const fetchData = async (page, pageSize, successCallback) => {
+    const response = await fetch(
+      `/api/products?page=${page}&pageSize=${pageSize}`
+    );
+    const { data, meta } = await response.json();
+    const lastRow = meta.totalItems;
+    successCallback(data, lastRow);
+  };
 
-  // Column Definitions: Defines the columns to be displayed.
-  const [colDefs, setColDefs] = useState([
-    { field: "manufacturer", sortable: true },
-    { field: "product", sortable: true, sort: "asc", flex: 1 },
-    { field: "supplier" },
+  const onGridReady = (params) => {
+    const api = params.api;
+    const dataSource = {
+      rowCount: null,
+      getRows: (params) => {
+        const pageSize = api.paginationGetPageSize();
+        const page = Math.floor(params.startRow / pageSize) + 1;
+        fetchData(page, pageSize, params.successCallback);
+      },
+    };
+
+    params.api.setGridOption("datasource", dataSource);
+    params.api.setGridOption(
+      "cacheBlockSize",
+      params.api.paginationGetPageSize()
+    );
+  };
+
+  const onPaginationChanged = (params) => {
+    if (params.newPageSize) {
+      params.api.setGridOption(
+        "cacheBlockSize",
+        params.api.paginationGetPageSize()
+      );
+    }
+  };
+
+  const columnDefs = [
+    { headerName: "Manufacturer", field: "manufacturer.name", sortable: true },
+    { headerName: "Product", field: "name" },
+    {
+      headerName: "Supplier",
+      field: "supplier.name",
+      sortable: true,
+      sort: "asc",
+      flex: 1,
+    },
     {
       field: "cost",
-      valueFormatter: (p) => "£" + p.value.toFixed(2),
+      valueFormatter: (p) => {
+        if (
+          p === undefined ||
+          p.value === undefined ||
+          typeof p.value !== "number"
+        ) {
+          return "";
+        }
+        return "£" + p.value.toFixed(2);
+      },
       cellStyle: { textAlign: "right" },
       sortable: true,
     },
-  ]);
+    {
+      header: "Qty ins stock",
+      field: "qtyInStock",
+      cellStyle: { textAlign: "right" },
+    },
+  ];
 
   return (
     <>
@@ -39,11 +89,16 @@ export default function ProductsPage() {
         </Button>
       </div>
 
-      <div
-        className="ag-theme-quartz" // applying the Data Grid theme
-        style={{ height: 500 }} // the Data Grid will fill the size of the parent container
-      >
-        <AgGridReact rowData={rowData} columnDefs={colDefs} />
+      <div className="ag-theme-alpine" style={{ height: 500 }}>
+        <AgGridReact
+          columnDefs={columnDefs}
+          rowModelType={"infinite"}
+          pagination={true}
+          paginationPageSizeSelector={[10, 20, 50]}
+          paginationPageSize={20}
+          onGridReady={onGridReady}
+          onPaginationChanged={onPaginationChanged}
+        />
       </div>
     </>
   );
