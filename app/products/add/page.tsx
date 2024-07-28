@@ -32,7 +32,6 @@ const ProductAddPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch data from API
         const [manufacturersResponse, suppliersResponse] = await Promise.all([
           fetch('/api/manufacturers'),
           fetch('/api/suppliers')
@@ -80,8 +79,6 @@ const ProductAddPage: React.FC = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className={styles.errorMessage}>{error}</p>;
-
-  console.log(manufacturers);
 
   return (
     <>
