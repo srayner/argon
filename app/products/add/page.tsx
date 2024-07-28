@@ -6,9 +6,8 @@ import { FieldValues, useForm } from "react-hook-form";
 import Header from "@/app/ui/header/header";
 import Button from "@/app/ui/button/button";
 import styles from "./page.module.css";
-import manufacturers from "../../../data/manufacturers.json";
-import suppliers from "../../../data/suppliers.json";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const ProductAddPage: React.FC = () => {
   const addProductSchema = z.object({
@@ -25,7 +24,40 @@ const ProductAddPage: React.FC = () => {
   type AddProductSchema = z.infer<typeof addProductSchema>;
 
   const router = useRouter();
+  const [manufacturers, setManufacturers] = useState<{ id: number; name: string }[]>([]);
+  const [suppliers, setSuppliers] = useState<{ id: number; name: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data from API
+        const [manufacturersResponse, suppliersResponse] = await Promise.all([
+          fetch('/api/manufacturers'),
+          fetch('/api/suppliers')
+        ]);
+
+        if (!manufacturersResponse.ok || !suppliersResponse.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        
+        const {data: manufacturers } = await manufacturersResponse.json();
+        const {data: suppliers } = await suppliersResponse.json();
+
+        setManufacturers(manufacturers);
+        setSuppliers(suppliers);
+      } catch (error) {
+        setError('Failed to fetch data from the API.');
+        console.error('Error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const {
     formState: {errors, isSubmitting},
     register,
@@ -46,7 +78,11 @@ const ProductAddPage: React.FC = () => {
     router.push('/products');
   };
 
-  console.log(errors);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className={styles.errorMessage}>{error}</p>;
+
+  console.log(manufacturers);
+
   return (
     <>
       <Header>Add Product</Header>
