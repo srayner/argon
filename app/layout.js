@@ -8,7 +8,7 @@ import { Inter } from "next/font/google";
 import { usePathname } from "next/navigation";
 
 const inter = Inter({
-  weight: "400",
+  weight: ["400", "600"],
   subsets: ["latin"],
 });
 

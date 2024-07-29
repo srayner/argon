@@ -17,6 +17,16 @@ h1 {
   color: var(--text-color);
 }
 
+h2 {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+p {
+  font-size: 14px;
+}
+
 a {
   text-decoration: none;
   color: var(--primary-color);
