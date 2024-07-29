@@ -3,12 +3,23 @@
 import Button from "../ui/button/button";
 import DataGrid from "../ui/datagrid/datagrid";
 import Header from "../ui/header/header";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function ProductsPage() {
   const columnDefs = [
     { headerName: "Manufacturer", field: "manufacturer.name", sortable: true },
-    { headerName: "Product", field: "name" },
+    {
+      headerName: "Product",
+      field: "name",
+      cellRenderer: (params) => {
+        return params.data ? (
+          <Link href={`/products/${params.data.id}`}>{params.value}</Link>
+        ) : (
+          ""
+        );
+      },
+    },
     {
       headerName: "Supplier",
       field: "supplier.name",

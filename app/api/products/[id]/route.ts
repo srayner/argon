@@ -29,6 +29,10 @@ export async function GET(
   try {
     const product = await prisma.product.findUnique({
       where: { id: parsedId },
+      include: {
+        manufacturer: true,
+        supplier: true
+      }
     });
 
     if (!product) {

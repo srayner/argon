@@ -3,6 +3,7 @@
   --seperator-color: #ccc;
   --text-color: #333;
   --primary-color: #05668d;
+  --primary-highlight: #26bcf7;
 }
 
 * {
@@ -14,4 +15,13 @@
 h1 {
   font-size: 24px;
   color: var(--text-color);
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+a:hover {
+  color: var(--primary-highlight);
 }

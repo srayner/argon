@@ -7,11 +7,13 @@
 }
 
 .header {
+  display: flex;
+  align-items: center;
   background-color: var(--background-color);
   border-bottom: 1px solid var(--seperator-color);
   grid-column: 2 / 3;
   grid-row: 1 / 2;
-  padding: 5px;
+  padding: 10px;
 }
 
 .sidebar {

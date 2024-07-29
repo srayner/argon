@@ -49,6 +49,7 @@ export default function DataGrid({ columnDefs, dataEndpoint }) {
         paginationPageSize={10}
         onGridReady={onGridReady}
         onPaginationChanged={onPaginationChanged}
+        suppressCellFocus={true}
       />
     </div>
   );
