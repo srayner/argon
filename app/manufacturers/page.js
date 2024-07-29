@@ -4,6 +4,8 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import Header from "../ui/header/header";
+import Button from "../ui/button/button";
+import styles from "./page.module.css";
 
 export default function ManufacturersPage() {
   const fetchData = async (page, pageSize, successCallback) => {
@@ -44,12 +46,21 @@ export default function ManufacturersPage() {
 
   const columnDefs = [
     { headerName: "ID", field: "id" },
-    { headerName: "Name", field: "name" },
+    { headerName: "Name", field: "name", flex: 1 },
   ];
 
   return (
     <>
       <Header>Manufacturers</Header>
+      <div className={styles.actionBar}>
+        <form>
+          <label className={styles.searchLabel}>Search</label>
+          <input className={styles.searchInput} type="text" />
+        </form>
+        <Button color="primary" size="small" href="/manufacturers/add">
+          Add
+        </Button>
+      </div>
       <div className="ag-theme-alpine" style={{ height: 500 }}>
         <AgGridReact
           columnDefs={columnDefs}
