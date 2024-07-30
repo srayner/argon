@@ -1,13 +1,33 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Button from "../../ui/button/button";
 import Header from "../../ui/header/header";
+import Modal from "../../ui/modal/modal";
 import { DetailList, DetailRow } from "../../ui/detail/detail";
 
 export default function ProductDetailPage({ params }) {
+  const router = useRouter();
   const productId = params.id;
   const [product, setProduct] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleDeleteClick = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleConfirmDelete = async () => {
+    await fetch(`/api/products/${productId}`, {
+      method: "DELETE",
+    });
+
+    router.push("/products");
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -28,7 +48,7 @@ export default function ProductDetailPage({ params }) {
       <Header>
         <span>{product.name}</span>
         <Button size="small">Edit</Button>
-        <Button size="small" color="danger">
+        <Button size="small" color="danger" onClick={handleDeleteClick}>
           Delete
         </Button>
       </Header>
@@ -39,6 +59,13 @@ export default function ProductDetailPage({ params }) {
         )}
         {supplier && <DetailRow title="Supplier" value={supplier.name} />}
       </DetailList>
+
+      <Modal
+        isVisible={isModalVisible}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmDelete}
+        entityName="product"
+      />
     </>
   );
 }
