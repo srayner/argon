@@ -13,6 +13,10 @@ export default function ManufacturerDetailPage({ params }) {
   const [manufacturer, setManufacturer] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const handleEditClick = () => {
+    router.push(`/manufacturers/${manufacturerId}/edit`);
+  };
+
   const handleDeleteClick = () => {
     setIsModalVisible(true);
   };
@@ -44,7 +48,9 @@ export default function ManufacturerDetailPage({ params }) {
     <>
       <Header>
         <span>{manufacturer.name}</span>
-        <Button size="small">Edit</Button>
+        <Button size="small" onClick={handleEditClick}>
+          Edit
+        </Button>
         <Button size="small" color="danger" onClick={handleDeleteClick}>
           Delete
         </Button>

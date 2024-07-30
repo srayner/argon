@@ -13,6 +13,10 @@ export default function ProductDetailPage({ params }) {
   const [product, setProduct] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const handleEditClick = () => {
+    router.push(`/products/${productId}/edit`);
+  };
+
   const handleDeleteClick = () => {
     setIsModalVisible(true);
   };
@@ -47,7 +51,9 @@ export default function ProductDetailPage({ params }) {
     <>
       <Header>
         <span>{product.name}</span>
-        <Button size="small">Edit</Button>
+        <Button size="small" onClick={handleEditClick}>
+          Edit
+        </Button>
         <Button size="small" color="danger" onClick={handleDeleteClick}>
           Delete
         </Button>
