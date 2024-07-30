@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Button from "../../ui/button/button";
 import Header from "../../ui/header/header";
 import { DetailList, DetailRow } from "../../ui/detail/detail";
 
@@ -24,7 +25,13 @@ export default function ProductDetailPage({ params }) {
 
   return (
     <>
-      <Header>{product.name}</Header>
+      <Header>
+        <span>{product.name}</span>
+        <Button size="small">Edit</Button>
+        <Button size="small" color="danger">
+          Delete
+        </Button>
+      </Header>
       <DetailList>
         <DetailRow title="Name" value={product.name} />
         {manufacturer && (

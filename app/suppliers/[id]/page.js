@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Header from "../../ui/header/header";
+import Button from "../../ui/button/button";
+
 import { DetailList, DetailRow } from "../../ui/detail/detail";
 
 export default function ManufacturerDetailPage({ params }) {
@@ -21,7 +23,13 @@ export default function ManufacturerDetailPage({ params }) {
 
   return (
     <>
-      <Header>{supplier.name}</Header>
+      <Header>
+        <span>{supplier.name}</span>
+        <Button size="small">Edit</Button>
+        <Button size="small" color="danger">
+          Delete
+        </Button>
+      </Header>
       <DetailList>
         <DetailRow title="Name" value={supplier.name} />
       </DetailList>

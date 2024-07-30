@@ -1,12 +1,33 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Header from "../../ui/header/header";
 import { DetailList, DetailRow } from "../../ui/detail/detail";
+import Button from "@/app/ui/button/button";
+import Modal from "../../ui/modal/modal";
 
 export default function ManufacturerDetailPage({ params }) {
+  const router = useRouter();
   const manufacturerId = params.id;
   const [manufacturer, setManufacturer] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleDeleteClick = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleConfirmDelete = async () => {
+    await fetch(`/api/manufacturers/${manufacturerId}`, {
+      method: "DELETE",
+    });
+
+    router.push("/manufacturers");
+  };
 
   useEffect(() => {
     const fetchManufacturer = async () => {
@@ -21,10 +42,24 @@ export default function ManufacturerDetailPage({ params }) {
 
   return (
     <>
-      <Header>{manufacturer.name}</Header>
+      <Header>
+        <span>{manufacturer.name}</span>
+        <Button size="small">Edit</Button>
+        <Button size="small" color="danger" onClick={handleDeleteClick}>
+          Delete
+        </Button>
+      </Header>
+
       <DetailList>
         <DetailRow title="Name" value={manufacturer.name} />
       </DetailList>
+
+      <Modal
+        isVisible={isModalVisible}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmDelete}
+        entityName="manufacturer"
+      />
     </>
   );
 }

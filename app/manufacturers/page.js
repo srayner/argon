@@ -25,8 +25,8 @@ export default function ManufacturersPage() {
 
   return (
     <>
-      <Header>Manufacturers</Header>
-      <div className={styles.actionBar}>
+      <Header>
+        <span>Manufacturers</span>
         <form>
           <label className={styles.searchLabel}>Search</label>
           <input className={styles.searchInput} type="text" />
@@ -34,7 +34,8 @@ export default function ManufacturersPage() {
         <Button color="primary" size="small" href="/manufacturers/add">
           Add
         </Button>
-      </div>
+      </Header>
+
       <DataGrid columnDefs={columnDefs} dataEndpoint="/api/manufacturers" />
     </>
   );
