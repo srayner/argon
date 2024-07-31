@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { DetailList, DetailRow } from "../../ui/detail/detail";
 import Button from "../../ui/button/button";
 import Header from "../../ui/header/header";
 import Modal from "../../ui/modal/modal";
-import { DetailList, DetailRow } from "../../ui/detail/detail";
 
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
@@ -51,10 +51,8 @@ export default function ProductDetailPage({ params }) {
     <>
       <Header>
         <span>{product.name}</span>
-        <Button size="small" onClick={handleEditClick}>
-          Edit
-        </Button>
-        <Button size="small" color="danger" onClick={handleDeleteClick}>
+        <Button onClick={handleEditClick}>Edit</Button>
+        <Button color="danger" onClick={handleDeleteClick}>
           Delete
         </Button>
       </Header>

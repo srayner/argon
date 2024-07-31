@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "../../ui/header/header";
-import Button from "../../ui/button/button";
-import Modal from "../../ui/modal/modal";
+import { useEffect, useState } from "react";
 import { DetailList, DetailRow } from "../../ui/detail/detail";
+import Button from "../../ui/button/button";
+import Header from "../../ui/header/header";
+import Modal from "../../ui/modal/modal";
 
 export default function ManufacturerDetailPage({ params }) {
   const router = useRouter();
@@ -48,10 +48,8 @@ export default function ManufacturerDetailPage({ params }) {
     <>
       <Header>
         <span>{supplier.name}</span>
-        <Button size="small" onClick={handleEditClick}>
-          Edit
-        </Button>
-        <Button size="small" color="danger" onClick={handleDeleteClick}>
+        <Button onClick={handleEditClick}>Edit</Button>
+        <Button color="danger" onClick={handleDeleteClick}>
           Delete
         </Button>
       </Header>

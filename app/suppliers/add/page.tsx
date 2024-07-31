@@ -1,12 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, useForm } from "react-hook-form";
-import Header from "@/app/ui/header/header";
 import Button from "@/app/ui/button/button";
+import Header from "@/app/ui/header/header";
+import SubmitContainer from "@/app/ui/submit-container/submit-container";
 import styles from "./page.module.css";
-import { useRouter } from "next/navigation";
 
 const SupplierAddPage: React.FC = () => {
   const addSupplierSchema = z.object({
@@ -56,14 +57,14 @@ const SupplierAddPage: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.submitContainer}>
+        <SubmitContainer>
           <Button color="secondary" href="/suppliers">
             Cancel
           </Button>
           <Button color="primary" type="submit">
             Add
           </Button>
-        </div>
+        </SubmitContainer>
       </form>
     </>
   );

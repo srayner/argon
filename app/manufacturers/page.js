@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import Button from "../ui/button/button";
 import DataGrid from "../ui/datagrid/datagrid";
 import Header from "../ui/header/header";
-import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function ManufacturersPage() {
@@ -26,12 +26,10 @@ export default function ManufacturersPage() {
   return (
     <>
       <Header>
-        <span>Manufacturers</span>
-        <form>
-          <label className={styles.searchLabel}>Search</label>
-          <input className={styles.searchInput} type="text" />
-        </form>
-        <Button color="primary" size="small" href="/manufacturers/add">
+        <div>Manufacturers</div>
+        <label className={styles.searchLabel}>Search</label>
+        <input className={styles.searchInput} type="text" />
+        <Button color="primary" href="/manufacturers/add">
           Add
         </Button>
       </Header>

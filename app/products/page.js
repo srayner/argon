@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import Button from "../ui/button/button";
 import DataGrid from "../ui/datagrid/datagrid";
 import Header from "../ui/header/header";
-import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function ProductsPage() {
@@ -51,17 +51,14 @@ export default function ProductsPage() {
 
   return (
     <>
-      <Header>Products</Header>
-      <div className={styles.actionBar}>
-        <form>
-          <label className={styles.searchLabel}>Search</label>
-          <input className={styles.searchInput} type="text" />
-        </form>
-        <Button color="primary" size="small" href="/products/add">
+      <Header>
+        <div>Products</div>
+        <label className={styles.searchLabel}>Search</label>
+        <input className={styles.searchInput} type="text" />
+        <Button color="primary" href="/products/add">
           Add
         </Button>
-      </div>
-
+      </Header>
       <DataGrid columnDefs={columnDefs} dataEndpoint="/api/products" />
     </>
   );

@@ -1,12 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Header from "@/app/ui/header/header";
 import Button from "@/app/ui/button/button";
+import Header from "@/app/ui/header/header";
+import SubmitContainer from "@/app/ui/submit-container/submit-container";
 import styles from "./page.module.css";
 
 interface SupplierEditPageProps {
@@ -78,14 +79,14 @@ const SupplierEditPage: React.FC<SupplierEditPageProps> = ({params}) => {
           </div>
         </div>
 
-        <div className={styles.submitContainer}>
+        <SubmitContainer>
           <Button color="secondary" href={`/suppliers/${supplierId}`}>
             Cancel
           </Button>
           <Button color="primary" type="submit">
             Edit
           </Button>
-        </div>
+        </SubmitContainer>
       </form>
     </>
   );

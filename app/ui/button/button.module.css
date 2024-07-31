@@ -3,27 +3,33 @@
   border: 1px solid var(--seperator-color);
   border-radius: 5px;
   cursor: pointer;
+  font-family: inherit;
   font-size: 16px;
+  font-weight: 400;
   text-decoration: none;
 }
 
 .btnSmall {
   font-size: 12px;
-  padding: 5px 10px;
+  line-height: 16px;
+  padding: 4px 8px;
 }
 
 .btnMedium {
-  font-size: 16px;
-  padding: 10px 20px;
+  font-size: 15px;
+  line-height: 20px;
+  padding: 5px 10px;
 }
 
 .btnLarge {
   font-size: 20px;
-  padding: 15px 30px;
+  line-height: 24px;
+  padding: 10px 20px;
 }
 
 .btnPrimary {
-  background-color: #007bff;
+  background-color: #1D75AF;
+  border-color: #175D8C;
   color: white;
 }
 
@@ -39,4 +45,5 @@
 
 .btn:hover {
   opacity: 0.8;
+  color: white;
 }
