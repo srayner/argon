@@ -3,72 +3,52 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Header from "@/app/ui/header/header";
 import Button from "@/app/ui/button/button";
 import styles from "./page.module.css";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
-const ProductAddPage: React.FC = () => {
-  const addProductSchema = z.object({
-    name: z.string().min(1, {message: "Name is required."}),
+interface ProductEditPageProps {
+  params: {
+    id: string;
+  };
+}
+
+const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
+  const editProductSchema = z.object({
+    name: z.string().min(1, { message: "Name is required." }),
     manufacturerId: z.number().optional(),
     manufacturerPartNo: z.string().optional(),
     supplierId: z.number().optional(),
-    supplierPartNumber: z.string().optional(),
+    supplierPartNo: z.string().optional(),
     cost: z.number().optional(),
     qtyInStock: z.number({message: "Quantity is required, but may be zero."}).int(),
     location: z.string().optional()
   });
 
-  type AddProductSchema = z.infer<typeof addProductSchema>;
+  type EditProductSchema = z.infer<typeof editProductSchema>;
 
-  const router = useRouter();
+  const productId = params.id;
   const [manufacturers, setManufacturers] = useState<{ id: number; name: string }[]>([]);
   const [suppliers, setSuppliers] = useState<{ id: number; name: string }[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string>();
+  const router = useRouter();
   
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [manufacturersResponse, suppliersResponse] = await Promise.all([
-          fetch('/api/manufacturers'),
-          fetch('/api/suppliers')
-        ]);
-
-        if (!manufacturersResponse.ok || !suppliersResponse.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        
-        const {data: manufacturers } = await manufacturersResponse.json();
-        const {data: suppliers } = await suppliersResponse.json();
-
-        setManufacturers(manufacturers);
-        setSuppliers(suppliers);
-      } catch (error) {
-        setError('Failed to fetch data from the API.');
-        console.error('Error:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const {
     formState: {errors, isSubmitting},
     register,
-    handleSubmit
-  } = useForm<AddProductSchema>({
-    resolver: zodResolver(addProductSchema)
+    handleSubmit,
+    reset
+  } = useForm<EditProductSchema>({
+    resolver: zodResolver(editProductSchema)
   });
-  
+
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
-    const response = await fetch('/api/products', {
-      method: 'POST',
+    console.log('submitting');
+    const response = await fetch(`/api/products/${productId}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -77,13 +57,44 @@ const ProductAddPage: React.FC = () => {
     router.push('/products');
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className={styles.errorMessage}>{error}</p>;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [productResponse, manufacturersResponse, suppliersResponse] = await Promise.all([
+          fetch(`/api/products/${productId}`),
+          fetch('/api/manufacturers'),
+          fetch('/api/suppliers')
+        ]);
+
+        if (!productResponse.ok || !manufacturersResponse.ok || !suppliersResponse.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        
+        const product = await productResponse.json();
+        const { id, ...rest } = product;
+        const {data: manufacturers } = await manufacturersResponse.json();
+        const {data: suppliers } = await suppliersResponse.json();
+
+        setManufacturers(manufacturers);
+        setSuppliers(suppliers);
+        reset(rest);
+
+      } catch (error) {
+        setError('Failed to fetch data from the API.');
+        console.error('Error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <>
-      <Header>Add Product</Header>
-
+      <Header>Edit Product</Header>
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
 
         <div className={styles.formItem}>
@@ -113,6 +124,9 @@ const ProductAddPage: React.FC = () => {
               );
             })}
           </select>
+          {errors.manufacturerId && (
+            <p className={styles.errorMessage}>{`${errors.manufacturerId.message}`}</p>
+          )}
         </div>
 
         <div className={styles.formItem}>
@@ -122,6 +136,9 @@ const ProductAddPage: React.FC = () => {
             type="text"
             autoComplete="off"
           />
+          {errors.manufacturerPartNo && (
+            <p className={styles.errorMessage}>{`${errors.manufacturerPartNo.message}`}</p>
+          )}
         </div>
 
         <div className={styles.formItem}>
@@ -137,15 +154,21 @@ const ProductAddPage: React.FC = () => {
               );
             })}
           </select>
+          {errors.supplierId && (
+            <p className={styles.errorMessage}>{`${errors.supplierId.message}`}</p>
+          )}
         </div>
 
         <div className={styles.formItem}>
           <label>Supplier Part No</label>
           <input
-            {...register("supplierPartNo", {valueAsNumber: true})}
+            {...register("supplierPartNo")}
             type="text"
             autoComplete="off"
           />
+          {errors.supplierPartNo && (
+            <p className={styles.errorMessage}>{`${errors.supplierPartNo.message}`}</p>
+          )}
         </div>
 
         <div className={styles.formItem}>
@@ -157,6 +180,9 @@ const ProductAddPage: React.FC = () => {
             type="text"
             autocomplete="off"
           />
+          {errors.cost && (
+            <p className={styles.errorMessage}>{`${errors.cost.message}`}</p>
+          )}
         </div>
 
         <div className={styles.formItem}>
@@ -179,7 +205,10 @@ const ProductAddPage: React.FC = () => {
             {...register("location")}
             type="text"
             autoComplete="off"
-          ></input>
+          />
+          {errors.location && (
+            <p className={styles.errorMessage}>{`${errors.location.message}`}</p>
+          )}
         </div>
 
         <div className={styles.submitContainer}>
@@ -187,12 +216,12 @@ const ProductAddPage: React.FC = () => {
             Cancel
           </Button>
           <Button color="primary" type="submit">
-            Add
+            Edit
           </Button>
         </div>
       </form>
     </>
   );
-}
+};
 
-export default ProductAddPage;
+export default ProductEditPage;

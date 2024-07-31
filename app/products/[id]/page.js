@@ -63,7 +63,21 @@ export default function ProductDetailPage({ params }) {
         {manufacturer && (
           <DetailRow title="Manufacturer" value={manufacturer.name} />
         )}
+        {product.manufacturerPartNo && (
+          <DetailRow
+            title="Manufacturer Part No"
+            value={product.manufacturerPartNo}
+          />
+        )}
         {supplier && <DetailRow title="Supplier" value={supplier.name} />}
+        {product.supplierPartNo && (
+          <DetailRow title="Supplier Part No" value={product.supplierPartNo} />
+        )}
+        {product.cost && <DetailRow title="Cost" value={product.cost} />}
+        <DetailRow title="Qty In Stock" value={product.qtyInStock} />
+        {product.location && (
+          <DetailRow title="Location" value={product.location} />
+        )}
       </DetailList>
 
       <Modal
