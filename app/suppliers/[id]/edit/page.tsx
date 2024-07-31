@@ -9,20 +9,20 @@ import Header from "@/app/ui/header/header";
 import Button from "@/app/ui/button/button";
 import styles from "./page.module.css";
 
-interface ManufacturerEditPageProps {
+interface SupplierEditPageProps {
   params: {
     id: string;
   };
 }
 
-const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = ({params}) => {
-  const editManufacturerSchema = z.object({
+const SupplierEditPage: React.FC<SupplierEditPageProps> = ({params}) => {
+  const editSupplierSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
   });
 
-  type EditManufacturerSchema = z.infer<typeof editManufacturerSchema>;
+  type EditSupplierSchema = z.infer<typeof editSupplierSchema>;
 
-  const manufacturerId = params.id;
+  const supplierId = params.id;
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   
@@ -31,37 +31,37 @@ const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = ({params}) => 
     register,
     handleSubmit,
     reset
-  } = useForm<EditManufacturerSchema>({
-    resolver: zodResolver(editManufacturerSchema)
+  } = useForm<EditSupplierSchema>({
+    resolver: zodResolver(editSupplierSchema)
   });
 
   const onSubmit = async (data: FieldValues) => {
-    const response = await fetch(`/api/manufacturers/${manufacturerId}`, {
+    const response = await fetch(`/api/suppliers/${supplierId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     });
-    router.push('/manufacturers');
+    router.push('/suppliers');
   };
 
   useEffect(() => {
-    const fetchManufacturer = async () => {
-      const response = await fetch(`/api/manufacturers/${manufacturerId}`);
-      const manufacturer = await response.json();
-      const { id, ...rest } = manufacturer;
+    const fetchSupplier = async () => {
+      const response = await fetch(`/api/suppliers/${supplierId}`);
+      const supplier = await response.json();
+      const { id, ...rest } = supplier;
       reset(rest);
       setIsLoading(false);
     };
-    fetchManufacturer();
+    fetchSupplier();
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <>
-      <Header>Edit Manufacturer</Header>
+      <Header>Edit Supplier</Header>
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
 
         <div className={styles.formItem}>
@@ -79,7 +79,7 @@ const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = ({params}) => 
         </div>
 
         <div className={styles.submitContainer}>
-          <Button color="secondary" href={`/manufacturers/${manufacturerId}`}>
+          <Button color="secondary" href={`/suppliers/${supplierId}`}>
             Cancel
           </Button>
           <Button color="primary" type="submit">
@@ -91,4 +91,4 @@ const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = ({params}) => 
   );
 };
 
-export default ManufacturerEditPage;
+export default SupplierEditPage;

@@ -212,7 +212,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
         </div>
 
         <div className={styles.submitContainer}>
-          <Button color="secondary" href="/products">
+          <Button color="secondary" href={`/products/${productId}`}>
             Cancel
           </Button>
           <Button color="primary" type="submit">

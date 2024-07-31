@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 500px;
+  }
+  
+  .formItem {
+    display: flex;
+  }
+  
+  .formItem label {
+    width: 200px;
+    padding: 6px;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .formItem input[type="text"],
+  .formItem select {
+    width: 300px;
+    height: 32px;
+    border: 1px solid var(--seperator-color);
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: var(--text-color);
+    font-size: 16px;
+  }
+  
+  .submitContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 100%;
+  }
+  .button {
+    height: 32px;
+    border: 1px solid var(--seperator-color);
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+  
+  .button:hover {
+    cursor: pointer;
+  }
+  
+  .primary {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .errorMessage {
+    color: red;
+    font-size: 14px;
+  }
