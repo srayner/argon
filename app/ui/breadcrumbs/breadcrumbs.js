@@ -16,6 +16,7 @@ const Breadcrumbs = () => {
         </li>
         {pathArray.map((path, index) => {
           const href = "/" + pathArray.slice(0, index + 1).join("/");
+          const caption = path[0].toUpperCase() + path.slice(1);
           const isLast = index === pathArray.length - 1;
 
           return (
@@ -25,7 +26,11 @@ const Breadcrumbs = () => {
                 isLast ? styles.active : ""
               }`}
             >
-              {isLast ? <span>{path}</span> : <Link href={href}>{path}</Link>}
+              {isLast ? (
+                <span>{caption}</span>
+              ) : (
+                <Link href={href}>{caption}</Link>
+              )}
             </li>
           );
         })}
