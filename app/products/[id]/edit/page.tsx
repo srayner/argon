@@ -23,7 +23,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
     manufacturerPartNo: z.string().optional(),
     supplierId: z.number().optional(),
     supplierPartNo: z.string().optional(),
-    cost: z.number().optional(),
+    cost: z.number().nullable(),
     qtyInStock: z.number({message: "Quantity is required, but may be zero."}).int(),
     location: z.string().optional()
   });
@@ -176,7 +176,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
           <label>Cost</label>
           <input
             {...register("cost", {
-              setValueAs: (v) => v === "" ? undefined : parseInt(v, 10),
+              setValueAs: (v) => v === "" ? null : parseInt(v, 10),
             })}
             type="text"
             autoComplete="off"
