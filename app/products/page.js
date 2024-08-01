@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Button from "../ui/button/button";
 import DataGrid from "../ui/datagrid/datagrid";
@@ -7,6 +8,7 @@ import Header from "../ui/header/header";
 import styles from "./page.module.css";
 
 export default function ProductsPage() {
+  const [searchTerm, setSearchTerm] = useState("");
   const columnDefs = [
     { headerName: "Manufacturer", field: "manufacturer.name", sortable: true },
     {
@@ -49,17 +51,29 @@ export default function ProductsPage() {
     },
   ];
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <>
       <Header>
         <div>Products</div>
         <label className={styles.searchLabel}>Search</label>
-        <input className={styles.searchInput} type="text" />
+        <input
+          className={styles.searchInput}
+          type="text"
+          onChange={handleSearchChange}
+        />
         <Button color="primary" href="/products/add">
           Add
         </Button>
       </Header>
-      <DataGrid columnDefs={columnDefs} dataEndpoint="/api/products" />
+      <DataGrid
+        columnDefs={columnDefs}
+        dataEndpoint="/api/products"
+        searchTerm={searchTerm}
+      />
     </>
   );
 }

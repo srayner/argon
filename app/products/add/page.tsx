@@ -16,7 +16,7 @@ const ProductAddPage: React.FC = () => {
     manufacturerId: z.number().optional(),
     manufacturerPartNo: z.string().optional(),
     supplierId: z.number().optional(),
-    supplierPartNumber: z.string().optional(),
+    supplierPartNo: z.string().optional(),
     cost: z.number().optional(),
     qtyInStock: z.number({message: "Quantity is required, but may be zero."}).int(),
     location: z.string().optional()
@@ -156,7 +156,7 @@ const ProductAddPage: React.FC = () => {
               setValueAs: (v) => v === "" ? undefined : parseInt(v, 10),
             })}
             type="text"
-            autocomplete="off"
+            autoComplete="off"
           />
         </div>
 

@@ -179,7 +179,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
               setValueAs: (v) => v === "" ? undefined : parseInt(v, 10),
             })}
             type="text"
-            autocomplete="off"
+            autoComplete="off"
           />
           {errors.cost && (
             <p className={styles.errorMessage}>{`${errors.cost.message}`}</p>

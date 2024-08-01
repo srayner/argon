@@ -1,10 +1,14 @@
 import prisma from "@/app/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextResponse, NextRequest } from "next/server";
+import createSearchObject from "../functions/create-search-object";
 
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
+    const searchTerm = url.searchParams.get("search") || '';
+    const searchFields = ['name', 'manufacturerPartNo', 'supplierPartNo'];
+    const searchObject = createSearchObject(searchFields, searchTerm);
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const pageSize = parseInt(url.searchParams.get("pageSize") || "10", 10);
 
@@ -15,7 +19,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const totalItems = await prisma.product.count();
+    const totalItems = await prisma.product.count({where: searchObject});
     const totalPages = Math.ceil(totalItems / pageSize);
 
     if (page > 1 && page > totalPages) {
@@ -25,6 +29,7 @@ export async function GET(request: NextRequest) {
     const products = await prisma.product.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
+      where: searchObject,
       include: {
         manufacturer: true,
         supplier: true
@@ -40,14 +45,14 @@ export async function GET(request: NextRequest) {
         pageSize,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof PrismaClientKnownRequestError) {
       return NextResponse.json(
         { error: "A database error occurred" },
         { status: 500 }
       );
     }
-    return NextResponse.json({ error: "An error occurred" }, { status: 500 });
+    return NextResponse.json({ error: 'An unknown error occured' }, { status: 500 });
   }
 }
 
@@ -57,7 +62,7 @@ export async function POST(request: NextRequest) {
     const createdProduct = await prisma.product.create({ data: data });
 
     return NextResponse.json(createdProduct, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof PrismaClientKnownRequestError) {
       switch (error.code) {
         case "P2002":
@@ -77,6 +82,6 @@ export async function POST(request: NextRequest) {
           );
       }
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'An unknown error occured' }, { status: 500 });
   }
 }
