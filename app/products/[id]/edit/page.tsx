@@ -163,28 +163,32 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
 
         <div className={styles.formItem}>
           <label>Supplier Part No</label>
-          <input
-            {...register("supplierPartNo")}
-            type="text"
-            autoComplete="off"
-          />
-          {errors.supplierPartNo && (
-            <p className={styles.errorMessage}>{`${errors.supplierPartNo.message}`}</p>
-          )}
+          <div>
+            <input
+              {...register("supplierPartNo")}
+              type="text"
+              autoComplete="off"
+            />
+            {errors.supplierPartNo && (
+              <p className={styles.errorMessage}>{`${errors.supplierPartNo.message}`}</p>
+            )}
+          </div>
         </div>
 
         <div className={styles.formItem}>
           <label>Cost</label>
-          <input
-            {...register("cost", {
-              setValueAs: (v) => (v === "" || v === null) ? null : parseFloat(v),
-            })}
-            type="text"
-            autoComplete="off"
-          />
-          {errors.cost && (
-            <p className={styles.errorMessage}>{`${errors.cost.message}`}</p>
-          )}
+          <div>
+            <input
+              {...register("cost", {
+                setValueAs: (v) => (v === "" || v === null) ? null : parseFloat(v),
+              })}
+              type="text"
+              autoComplete="off"
+            />
+            {errors.cost && (
+              <p className={styles.errorMessage}>{`${errors.cost.message}`}</p>
+            )}
+          </div>
         </div>
 
         <div className={styles.formItem}>
