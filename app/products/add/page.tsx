@@ -13,9 +13,9 @@ import styles from "./page.module.css";
 const ProductAddPage: React.FC = () => {
   const addProductSchema = z.object({
     name: z.string().min(1, {message: "Name is required."}),
-    manufacturerId: z.number().optional(),
+    manufacturerId: z.number().nullable(),
     manufacturerPartNo: z.string().optional(),
-    supplierId: z.number().optional(),
+    supplierId: z.number().nullable(),
     supplierPartNo: z.string().optional(),
     cost: z.number().optional(),
     qtyInStock: z.number({message: "Quantity is required, but may be zero."}).int(),
@@ -67,7 +67,6 @@ const ProductAddPage: React.FC = () => {
   });
   
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
     const response = await fetch('/api/products', {
       method: 'POST',
       headers: {
@@ -104,8 +103,9 @@ const ProductAddPage: React.FC = () => {
         <div className={styles.formItem}>
           <label>Manufacturer</label>
           <select
-          {...register("manufacturerId", {valueAsNumber: true})}
+          {...register("manufacturerId", {setValueAs: (value) => !value ? null : Number(value)})}
           >
+            <option key="!" value="">Unknown</option>
             {manufacturers.map((m) => {
               return (
                 <option key={m.id} value={m.id}>
@@ -128,8 +128,9 @@ const ProductAddPage: React.FC = () => {
         <div className={styles.formItem}>
           <label>Supplier</label>
           <select
-            {...register("supplierId", {valueAsNumber: true})}
+            {...register("supplierId", {setValueAs: (value) => !value ? null : Number(value)})}
           >
+            <option key="!" value="">Unknown</option>
             {suppliers.map((s) => {
               return (
                 <option key={s.id} value={s.id}>
@@ -143,10 +144,13 @@ const ProductAddPage: React.FC = () => {
         <div className={styles.formItem}>
           <label>Supplier Part No</label>
           <input
-            {...register("supplierPartNo", {valueAsNumber: true})}
+            {...register("supplierPartNo")}
             type="text"
             autoComplete="off"
           />
+          {errors.supplierPartNo && (
+            <p className={styles.errorMessage}>{`${errors.supplierPartNo.message}`}</p>
+          )}
         </div>
 
         <div className={styles.formItem}>

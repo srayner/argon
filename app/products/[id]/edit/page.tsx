@@ -19,9 +19,9 @@ interface ProductEditPageProps {
 const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
   const editProductSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
-    manufacturerId: z.number().optional(),
+    manufacturerId: z.number().nullable(),
     manufacturerPartNo: z.string().optional(),
-    supplierId: z.number().optional(),
+    supplierId: z.number().nullable(),
     supplierPartNo: z.string().optional(),
     cost: z.number().nullable(),
     qtyInStock: z.number({message: "Quantity is required, but may be zero."}).int(),
@@ -47,7 +47,6 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    console.log('submitting');
     const response = await fetch(`/api/products/${productId}`, {
       method: 'PUT',
       headers: {
@@ -115,8 +114,9 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
         <div className={styles.formItem}>
           <label>Manufacturer</label>
           <select
-          {...register("manufacturerId", {valueAsNumber: true})}
+          {...register("manufacturerId", {setValueAs: (value) => !value ? null : Number(value)})}
           >
+            <option key="!" value="">Unknown</option>
             {manufacturers.map((m) => {
               return (
                 <option key={m.id} value={m.id}>
@@ -145,8 +145,9 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
         <div className={styles.formItem}>
           <label>Supplier</label>
           <select
-            {...register("supplierId", {valueAsNumber: true})}
+            {...register("supplierId", {setValueAs: (value) => !value ? null : Number(value)})}
           >
+            <option key="!" value="">Unknown</option>
             {suppliers.map((s) => {
               return (
                 <option key={s.id} value={s.id}>
