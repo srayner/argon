@@ -44,7 +44,7 @@ const SupplierEditPage: React.FC<SupplierEditPageProps> = ({params}) => {
       },
       body: JSON.stringify(data),
     });
-    router.push('/suppliers');
+    router.push(`/suppliers/${supplierId}`);
   };
 
   useEffect(() => {

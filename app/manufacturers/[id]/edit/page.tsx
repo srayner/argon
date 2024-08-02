@@ -44,7 +44,7 @@ const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = ({params}) => 
       },
       body: JSON.stringify(data),
     });
-    router.push('/manufacturers');
+    router.push(`/manufacturers/${manufacturerId}`);
   };
 
   useEffect(() => {

@@ -54,7 +54,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
       },
       body: JSON.stringify(data),
     });
-    router.push('/products');
+    router.push(`/products/${productId}`);
   };
 
   useEffect(() => {
@@ -177,7 +177,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({params}) => {
           <label>Cost</label>
           <input
             {...register("cost", {
-              setValueAs: (v) => v === "" ? null : parseInt(v, 10),
+              setValueAs: (v) => (v === "" || v === null) ? null : parseFloat(v),
             })}
             type="text"
             autoComplete="off"

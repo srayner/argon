@@ -71,7 +71,15 @@ export default function ProductDetailPage({ params }) {
         {product.supplierPartNo && (
           <DetailRow title="Supplier Part No" value={product.supplierPartNo} />
         )}
-        {product.cost && <DetailRow title="Cost" value={product.cost} />}
+        {product.cost !== null && (
+          <DetailRow
+            title="Cost"
+            value={product.cost}
+            formatter={(v) =>
+              v === null || v === "" ? null : "£" + v.toFixed(2)
+            }
+          />
+        )}
         <DetailRow title="Qty In Stock" value={product.qtyInStock} />
         {product.location && (
           <DetailRow title="Location" value={product.location} />
