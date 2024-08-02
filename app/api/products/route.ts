@@ -2,6 +2,7 @@ import prisma from "@/app/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextResponse, NextRequest } from "next/server";
 import createSearchObject from "../functions/create-search-object";
+import parseSortParams from "../functions/parse-sort-params";
 
 export async function GET(request: NextRequest) {
   try {
@@ -26,10 +27,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Page not found" }, { status: 404 });
     }
 
+    const sortString = url.searchParams.get("sort") || '';
+    const orderBy = sortString ? parseSortParams(sortString) : {};
+
     const products = await prisma.product.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
       where: searchObject,
+      orderBy: orderBy,
       include: {
         manufacturer: true,
         supplier: true

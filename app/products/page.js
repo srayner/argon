@@ -10,7 +10,7 @@ import styles from "./page.module.css";
 export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const columnDefs = [
-    { headerName: "Manufacturer", field: "manufacturer.name", sortable: true },
+    { headerName: "Manufacturer", field: "manufacturer.name", sortable: false },
     {
       headerName: "Product",
       field: "name",
@@ -25,8 +25,7 @@ export default function ProductsPage() {
     {
       headerName: "Supplier",
       field: "supplier.name",
-      sortable: true,
-      sort: "asc",
+      sortable: false,
       flex: 1,
     },
     {
@@ -45,7 +44,7 @@ export default function ProductsPage() {
       sortable: true,
     },
     {
-      header: "Qty ins stock",
+      header: "Qty in stock",
       field: "qtyInStock",
       cellStyle: { textAlign: "right" },
     },

@@ -6,13 +6,21 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
   const [ gridApi, setGridApi ] = useState(null);
 
-  const fetchData = async (page, pageSize, successCallback) => {
+  const fetchData = async (page, pageSize, sortParams, successCallback) => {
     const response = await fetch(
-      `${dataEndpoint}?page=${page}&pageSize=${pageSize}&search=${searchTerm}`
+      `${dataEndpoint}?page=${page}&pageSize=${pageSize}&search=${searchTerm}&sort=${sortParams}`
     );
     const { data, meta } = await response.json();
     const lastRow = meta.totalItems;
     successCallback(data, lastRow);
+  };
+
+  const buildSortParams = (api) => {
+    const sortedColumns = api.getColumnState().filter(s => s.sort !== null);
+    return sortedColumns.map((column) => {
+      const direction = column.sort === 'desc' ? '-' : '';
+      return `${direction}${column.colId}`;
+    }).join(',');
   };
 
   const onGridReady = (params) => {
@@ -23,7 +31,8 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
       getRows: (params) => {
         const pageSize = api.paginationGetPageSize();
         const page = Math.floor(params.startRow / pageSize) + 1;
-        fetchData(page, pageSize, params.successCallback);
+        const sortParams = buildSortParams(api);
+        fetchData(page, pageSize, sortParams, params.successCallback);
       },
     };
     
@@ -50,7 +59,8 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
         getRows: (params) => {
           const pageSize = gridApi.paginationGetPageSize();
           const page = Math.floor(params.startRow / pageSize) + 1;
-          fetchData(page, pageSize, params.successCallback);
+          const sortParams = buildSortParams(gridApi);
+          fetchData(page, pageSize, sortParams, params.successCallback);
         },
       };
       
