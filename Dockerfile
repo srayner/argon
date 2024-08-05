@@ -1,5 +1,5 @@
 # Use a base image
-FROM node:18
+FROM node:18-alpine
 
 # Set the working directory
 WORKDIR /app
@@ -8,10 +8,17 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --production
 
 # Copy the rest of the application code
-COPY . .
+COPY app ./app
+COPY prisma ./prisma
+COPY public ./public
+COPY *.ts ./
+COPY *.json ./
+COPY next.config.mjs ./
+
+RUN npx prisma generate
 
 # Build the application
 RUN npm run build
