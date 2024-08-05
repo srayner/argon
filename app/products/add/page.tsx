@@ -17,7 +17,7 @@ const ProductAddPage: React.FC = () => {
     manufacturerPartNo: z.string().optional(),
     supplierId: z.number().nullable(),
     supplierPartNo: z.string().optional(),
-    cost: z.number().optional(),
+    cost: z.number().nullable(),
     qtyInStock: z.number({message: "Quantity is required, but may be zero."}).int(),
     location: z.string().optional()
   });
@@ -34,8 +34,8 @@ const ProductAddPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const [manufacturersResponse, suppliersResponse] = await Promise.all([
-          fetch('/api/manufacturers'),
-          fetch('/api/suppliers')
+          fetch('/api/manufacturers?pageSize=50'),
+          fetch('/api/suppliers?pageSize=50')
         ]);
 
         if (!manufacturersResponse.ok || !suppliersResponse.ok) {
@@ -157,7 +157,7 @@ const ProductAddPage: React.FC = () => {
           <label>Cost</label>
           <input
             {...register("cost", {
-              setValueAs: (v) => v === "" ? undefined : parseInt(v, 10),
+              setValueAs: (v) => v === "" || v === null ? null : parseFloat(v),
             })}
             type="text"
             autoComplete="off"

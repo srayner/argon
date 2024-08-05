@@ -69,8 +69,8 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
         const [productResponse, manufacturersResponse, suppliersResponse] =
           await Promise.all([
             fetch(`/api/products/${productId}`),
-            fetch("/api/manufacturers"),
-            fetch("/api/suppliers"),
+            fetch("/api/manufacturers?pageSize=50"),
+            fetch("/api/suppliers?pageSize=50"),
           ]);
 
         if (
