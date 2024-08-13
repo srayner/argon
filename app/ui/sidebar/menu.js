@@ -15,6 +15,10 @@ export default function menu({ currentPage }) {
       caption: "Suppliers",
       url: "/suppliers",
     },
+    {
+      caption: "Images",
+      url: "/images",
+    },
   ];
 
   return (
