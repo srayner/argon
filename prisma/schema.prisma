@@ -20,8 +20,11 @@ model User {
 }
 
 model Image {
-  id          Int    @id @default(autoincrement())
-  href        String @db.VarChar(255)
+  id           Int            @id @default(autoincrement())
+  href         String         @db.VarChar(255)
+  product      Product[]
+  supplier     Supplier[]
+  manufacturer Manufacturer[]
 }
 
 model Product {
@@ -38,20 +41,26 @@ model Product {
   cost               Float?
   qtyInStock         Int
   location           String?       @db.VarChar(64)
+  image              Image?        @relation(fields: [imageId], references: [id])
+  imageId            Int?
 }
 
 model Manufacturer {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String   @db.VarChar(128)
-  Product Product[]
+  id                 Int           @id @default(autoincrement())
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  name               String        @db.VarChar(128)
+  image              Image?        @relation(fields: [imageId], references: [id])
+  imageId            Int?
+  Product            Product[]
 }
 
 model Supplier {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  name      String    @db.VarChar(128)
-  Product   Product[]
+  id                 Int           @id @default(autoincrement())
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  name               String        @db.VarChar(128)
+  image              Image?        @relation(fields: [imageId], references: [id])
+  imageId            Int?
+  Product            Product[]
 }

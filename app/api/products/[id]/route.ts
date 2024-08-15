@@ -31,8 +31,9 @@ export async function GET(
       where: { id: parsedId },
       include: {
         manufacturer: true,
-        supplier: true
-      }
+        supplier: true,
+        image: true,
+      },
     });
 
     if (!product) {
