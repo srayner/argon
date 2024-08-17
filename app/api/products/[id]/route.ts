@@ -61,6 +61,11 @@ export async function PUT(
     const updatedProduct = await prisma.product.update({
       where: { id: parsedId },
       data: data,
+      include: {
+        manufacturer: true,
+        supplier: true,
+        image: true,
+      },
     });
 
     return NextResponse.json(updatedProduct, { status: 200 });

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./details.module.css";
 import { Modal } from "@/app/ui/modal/modal";
+import { Paginator } from "@/components/data/paginator";
 
 function Property({ title, value, formatter }: any) {
   let formattedValue = value;
@@ -17,29 +18,33 @@ function Property({ title, value, formatter }: any) {
   );
 }
 
-export const ProductDetails = ({ product }: any) => {
+interface ProductDetailsProps {
+  product: any;
+  onPronductUpdated: (product: any) => void;
+}
+export const ProductDetails = ({
+  product,
+  onProductUpdated,
+}: ProductDetailsProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [images, setImages] = useState([]);
+  const [meta, setMeta] = useState({});
 
-  useEffect(() => {
-    if (isModalOpen) {
-      const fetchImages = async () => {
-        try {
-          const response = await fetch("/api/images");
-          if (!response.ok) throw new Error("Network response was not ok");
-          const data = await response.json();
-          setImages(data.data);
-        } catch (error) {
-          console.error("Failed to fetch images:", error);
-        }
-      };
-
-      fetchImages();
+  const fetchImages = async (page: number) => {
+    try {
+      const response = await fetch(`/api/images?page=${page}`);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const data = await response.json();
+      setImages(data.data);
+      setMeta(data.meta);
+    } catch (error) {
+      console.error("Failed to fetch images:", error);
     }
-  }, [isModalOpen]);
+  };
 
   const onImageChangeClick = () => {
     setIsModalOpen(true);
+    fetchImages(1);
   };
   const onModalClose = () => {
     setIsModalOpen(false);
@@ -59,6 +64,8 @@ export const ProductDetails = ({ product }: any) => {
       if (!response.ok) {
         throw new Error("Failed to update product image");
       }
+      const updatedProduct = await response.json();
+      onProductUpdated(updatedProduct);
     } catch (error) {
       console.error("Error updating product image:", error);
     }
@@ -67,7 +74,6 @@ export const ProductDetails = ({ product }: any) => {
   const manufacturer = product.manufacturer;
   const supplier = product.supplier;
 
-  console.log(images);
   return (
     <div className={styles.container}>
       <div className={styles.title}>{product.name}</div>
@@ -134,6 +140,12 @@ export const ProductDetails = ({ product }: any) => {
             </div>
           ))}
         </div>
+        <Paginator
+          totalItems={meta.totalItems}
+          itemsPerPage={meta.pageSize}
+          currentPage={meta.currentPage}
+          onPageChange={fetchImages}
+        />
       </Modal>
     </div>
   );

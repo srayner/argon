@@ -4,25 +4,26 @@ import "./globals.css";
 import styles from "./layout.module.css";
 import Menu from "./ui/sidebar/menu";
 import Breadcrumbs from "./ui/breadcrumbs/breadcrumbs";
-import { Inter } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
 import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({
-  weight: ["400", "600"],
+const fontSans = FontSans({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
-
-// export const metadata = {
-//   title: "Argon",
-//   description: "Stock Control System",
-// };
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
         <div className={styles.container}>
           <header className={styles.header}>
             <span>Argon Stock Control System</span>

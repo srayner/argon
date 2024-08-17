@@ -54,7 +54,7 @@ export default function ProductDetailPage({ params }) {
         </Button>
       </Header>
 
-      <ProductDetails product={product} />
+      <ProductDetails product={product} onProductUpdated={setProduct} />
 
       <Modal
         isVisible={isModalVisible}
