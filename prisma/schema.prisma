@@ -22,6 +22,7 @@ model User {
 model Image {
   id           Int            @id @default(autoincrement())
   href         String         @db.VarChar(255)
+  name         String         @db.VarChar(128)
   product      Product[]
   supplier     Supplier[]
   manufacturer Manufacturer[]

@@ -1,22 +1,20 @@
-import Button from "../button/button";
-import styles from "./modal.module.css";
-
-export default function Modal({ isVisible, onClose, onConfirm, entityName }) {
-  if (!isVisible) return null;
+export function Modal({ isOpen, onClose, children }) {
+  if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        <h2 className={styles.heading}>Are you sure?</h2>
-        <p
-          className={styles.question}
-        >{`Do you really want to delete this ${entityName}?`}</p>
-        <div className={styles.buttons}>
-          <Button color="secondary" onClick={onClose}>
-            No
-          </Button>
-          <Button onClick={onConfirm}>Yes</Button>
-        </div>
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      {/* Background Overlay */}
+      <div className="fixed inset-0 bg-black opacity-50" onClick={onClose} />
+
+      {/* Modal Content */}
+      <div className="relative bg-white rounded-lg shadow-lg max-w-lg w-full z-50 p-6">
+        <button
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          onClick={onClose}
+        >
+          &times;
+        </button>
+        {children}
       </div>
     </div>
   );

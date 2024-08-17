@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { ProductDetails } from "../../ui/details/details";
 import Button from "../../ui/button/button";
 import Header from "../../ui/header/header";
-import Modal from "../../ui/modal/modal";
+import Modal from "../../ui/modal/confirmation-modal";
 
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
