@@ -13,10 +13,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique @db.VarChar(128)
-  password String @db.VarChar(60)
+  id            String         @id @default(cuid())
+  name          String?
+  username      String?        @unique
+  email         String         @unique @db.VarChar(128)
+  emailVerified DateTime?
+  image         String?
+  password      String         @db.VarChar(60)
+  role          UserRole       @default(USER)
+  accounts      Account[]
+
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String  @unique
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  user                     User?   @relation(fields: [userId], references: [id])
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Image {
@@ -26,12 +63,12 @@ model Image {
   product      Product[]
   supplier     Supplier[]
   manufacturer Manufacturer[]
+
+  createdAt DateTime @default(now())
 }
 
 model Product {
   id                 Int           @id @default(autoincrement())
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
   name               String        @db.VarChar(128)
   manufacturer       Manufacturer? @relation(fields: [manufacturerId], references: [id])
   manufacturerId     Int?
@@ -44,24 +81,29 @@ model Product {
   location           String?       @db.VarChar(64)
   image              Image?        @relation(fields: [imageId], references: [id])
   imageId            Int?
+
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 }
 
 model Manufacturer {
   id                 Int           @id @default(autoincrement())
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
   name               String        @db.VarChar(128)
   image              Image?        @relation(fields: [imageId], references: [id])
   imageId            Int?
   Product            Product[]
+
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 }
 
 model Supplier {
   id                 Int           @id @default(autoincrement())
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
   name               String        @db.VarChar(128)
   image              Image?        @relation(fields: [imageId], references: [id])
   imageId            Int?
   Product            Product[]
+
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 }

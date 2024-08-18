@@ -1,7 +1,12 @@
 import Button from "../button/button";
 import styles from "./conformation.modal.module.css";
 
-export default function Modal({ isVisible, onClose, onConfirm, entityName }) {
+export function ConfirmationModal({
+  isVisible,
+  onClose,
+  onConfirm,
+  entityName,
+}) {
   if (!isVisible) return null;
 
   return (
