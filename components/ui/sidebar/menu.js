@@ -4,7 +4,7 @@ import styles from "./menu.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function menu() {
+export function Menu() {
   const currentPage = usePathname();
   const menuItems = [
     {

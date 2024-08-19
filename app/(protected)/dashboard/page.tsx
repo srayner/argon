@@ -6,7 +6,7 @@ import { FcFactory, FcShipped, FcPackage, FcGallery } from "react-icons/fc";
 import { Card } from "@/components/dashboard/card";
 
 export default function Home() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {

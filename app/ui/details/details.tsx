@@ -20,7 +20,7 @@ function Property({ title, value, formatter }: any) {
 
 interface ProductDetailsProps {
   product: any;
-  onPronductUpdated: (product: any) => void;
+  onProductUpdated: (product: any) => void;
 }
 export const ProductDetails = ({
   product,
@@ -28,7 +28,7 @@ export const ProductDetails = ({
 }: ProductDetailsProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [images, setImages] = useState([]);
-  const [meta, setMeta] = useState({});
+  const [meta, setMeta] = useState<any>({});
 
   const fetchImages = async (page: number) => {
     try {
@@ -49,7 +49,7 @@ export const ProductDetails = ({
   const onModalClose = () => {
     setIsModalOpen(false);
   };
-  const onSelectImage = async (image) => {
+  const onSelectImage = async (image: any) => {
     try {
       setIsModalOpen(false);
 
@@ -126,7 +126,7 @@ export const ProductDetails = ({
 
       <Modal isOpen={isModalOpen} onClose={onModalClose}>
         <div className="grid grid-cols-2 gap-4">
-          {images.map((image, index) => (
+          {images.map((image: any, index) => (
             <div key={index} className="relative group">
               <img
                 src={image.href}

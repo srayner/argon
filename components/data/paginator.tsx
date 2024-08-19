@@ -59,7 +59,7 @@ export function Paginator({
 
         {visiblePageNumbers.map((pageNo) => {
           return (
-            <PaginationItem>
+            <PaginationItem key={pageNo}>
               <PaginationLink
                 isActive={pageNo === currentPage}
                 href="#"

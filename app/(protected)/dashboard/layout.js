@@ -1,5 +1,5 @@
 import { signOut } from "@/auth";
-import Menu from "@/components/ui/sidebar/menu";
+import { Menu } from "@/components/ui/sidebar/menu";
 import Breadcrumbs from "@/app/ui/breadcrumbs/breadcrumbs";
 import styles from "./layout.module.css";
 
