@@ -36,6 +36,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# images
-/public/images/*
-!/public/images/.gitkeep
+# uploads
+/uploads/**
+!/uploads/**/
+!/uploads/**/.gitkeep

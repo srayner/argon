@@ -8,20 +8,28 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --production
+RUN npm install
 
 # Copy the rest of the application code
+COPY actions ./actions
 COPY app ./app
+COPY components ./components
+COPY data ./data
+COPY lib ./lib
 COPY prisma ./prisma
 COPY public ./public
+COPY schemas ./schemas
+COPY uploads ./uploads
 COPY *.ts ./
 COPY *.json ./
-COPY next.config.mjs ./
+COPY *.mjs ./
 
 RUN npx prisma generate
 
 # Build the application
 RUN npm run build
+
+RUN npm prune --production
 
 # Expose port
 EXPOSE 3000
