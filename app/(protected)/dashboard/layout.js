@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { signOut } from "@/auth";
 import { Menu } from "@/components/ui/sidebar/menu";
 import Breadcrumbs from "@/app/ui/breadcrumbs/breadcrumbs";
@@ -24,7 +25,7 @@ export default function DashboardLayout({ children }) {
       </section>
       <main className={styles.main}>
         <Breadcrumbs />
-        {children}
+        <Suspense>{children}</Suspense>
       </main>
     </div>
   );
