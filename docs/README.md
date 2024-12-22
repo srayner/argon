@@ -2,4 +2,4 @@
 
 ## Database Schema
 
-!image[./prisma-erd.svg]
+![Entity Relationships](./prisma-erd.svg)
