@@ -8,6 +8,10 @@ export function Menu() {
   const currentPage = usePathname();
   const menuItems = [
     {
+      caption: "Categories",
+      url: "/dashboard/categories",
+    },
+    {
       caption: "Manufacturers",
       url: "/dashboard/manufacturers",
     },
