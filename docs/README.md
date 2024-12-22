@@ -2,4 +2,4 @@
 
 ## Database Schema
 
-!image[./prisma-schema.svg]
+!image[./prisma-erd.svg]
