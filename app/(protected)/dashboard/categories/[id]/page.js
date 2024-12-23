@@ -56,6 +56,7 @@ export default function CategoryDetailPage({ params }) {
 
       <DetailList>
         <DetailRow title="Name" value={category.name} />
+        <DetailRow title="Parent Category" value={category.parent?.name} />
       </DetailList>
 
       <ConfirmationModal

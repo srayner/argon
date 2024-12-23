@@ -9,6 +9,9 @@ export async function GET(
   try {
     const category = await prisma.category.findUnique({
       where: { id: params.id },
+      include: {
+        parent: true,
+      },
     });
 
     if (!category) {
@@ -48,6 +51,7 @@ export async function PUT(
         { status: 404 }
       );
     }
+    console.log(error);
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }

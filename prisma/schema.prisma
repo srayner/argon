@@ -59,7 +59,10 @@ model Account {
 model Category {
   id            String         @id @default(cuid())
   name          String?        @unique @db.VarChar(64)
-  parent_id     String?
+  parentId      String?
+  parent        Category?      @relation("ParentChild", fields: [parentId], references: [id])
+  children      Category[]     @relation("ParentChild")
+  
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }

@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Header from "@/app/ui/header/header";
 import Button from "@/app/ui/button/button";
+import Header from "@/app/ui/header/header";
 import SubmitContainer from "@/app/ui/submit-container/submit-container";
 import styles from "./page.module.css";
 
@@ -19,12 +19,17 @@ interface CategoryEditPageProps {
 const CategoryEditPage: React.FC<CategoryEditPageProps> = ({ params }) => {
   const editCategorySchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
+    parentId: z.string().nullable(),
   });
 
   type EditCategorySchema = z.infer<typeof editCategorySchema>;
 
   const categoryId = params.id;
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
+    []
+  );
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string>();
   const router = useRouter();
 
   const {
@@ -37,7 +42,7 @@ const CategoryEditPage: React.FC<CategoryEditPageProps> = ({ params }) => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    const response = await fetch(`/api/category/${categoryId}`, {
+    const response = await fetch(`/api/categories/${categoryId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -48,14 +53,32 @@ const CategoryEditPage: React.FC<CategoryEditPageProps> = ({ params }) => {
   };
 
   useEffect(() => {
-    const fetchCategory = async () => {
-      const response = await fetch(`/api/categories/${categoryId}`);
-      const category = await response.json();
-      const { id, ...rest } = category;
-      reset(rest);
-      setIsLoading(false);
+    const fetchData = async () => {
+      try {
+        const [categoryResponse, categoriesResponse] = await Promise.all([
+          fetch(`/api/categories/${categoryId}`),
+          fetch(`/api/categories?pageSize=50&exclude=${categoryId}`),
+        ]);
+
+        if (!categoryResponse || !categoriesResponse) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const category = await categoryResponse.json();
+        const { id, ...rest } = category;
+        const { data: categories } = await categoriesResponse.json();
+
+        setCategories(categories);
+        reset(rest);
+      } catch (error) {
+        setError("Failed to fetch data from API.");
+        console.error("Error:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
-    fetchCategory();
+
+    fetchData();
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
@@ -72,6 +95,31 @@ const CategoryEditPage: React.FC<CategoryEditPageProps> = ({ params }) => {
               <p className={styles.errorMessage}>{`${errors.name.message}`}</p>
             )}
           </div>
+        </div>
+
+        <div className={styles.formItem}>
+          <label>Parent Category</label>
+          <select
+            {...register("parentId", {
+              setValueAs: (value) => (!value ? null : value),
+            })}
+          >
+            <option key="!" value="">
+              None - root category
+            </option>
+            {categories.map((c) => {
+              return (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              );
+            })}
+          </select>
+          {errors.parentId && (
+            <p
+              className={styles.errorMessage}
+            >{`${errors.parentId.message}`}</p>
+          )}
         </div>
 
         <SubmitContainer>

@@ -4,6 +4,7 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
+    const categoriesCount = await prisma.category.count();
     const manufacturerCount = await prisma.manufacturer.count();
     const supplierCount = await prisma.supplier.count();
     const productCount = await prisma.product.count();
@@ -11,6 +12,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       data: {
+        categories: {
+          count: manufacturerCount,
+        },
         manufacturers: {
           count: manufacturerCount,
         },

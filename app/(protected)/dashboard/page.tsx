@@ -2,7 +2,13 @@
 
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
-import { FcFactory, FcShipped, FcPackage, FcGallery } from "react-icons/fc";
+import {
+  FcFactory,
+  FcShipped,
+  FcPackage,
+  FcGallery,
+  FcTreeStructure,
+} from "react-icons/fc";
 import { Card } from "@/components/dashboard/card";
 
 export default function Home() {
@@ -23,6 +29,13 @@ export default function Home() {
         <h1 className={styles.heading}>Stock Control</h1>
 
         <div className="grid grid-cols-2 gap-4">
+          <Card
+            href="/dashboard/categories"
+            icon={FcTreeStructure}
+            title="Categories"
+            text="Products belong to categories."
+            count={data && data.manufacturers.count}
+          />
           <Card
             href="/dashboard/manufacturers"
             icon={FcFactory}
