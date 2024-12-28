@@ -62,6 +62,7 @@ model Category {
   parentId      String?
   parent        Category?      @relation("ParentChild", fields: [parentId], references: [id])
   children      Category[]     @relation("ParentChild")
+  products      Product[]
   
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
@@ -81,6 +82,8 @@ model Image {
 model Product {
   id                 Int           @id @default(autoincrement())
   name               String        @db.VarChar(128)
+  category           Category?     @relation(fields: [categoryId], references: [id])
+  categoryId         String?
   manufacturer       Manufacturer? @relation(fields: [manufacturerId], references: [id])
   manufacturerId     Int?
   manufacturerPartNo String?       @db.VarChar(64)

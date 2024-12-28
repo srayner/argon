@@ -30,6 +30,7 @@ export async function GET(
     const product = await prisma.product.findUnique({
       where: { id: parsedId },
       include: {
+        category: true,
         manufacturer: true,
         supplier: true,
         image: true,
@@ -62,6 +63,7 @@ export async function PUT(
       where: { id: parsedId },
       data: data,
       include: {
+        category: true,
         manufacturer: true,
         supplier: true,
         image: true,

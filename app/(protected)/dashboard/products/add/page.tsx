@@ -13,6 +13,7 @@ import styles from "./page.module.css";
 const ProductAddPage: React.FC = () => {
   const addProductSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
+    categoryId: z.string().nullable(),
     manufacturerId: z.number().nullable(),
     manufacturerPartNo: z.string().optional(),
     supplierId: z.number().nullable(),
@@ -27,6 +28,9 @@ const ProductAddPage: React.FC = () => {
   type AddProductSchema = z.infer<typeof addProductSchema>;
 
   const router = useRouter();
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
+    []
+  );
   const [manufacturers, setManufacturers] = useState<
     { id: number; name: string }[]
   >([]);
@@ -39,18 +43,26 @@ const ProductAddPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [manufacturersResponse, suppliersResponse] = await Promise.all([
-          fetch("/api/manufacturers?pageSize=50"),
-          fetch("/api/suppliers?pageSize=50"),
-        ]);
+        const [categoriesResponse, manufacturersResponse, suppliersResponse] =
+          await Promise.all([
+            fetch("/api/categories?pageSize=50"),
+            fetch("/api/manufacturers?pageSize=50"),
+            fetch("/api/suppliers?pageSize=50"),
+          ]);
 
-        if (!manufacturersResponse.ok || !suppliersResponse.ok) {
+        if (
+          !categoriesResponse.ok ||
+          !manufacturersResponse.ok ||
+          !suppliersResponse.ok
+        ) {
           throw new Error("Failed to fetch data");
         }
 
+        const { data: categories } = await categoriesResponse.json();
         const { data: manufacturers } = await manufacturersResponse.json();
         const { data: suppliers } = await suppliersResponse.json();
 
+        setCategories(categories);
         setManufacturers(manufacturers);
         setSuppliers(suppliers);
       } catch (error) {
@@ -99,6 +111,26 @@ const ProductAddPage: React.FC = () => {
               <p className={styles.errorMessage}>{`${errors.name.message}`}</p>
             )}
           </div>
+        </div>
+
+        <div className={styles.formItem}>
+          <label>Category</label>
+          <select
+            {...register("categoryId", {
+              setValueAs: (value) => (!value ? null : value),
+            })}
+          >
+            <option key="!" value="">
+              Unknown
+            </option>
+            {categories.map((c) => {
+              return (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              );
+            })}
+          </select>
         </div>
 
         <div className={styles.formItem}>

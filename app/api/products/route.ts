@@ -7,8 +7,8 @@ import parseSortParams from "../functions/parse-sort-params";
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
-    const searchTerm = url.searchParams.get("search") || '';
-    const searchFields = ['name', 'manufacturerPartNo', 'supplierPartNo'];
+    const searchTerm = url.searchParams.get("search") || "";
+    const searchFields = ["name", "manufacturerPartNo", "supplierPartNo"];
     const searchObject = createSearchObject(searchFields, searchTerm);
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const pageSize = parseInt(url.searchParams.get("pageSize") || "10", 10);
@@ -20,14 +20,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const totalItems = await prisma.product.count({where: searchObject});
+    const totalItems = await prisma.product.count({ where: searchObject });
     const totalPages = Math.ceil(totalItems / pageSize);
 
     if (page > 1 && page > totalPages) {
       return NextResponse.json({ error: "Page not found" }, { status: 404 });
     }
 
-    const sortString = url.searchParams.get("sort") || '';
+    const sortString = url.searchParams.get("sort") || "";
     const orderBy = sortString ? parseSortParams(sortString) : {};
 
     const products = await prisma.product.findMany({
@@ -36,9 +36,10 @@ export async function GET(request: NextRequest) {
       where: searchObject,
       orderBy: orderBy,
       include: {
+        category: true,
         manufacturer: true,
-        supplier: true
-      }
+        supplier: true,
+      },
     });
 
     return NextResponse.json({
@@ -57,7 +58,10 @@ export async function GET(request: NextRequest) {
         { status: 500 }
       );
     }
-    return NextResponse.json({ error: 'An unknown error occured' }, { status: 500 });
+    return NextResponse.json(
+      { error: "An unknown error occured" },
+      { status: 500 }
+    );
   }
 }
 
@@ -87,6 +91,9 @@ export async function POST(request: NextRequest) {
           );
       }
     }
-    return NextResponse.json({ error: 'An unknown error occured' }, { status: 500 });
+    return NextResponse.json(
+      { error: "An unknown error occured" },
+      { status: 500 }
+    );
   }
 }

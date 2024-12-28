@@ -71,6 +71,7 @@ export const ProductDetails = ({
     }
   };
 
+  const category = product.category;
   const manufacturer = product.manufacturer;
   const supplier = product.supplier;
 
@@ -95,6 +96,7 @@ export const ProductDetails = ({
           )}
         </div>
         <div className={styles.propertyBoxes}>
+          {category && <Property title="Category" value={category.name} />}
           {manufacturer && (
             <Property title="Manufacturer" value={manufacturer.name} />
           )}

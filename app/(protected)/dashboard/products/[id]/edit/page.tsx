@@ -19,6 +19,7 @@ interface ProductEditPageProps {
 const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
   const editProductSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
+    categoryId: z.string().nullable(),
     manufacturerId: z.number().nullable(),
     manufacturerPartNo: z.string().nullable(),
     supplierId: z.number().nullable(),
@@ -33,6 +34,9 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
   type EditProductSchema = z.infer<typeof editProductSchema>;
 
   const productId = params.id;
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
+    []
+  );
   const [manufacturers, setManufacturers] = useState<
     { id: number; name: string }[]
   >([]);
@@ -66,15 +70,21 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productResponse, manufacturersResponse, suppliersResponse] =
-          await Promise.all([
-            fetch(`/api/products/${productId}`),
-            fetch("/api/manufacturers?pageSize=50"),
-            fetch("/api/suppliers?pageSize=50"),
-          ]);
+        const [
+          productResponse,
+          categoriesResponse,
+          manufacturersResponse,
+          suppliersResponse,
+        ] = await Promise.all([
+          fetch(`/api/products/${productId}`),
+          fetch("/api/categories?pageSize=50"),
+          fetch("/api/manufacturers?pageSize=50"),
+          fetch("/api/suppliers?pageSize=50"),
+        ]);
 
         if (
           !productResponse.ok ||
+          !categoriesResponse.ok ||
           !manufacturersResponse.ok ||
           !suppliersResponse.ok
         ) {
@@ -83,11 +93,14 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
 
         const product = await productResponse.json();
         const { id, ...rest } = product;
+        const { data: categories } = await categoriesResponse.json();
         const { data: manufacturers } = await manufacturersResponse.json();
         const { data: suppliers } = await suppliersResponse.json();
 
+        setCategories(categories);
         setManufacturers(manufacturers);
         setSuppliers(suppliers);
+
         reset(rest);
       } catch (error) {
         setError("Failed to fetch data from the API.");
@@ -114,6 +127,31 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
               <p className={styles.errorMessage}>{`${errors.name.message}`}</p>
             )}
           </div>
+        </div>
+
+        <div className={styles.formItem}>
+          <label>Category</label>
+          <select
+            {...register("categoryId", {
+              setValueAs: (value) => (!value ? null : value),
+            })}
+          >
+            <option key="!" value="">
+              Unknown
+            </option>
+            {categories.map((c) => {
+              return (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              );
+            })}
+          </select>
+          {errors.categoryId && (
+            <p
+              className={styles.errorMessage}
+            >{`${errors.categoryId.message}`}</p>
+          )}
         </div>
 
         <div className={styles.formItem}>
