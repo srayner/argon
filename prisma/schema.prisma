@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PropertyType {
+  STRING
+  NUMERIC
+}
+
 enum UserRole {
   ADMIN
   USER
@@ -63,6 +68,7 @@ model Category {
   parent        Category?      @relation("ParentChild", fields: [parentId], references: [id])
   children      Category[]     @relation("ParentChild")
   products      Product[]
+  properties    Property[]
   
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
@@ -95,9 +101,32 @@ model Product {
   location           String?       @db.VarChar(64)
   image              Image?        @relation(fields: [imageId], references: [id])
   imageId            Int?
+  propertyValues     PropertyValue[]
 
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
+}
+
+model Property {
+  id                 String        @id @default(cuid())
+  name               String
+  type               PropertyType
+  units              String?
+  categoryId         String
+  category           Category      @relation(fields: [categoryId], references: [id])
+  propertyValues     PropertyValue[]
+}
+
+model PropertyValue {
+  id                 String        @id @default(cuid())
+  valueString        String?
+  valueNumeric       Float?
+  productId          Int
+  product            Product       @relation(fields: [productId], references: [id])
+  propertyId         String
+  property           Property      @relation(fields: [propertyId], references: [id])
+
+  @@unique([productId, propertyId])
 }
 
 model Manufacturer {
