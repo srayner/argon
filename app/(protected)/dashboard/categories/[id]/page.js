@@ -6,12 +6,15 @@ import { DetailList, DetailRow } from "@/app/ui/detail/detail";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import { ConfirmationModal } from "@/app/ui/modal/confirmation-modal";
+import PropertiesLst from "@/components/properties/properties-list";
+import PropertyModal from "@/app/ui/modal/property-modal";
 
 export default function CategoryDetailPage({ params }) {
   const router = useRouter();
   const categoryId = params.id;
   const [category, setCategory] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isPropertyModalVisible, setIsPropertyModalVisible] = useState(false);
 
   const handleEditClick = () => {
     router.push(`/dashboard/categories/${categoryId}/edit`);
@@ -58,6 +61,15 @@ export default function CategoryDetailPage({ params }) {
         <DetailRow title="Name" value={category.name} />
         <DetailRow title="Parent Category" value={category.parent?.name} />
       </DetailList>
+
+      <PropertiesLst
+        categoryId={categoryId}
+        onAddClicked={() => setIsPropertyModalVisible(true)}
+      />
+      <PropertyModal
+        isVisible={isPropertyModalVisible}
+        onSubmit={() => setIsPropertyModalVisible(false)}
+      />
 
       <ConfirmationModal
         isVisible={isModalVisible}
