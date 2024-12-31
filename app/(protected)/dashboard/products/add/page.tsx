@@ -9,6 +9,7 @@ import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import SubmitContainer from "@/app/ui/submit-container/submit-container";
 import styles from "./page.module.css";
+import Select from "@/components/form/select";
 
 const ProductAddPage: React.FC = () => {
   const addProductSchema = z.object({
@@ -113,45 +114,21 @@ const ProductAddPage: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.formItem}>
-          <label>Category</label>
-          <select
-            {...register("categoryId", {
-              setValueAs: (value) => (!value ? null : value),
-            })}
-          >
-            <option key="!" value="">
-              Unknown
-            </option>
-            {categories.map((c) => {
-              return (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <Select
+          label={"Category"}
+          register={register}
+          fieldName={"categoryId"}
+          isValueNumeric={false}
+          options={categories}
+        />
 
-        <div className={styles.formItem}>
-          <label>Manufacturer</label>
-          <select
-            {...register("manufacturerId", {
-              setValueAs: (value) => (!value ? null : Number(value)),
-            })}
-          >
-            <option key="!" value="">
-              Unknown
-            </option>
-            {manufacturers.map((m) => {
-              return (
-                <option key={m.id} value={m.id}>
-                  {m.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <Select
+          label={"Manufacturer"}
+          register={register}
+          fieldName={"manufacturerId"}
+          isValueNumeric={true}
+          options={manufacturers}
+        />
 
         <div className={styles.formItem}>
           <label>Manufactuer Part No</label>
@@ -162,25 +139,13 @@ const ProductAddPage: React.FC = () => {
           />
         </div>
 
-        <div className={styles.formItem}>
-          <label>Supplier</label>
-          <select
-            {...register("supplierId", {
-              setValueAs: (value) => (!value ? null : Number(value)),
-            })}
-          >
-            <option key="!" value="">
-              Unknown
-            </option>
-            {suppliers.map((s) => {
-              return (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <Select
+          label={"Supplier"}
+          register={register}
+          fieldName={"supplierId"}
+          isValueNumeric={true}
+          options={suppliers}
+        />
 
         <div className={styles.formItem}>
           <label>Supplier Part No</label>
