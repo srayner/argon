@@ -10,6 +10,7 @@ import Header from "@/app/ui/header/header";
 import SubmitContainer from "@/app/ui/submit-container/submit-container";
 import styles from "./page.module.css";
 import Select from "@/components/form/select";
+import TextInput from "@/components/form/text-input";
 
 const ProductAddPage: React.FC = () => {
   const addProductSchema = z.object({
@@ -104,15 +105,12 @@ const ProductAddPage: React.FC = () => {
       <Header>Add Product</Header>
 
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formItem}>
-          <label>Name</label>
-          <div>
-            <input {...register("name")} type="text" autoComplete="off" />
-            {errors.name && (
-              <p className={styles.errorMessage}>{`${errors.name.message}`}</p>
-            )}
-          </div>
-        </div>
+        <TextInput
+          label={"Name"}
+          register={register}
+          fieldName={"name"}
+          errors={errors}
+        />
 
         <Select
           label={"Category"}
@@ -130,14 +128,12 @@ const ProductAddPage: React.FC = () => {
           options={manufacturers}
         />
 
-        <div className={styles.formItem}>
-          <label>Manufactuer Part No</label>
-          <input
-            {...register("manufacturerPartNo")}
-            type="text"
-            autoComplete="off"
-          />
-        </div>
+        <TextInput
+          label={"Manufacturer Part No"}
+          register={register}
+          fieldName={"manufacturerPartNo"}
+          errors={errors}
+        />
 
         <Select
           label={"Supplier"}
@@ -147,19 +143,12 @@ const ProductAddPage: React.FC = () => {
           options={suppliers}
         />
 
-        <div className={styles.formItem}>
-          <label>Supplier Part No</label>
-          <input
-            {...register("supplierPartNo")}
-            type="text"
-            autoComplete="off"
-          />
-          {errors.supplierPartNo && (
-            <p
-              className={styles.errorMessage}
-            >{`${errors.supplierPartNo.message}`}</p>
-          )}
-        </div>
+        <TextInput
+          label={"Supplier Part No"}
+          register={register}
+          fieldName={"supplierPartNo"}
+          errors={errors}
+        />
 
         <div className={styles.formItem}>
           <label>Cost</label>
@@ -189,14 +178,12 @@ const ProductAddPage: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.formItem}>
-          <label>Location</label>
-          <input
-            {...register("location")}
-            type="text"
-            autoComplete="off"
-          ></input>
-        </div>
+        <TextInput
+          label={"Location"}
+          register={register}
+          fieldName={"location"}
+          errors={errors}
+        />
 
         <SubmitContainer>
           <Button color="secondary" href="/dashboard/products">
