@@ -1,10 +1,19 @@
 "use client";
 
+import React from "react";
 import Button from "../../app/ui/button/button";
 import DataGrid from "../../app/ui/datagrid/datagrid";
 import Header from "../../app/ui/header/header";
 
-export default function PropertiesLst({ categoryId, onAddClicked }) {
+interface PropertiesLstProps {
+  categoryId: string;
+  onAddClicked: () => void;
+}
+
+const PropertiesLst: React.FC<PropertiesLstProps> = ({
+  categoryId,
+  onAddClicked,
+}) => {
   const columnDefs = [
     { headerName: "Name", field: "name" },
     { headerName: "Type", field: "type" },
@@ -27,4 +36,6 @@ export default function PropertiesLst({ categoryId, onAddClicked }) {
       />
     </>
   );
-}
+};
+
+export default PropertiesLst;
