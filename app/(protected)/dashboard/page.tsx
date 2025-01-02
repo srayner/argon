@@ -34,7 +34,7 @@ export default function Home() {
             icon={FcTreeStructure}
             title="Categories"
             text="Products belong to categories."
-            count={data && data.manufacturers.count}
+            count={data && data.categories.count}
           />
           <Card
             href="/dashboard/manufacturers"
