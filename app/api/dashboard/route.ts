@@ -1,8 +1,8 @@
 import prisma from "@/app/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const categoriesCount = await prisma.category.count();
     const manufacturerCount = await prisma.manufacturer.count();
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       data: {
         categories: {
-          count: manufacturerCount,
+          count: categoriesCount,
         },
         manufacturers: {
           count: manufacturerCount,
