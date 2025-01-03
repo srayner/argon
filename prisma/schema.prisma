@@ -16,6 +16,13 @@ datasource db {
 enum PropertyType {
   STRING
   NUMERIC
+  METRIC
+  IMPERIAL
+}
+
+enum UnitPosition {
+  PREFIX
+  SUFFIX
 }
 
 enum UserRole {
@@ -112,9 +119,13 @@ model Property {
   name               String
   type               PropertyType
   units              String?
+  unitPosition       UnitPosition  @default(SUFFIX)
   categoryId         String
   category           Category      @relation(fields: [categoryId], references: [id])
   propertyValues     PropertyValue[]
+
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 }
 
 model PropertyValue {
