@@ -8,6 +8,8 @@ interface SelectProps<TOption> {
   options: TOption[];
   optionValueField?: keyof TOption;
   optionNameField?: keyof TOption;
+  defaultValue?: string | number;
+  isOptional?: boolean;
 }
 
 export default function Select<TOption>({
@@ -18,6 +20,8 @@ export default function Select<TOption>({
   options,
   optionValueField = "id" as keyof TOption,
   optionNameField = "name" as keyof TOption,
+  defaultValue,
+  isOptional = true,
 }: SelectProps<TOption>) {
   return (
     <div className={styles.formItem}>
@@ -29,10 +33,13 @@ export default function Select<TOption>({
             return isValueNumeric ? Number(value) : value;
           },
         })}
+        defaultValue={defaultValue}
       >
-        <option key="!" value="">
-          Unknown
-        </option>
+        {isOptional && (
+          <option key="!" value="">
+            Unknown
+          </option>
+        )}
         {options.map((o) => {
           return (
             <option
