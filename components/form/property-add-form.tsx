@@ -3,15 +3,19 @@ import TextInput from "@/components/form/text-input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
+import SubmitContainer from "@/app/ui/submit-container/submit-container";
+import Button from "@/app/ui/button/button";
 
 interface PropertyAddFormProps {
   categoryId: string;
   onSubmitCallback?: () => void;
+  onCancel?: () => void;
 }
 
 const PropertyAddForm: React.FC<PropertyAddFormProps> = ({
   categoryId,
   onSubmitCallback,
+  onCancel,
 }) => {
   const dataTypes = [
     { id: "STRING", name: "String" },
@@ -95,6 +99,15 @@ const PropertyAddForm: React.FC<PropertyAddFormProps> = ({
           isOptional={false}
         />
       )}
+
+      <SubmitContainer>
+        <Button color="secondary" type="button" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button color="primary" type="submit">
+          Add
+        </Button>
+      </SubmitContainer>
     </form>
   );
 };

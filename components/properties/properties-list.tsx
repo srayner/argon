@@ -2,38 +2,64 @@
 
 import React from "react";
 import Button from "../../app/ui/button/button";
-import DataGrid from "../../app/ui/datagrid/datagrid";
+import SimpleDataGrid from "../../app/ui/datagrid/simple-data-grid";
 import Header from "../../app/ui/header/header";
 
 interface PropertiesLstProps {
-  categoryId: string;
+  properties: any;
   onAddClicked: () => void;
 }
 
 const PropertiesLst: React.FC<PropertiesLstProps> = ({
-  categoryId,
+  properties,
   onAddClicked,
 }) => {
+  const toTitleCase = (params: any) => {
+    return (
+      params.value.charAt(0).toUpperCase() + params.value.slice(1).toLowerCase()
+    );
+  };
+
+  const handleDelete = async (data: any) => {
+    await fetch(`/api/properties/${data.id}`, {
+      method: "DELETE",
+    });
+  };
+
   const columnDefs = [
     { headerName: "Name", field: "name" },
-    { headerName: "Type", field: "type" },
+    {
+      headerName: "Type",
+      field: "type",
+      valueFormatter: toTitleCase,
+    },
     { headerName: "Units", field: "units" },
+    {
+      headerName: "Unit Position",
+      field: "unitPosition",
+      valueFormatter: toTitleCase,
+    },
+    {
+      headerName: "Actions",
+      cellRenderer: "deleteCellRenderer",
+      cellRendererParams: {
+        onDelete: (rowData: any) => handleDelete(rowData),
+      },
+      width: 100,
+      menuTabs: [],
+    },
   ];
 
   return (
     <>
       <Header>
-        <div>Properties - {categoryId}</div>
+        <div>Properties</div>
         <Button color="primary" onClick={onAddClicked}>
           Add
         </Button>
       </Header>
 
-      <DataGrid
-        columnDefs={columnDefs}
-        dataEndpoint={`/api/categories/${categoryId}/properties`}
-        searchTerm=""
-      />
+      <SimpleDataGrid rowData={properties} columnDefs={columnDefs} />
     </>
   );
 };

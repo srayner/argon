@@ -6,7 +6,7 @@ import { DetailList, DetailRow } from "@/app/ui/detail/detail";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import { ConfirmationModal } from "@/app/ui/modal/confirmation-modal";
-import PropertiesLst from "@/components/properties/properties-list";
+import PropertiesList from "@/components/properties/properties-list";
 import PropertyModal from "@/app/ui/modal/property-modal";
 
 export default function CategoryDetailPage({ params }) {
@@ -36,6 +36,10 @@ export default function CategoryDetailPage({ params }) {
     router.push("/dashboard/categories");
   };
 
+  const handleAddProperty = (newProperty) => {
+    setIsPropertyModalVisible(false);
+  };
+
   useEffect(() => {
     const fetchCategory = async () => {
       const response = await fetch(`/api/categories/${categoryId}`);
@@ -62,13 +66,15 @@ export default function CategoryDetailPage({ params }) {
         <DetailRow title="Parent Category" value={category.parent?.name} />
       </DetailList>
 
-      <PropertiesLst
-        categoryId={categoryId}
+      <PropertiesList
+        properties={category.properties}
         onAddClicked={() => setIsPropertyModalVisible(true)}
       />
       <PropertyModal
         isVisible={isPropertyModalVisible}
-        onSubmit={() => setIsPropertyModalVisible(false)}
+        onSubmit={handleAddProperty}
+        onClose={() => setIsPropertyModalVisible(false)}
+        categoryId={categoryId}
       />
 
       <ConfirmationModal

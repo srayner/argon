@@ -11,6 +11,7 @@ export async function GET(
       where: { id: params.id },
       include: {
         parent: true,
+        properties: true,
       },
     });
 
