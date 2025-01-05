@@ -125,7 +125,7 @@ model Property {
   propertyValues     PropertyValue[]
 
   createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
+  updatedAt          DateTime?     @updatedAt
 }
 
 model PropertyValue {
