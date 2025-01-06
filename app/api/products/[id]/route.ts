@@ -32,6 +32,11 @@ export async function GET(
       include: {
         category: true,
         manufacturer: true,
+        propertyValues: {
+          include: {
+            property: true,
+          },
+        },
         supplier: true,
         image: true,
       },

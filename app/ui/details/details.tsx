@@ -123,6 +123,16 @@ export const ProductDetails = ({
           {product.location && (
             <Property title="Location" value={product.location} />
           )}
+          {/* custom properties */}
+          {product.propertyValues.map((propertyValue: any) => {
+            return (
+              <Property
+                title={propertyValue.property.name}
+                value={propertyValue.valueString}
+                key={propertyValue.id}
+              />
+            );
+          })}
         </div>
       </div>
 
