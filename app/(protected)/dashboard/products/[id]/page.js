@@ -6,12 +6,15 @@ import { ProductDetails } from "@/app/ui/details/details";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import { ConfirmationModal } from "@/app/ui/modal/confirmation-modal";
+import Modal from "@/components/ui/modal/modal";
 
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
   const productId = params.id;
   const [product, setProduct] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isPropertyValueModalVisible, setIsPropertyValueModalVisible] =
+    useState(false);
 
   const handleEditClick = () => {
     router.push(`/dashboard/products/${productId}/edit`);
@@ -31,6 +34,10 @@ export default function ProductDetailPage({ params }) {
     });
 
     router.push("/dashboard/products");
+  };
+
+  const handleEditPropertyValue = () => {
+    setIsPropertyValueModalVisible(true);
   };
 
   useEffect(() => {
@@ -56,12 +63,21 @@ export default function ProductDetailPage({ params }) {
 
       <ProductDetails product={product} onProductUpdated={setProduct} />
 
+      <Button onClick={handleEditPropertyValue}>Edit Property Value</Button>
+
       <ConfirmationModal
         isVisible={isModalVisible}
         onClose={handleCloseModal}
         onConfirm={handleConfirmDelete}
         entityName="product"
       />
+
+      <Modal
+        isVisible={isPropertyValueModalVisible}
+        onClose={() => setIsPropertyValueModalVisible(false)}
+      >
+        <h2>Edit Property Value</h2>
+      </Modal>
     </>
   );
 }
