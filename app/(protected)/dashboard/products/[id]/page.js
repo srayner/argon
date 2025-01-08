@@ -7,6 +7,7 @@ import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import Modal from "@/components/ui/modal/modal";
+import PropertyValuesCard from "@/components/property-values/property-values-card";
 
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
@@ -64,6 +65,8 @@ export default function ProductDetailPage({ params }) {
       <ProductDetails product={product} onProductUpdated={setProduct} />
 
       <Button onClick={handleEditPropertyValue}>Edit Property Value</Button>
+
+      <PropertyValuesCard propertyValues={product.propertyValues} />
 
       <ConfirmationModal
         isVisible={isModalVisible}
