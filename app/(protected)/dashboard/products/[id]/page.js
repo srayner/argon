@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { ProductDetails } from "@/app/ui/details/details";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
-import { ConfirmationModal } from "@/app/ui/modal/confirmation-modal";
+import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import Modal from "@/components/ui/modal/modal";
 
 export default function ProductDetailPage({ params }) {
@@ -75,6 +75,7 @@ export default function ProductDetailPage({ params }) {
       <Modal
         isVisible={isPropertyValueModalVisible}
         onClose={() => setIsPropertyValueModalVisible(false)}
+        showCloseCross
       >
         <h2>Edit Property Value</h2>
       </Modal>

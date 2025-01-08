@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./conformation.modal.module.css";
+import styles from "@/components/ui/modal/confirmation.modal.module.css";
 import PropertyAddForm from "@/components/form/property-add-form";
 
 interface PropertyModalProps {

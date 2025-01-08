@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { DetailList, DetailRow } from "@/app/ui/detail/detail";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
-import { ConfirmationModal } from "@/app/ui/modal/confirmation-modal";
+import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 
 export default function ManufacturerDetailPage({ params }) {
   const router = useRouter();
