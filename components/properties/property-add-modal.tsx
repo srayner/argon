@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/components/ui/modal/confirmation.modal.module.css";
 import PropertyAddForm from "@/components/form/property-add-form";
+import Modal from "@/components/ui/modal/modal";
 
 interface PropertyModalProps {
   isVisible: boolean;
@@ -18,16 +19,14 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
   if (!isVisible) return null;
 
   return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        <h2 className={styles.heading}>Add New Property</h2>
-        <PropertyAddForm
-          categoryId={categoryId}
-          onSubmitCallback={onSubmit}
-          onCancel={onClose}
-        />
-      </div>
-    </div>
+    <Modal isVisible={isVisible} onClose={onClose}>
+      <h2>Add New Property</h2>
+      <PropertyAddForm
+        categoryId={categoryId}
+        onSubmitCallback={onSubmit}
+        onCancel={onClose}
+      />
+    </Modal>
   );
 };
 

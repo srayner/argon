@@ -7,7 +7,7 @@ import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import PropertiesList from "@/components/properties/properties-list";
-import PropertyModal from "@/app/ui/modal/property-modal";
+import PropertyModal from "@/components/properties/property-add-modal";
 
 export default function CategoryDetailPage({ params }) {
   const router = useRouter();
