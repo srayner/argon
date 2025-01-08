@@ -38,14 +38,16 @@ export default function CategoryDetailPage({ params }) {
 
   const handleAddProperty = (newProperty) => {
     setIsPropertyModalVisible(false);
+    fetchCategory();
+  };
+
+  const fetchCategory = async () => {
+    const response = await fetch(`/api/categories/${categoryId}`);
+    const category = await response.json();
+    setCategory(category);
   };
 
   useEffect(() => {
-    const fetchCategory = async () => {
-      const response = await fetch(`/api/categories/${categoryId}`);
-      const category = await response.json();
-      setCategory(category);
-    };
     fetchCategory();
   }, [categoryId]);
 
