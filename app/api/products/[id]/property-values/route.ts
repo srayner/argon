@@ -92,14 +92,14 @@ export async function POST(
     }
 
     // Validate that only the correct field is provided
-    if (property.type === "STRING" && valueNumeric !== undefined) {
+    if (property.type === "STRING" && valueNumeric != null) {
       return NextResponse.json(
         { error: "This property expects a string value, not a numeric value." },
         { status: 400 }
       );
     }
 
-    if (property.type === "NUMERIC" && valueString !== undefined) {
+    if (property.type === "NUMERIC" && valueString != null) {
       return NextResponse.json(
         { error: "This property expects a numeric value, not a string value." },
         { status: 400 }

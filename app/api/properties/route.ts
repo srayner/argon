@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
           );
       }
     }
+    console.log(error);
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }

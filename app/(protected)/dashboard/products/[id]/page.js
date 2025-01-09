@@ -8,6 +8,7 @@ import Header from "@/app/ui/header/header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import Modal from "@/components/ui/modal/modal";
 import PropertyValuesCard from "@/components/property-values/property-values-card";
+import PropertyValueForm from "@/components/property-values/property-value-form";
 
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function ProductDetailPage({ params }) {
     router.push("/dashboard/products");
   };
 
-  const handleEditPropertyValue = () => {
+  const showPropertyAddForm = () => {
     setIsPropertyValueModalVisible(true);
   };
 
@@ -64,9 +65,10 @@ export default function ProductDetailPage({ params }) {
 
       <ProductDetails product={product} onProductUpdated={setProduct} />
 
-      <Button onClick={handleEditPropertyValue}>Edit Property Value</Button>
-
-      <PropertyValuesCard propertyValues={product.propertyValues} />
+      <PropertyValuesCard
+        propertyValues={product.propertyValues}
+        handleAddClick={showPropertyAddForm}
+      />
 
       <ConfirmationModal
         isVisible={isModalVisible}
@@ -78,9 +80,13 @@ export default function ProductDetailPage({ params }) {
       <Modal
         isVisible={isPropertyValueModalVisible}
         onClose={() => setIsPropertyValueModalVisible(false)}
-        showCloseCross
       >
-        <h2>Edit Property Value</h2>
+        <h2>Add Property Value</h2>
+        <PropertyValueForm
+          productId={product.id}
+          properties={product.category.properties}
+          onClose={() => setIsPropertyValueModalVisible(false)}
+        />
       </Modal>
     </>
   );
