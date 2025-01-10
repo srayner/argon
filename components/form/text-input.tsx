@@ -1,7 +1,7 @@
 import styles from "./form.module.css";
 
 interface TextInputProps {
-  label: string;
+  label?: string;
   register: any;
   fieldName: string;
   errors: any;
@@ -15,7 +15,7 @@ export default function TextInput({
 }: TextInputProps) {
   return (
     <div className={styles.formItem}>
-      <label>{label}</label>
+      {label && <label>{label}</label>}
       <div>
         <input {...register(fieldName)} type="text" autoComplete="off" />
         {errors && errors[fieldName] && (

@@ -105,7 +105,6 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Select
-        label="Select Property"
         register={register}
         fieldName="propertyId"
         isValueNumeric={false}
@@ -113,12 +112,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
         isOptional={false}
       />
 
-      <TextInput
-        label="Value"
-        register={register}
-        fieldName="value"
-        errors={errors}
-      />
+      <TextInput register={register} fieldName="value" errors={errors} />
 
       <SubmitContainer>
         <Button color="secondary" onClick={() => onClose()}>

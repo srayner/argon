@@ -1,7 +1,7 @@
 import styles from "./form.module.css";
 
 interface SelectProps<TOption> {
-  label: string;
+  label?: string;
   register: any;
   fieldName: string;
   isValueNumeric: boolean;
@@ -25,7 +25,7 @@ export default function Select<TOption>({
 }: SelectProps<TOption>) {
   return (
     <div className={styles.formItem}>
-      <label>{label}</label>
+      {label && <label>{label}</label>}
       <select
         {...register(fieldName, {
           setValueAs: (value: any) => {
