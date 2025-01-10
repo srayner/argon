@@ -9,6 +9,7 @@ import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import Modal from "@/components/ui/modal/modal";
 import PropertyValuesCard from "@/components/property-values/property-values-card";
 import PropertyValueForm from "@/components/property-values/property-value-form";
+import Styles from "./page.module.css";
 
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
@@ -63,12 +64,15 @@ export default function ProductDetailPage({ params }) {
         </Button>
       </Header>
 
-      <ProductDetails product={product} onProductUpdated={setProduct} />
-
-      <PropertyValuesCard
-        propertyValues={product.propertyValues}
-        handleAddClick={showPropertyAddForm}
-      />
+      <div className={Styles.container}>
+        <div className={Styles.fullWidth}>
+          <ProductDetails product={product} onProductUpdated={setProduct} />
+        </div>
+        <PropertyValuesCard
+          propertyValues={product.propertyValues}
+          handleAddClick={showPropertyAddForm}
+        />
+      </div>
 
       <ConfirmationModal
         isVisible={isModalVisible}

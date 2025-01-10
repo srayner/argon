@@ -13,7 +13,7 @@ const PropertyValuesCard: React.FC<PropertyValuesCardProps> = ({
   handleAddClick,
 }) => {
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded-lg">
+    <div className="w-full bg-white shadow-md rounded-lg">
       <CardHeader
         title="Custom Properties"
         actions={[
@@ -41,9 +41,19 @@ const PropertyValuesCard: React.FC<PropertyValuesCardProps> = ({
               <dd className="text-left flex items-center space-x-4">
                 {/* Category Value */}
                 <span className="flex-grow">
+                  {propertyValue.property.type === "NUMERIC" &&
+                    propertyValue.property.units &&
+                    propertyValue.property.unitPosition === "PREFIX" && (
+                      <span>{propertyValue.property.units}</span>
+                    )}
                   {propertyValue.property.type === "STRING"
                     ? propertyValue.valueString
                     : propertyValue.valueNumeric}
+                  {propertyValue.property.type === "NUMERIC" &&
+                    propertyValue.property.units &&
+                    propertyValue.property.unitPosition === "SUFFIX" && (
+                      <span>{propertyValue.property.units}</span>
+                    )}
                 </span>
 
                 {/* Edit Icon */}

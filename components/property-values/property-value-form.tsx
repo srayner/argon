@@ -8,6 +8,7 @@ import Select from "@/components/form/select";
 import TextInput from "@/components/form/text-input";
 import SubmitContainer from "@/app/ui/submit-container/submit-container";
 import { Property } from "@/types/entities";
+import FormRow from "@/components/form/form-row";
 
 interface PropertyValueFormProps {
   productId: number;
@@ -64,6 +65,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<PropertyValueFormData>({
     resolver: zodResolver(propertyValueSchema),
   });
@@ -105,18 +107,34 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
     onClose();
   };
 
-  console.log(properties);
-  return (
-    <Form layout="horizontal" onSubmit={handleSubmit(onSubmit)}>
-      <Select
-        register={register}
-        fieldName="propertyId"
-        isValueNumeric={false}
-        options={properties}
-        isOptional={false}
-      />
+  const selectedPropertyId = watch("propertyId");
+  const selectedProperty = properties.find(
+    (prop) => prop.id === selectedPropertyId
+  );
 
-      <TextInput register={register} fieldName="value" errors={errors} />
+  return (
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <FormRow>
+        <Select
+          register={register}
+          fieldName="propertyId"
+          isValueNumeric={false}
+          options={properties}
+          isOptional={false}
+        />
+
+        {selectedProperty?.type === "NUMERIC" &&
+          selectedProperty.units &&
+          selectedProperty.unitPosition === "PREFIX" && (
+            <span>{selectedProperty.units}</span>
+          )}
+        <TextInput register={register} fieldName="value" errors={errors} />
+        {selectedProperty?.type === "NUMERIC" &&
+          selectedProperty.units &&
+          selectedProperty.unitPosition === "SUFFIX" && (
+            <span>{selectedProperty.units}</span>
+          )}
+      </FormRow>
 
       <SubmitContainer>
         <Button color="secondary" onClick={() => onClose()}>
