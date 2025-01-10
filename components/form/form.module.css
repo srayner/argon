@@ -1,3 +1,16 @@
+.formHorizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.formVertical {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .formItem {
   display: flex;
 }
