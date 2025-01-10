@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
+import Form from "@/components/form/form";
 import Select from "@/components/form/select";
 import TextInput from "@/components/form/text-input";
 import SubmitContainer from "@/app/ui/submit-container/submit-container";
@@ -103,7 +104,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
 
   console.log(properties);
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Form layout="horizontal" onSubmit={handleSubmit(onSubmit)}>
       <Select
         register={register}
         fieldName="propertyId"
@@ -122,7 +123,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
           Add
         </Button>
       </SubmitContainer>
-    </form>
+    </Form>
   );
 };
 
