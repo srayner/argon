@@ -92,18 +92,38 @@ export async function POST(
     }
 
     // Validate that only the correct field is provided
-    if (property.type === "STRING" && valueNumeric != null) {
-      return NextResponse.json(
-        { error: "This property expects a string value, not a numeric value." },
-        { status: 400 }
-      );
+    if (property.type === "STRING") {
+      if (valueNumeric != null) {
+        return NextResponse.json(
+          {
+            error: "This property expects a string value, not a numeric value.",
+          },
+          { status: 400 }
+        );
+      }
+      if (typeof valueString !== "string" || valueString.trim() === "") {
+        return NextResponse.json(
+          { error: "This property expects a non-empty string value." },
+          { status: 400 }
+        );
+      }
     }
 
-    if (property.type === "NUMERIC" && valueString != null) {
-      return NextResponse.json(
-        { error: "This property expects a numeric value, not a string value." },
-        { status: 400 }
-      );
+    if (property.type !== "STRING") {
+      if (valueString != null) {
+        return NextResponse.json(
+          {
+            error: "This property expects a numeric value, not a string value.",
+          },
+          { status: 400 }
+        );
+      }
+      if (typeof valueNumeric !== "number" || isNaN(valueNumeric)) {
+        return NextResponse.json(
+          { error: "This property expects a valid numeric value." },
+          { status: 400 }
+        );
+      }
     }
 
     // Create the new property value for the product
@@ -144,6 +164,8 @@ export async function POST(
       }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
+
+    console.log(error);
     return NextResponse.json(
       { error: "An unknown error occurred" },
       { status: 500 }

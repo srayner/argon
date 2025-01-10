@@ -80,7 +80,10 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
     const propertyValue = {
       propertyId: property.id,
       valueString: property.type === "STRING" ? data.value : null,
-      valueNumeric: property.type !== "STRING" ? data.value : null,
+      valueNumeric:
+        property.type !== "STRING" && data.value != null
+          ? Number(data.value)
+          : null,
     };
 
     try {
