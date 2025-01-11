@@ -10,11 +10,13 @@ import Modal from "@/components/ui/modal/modal";
 import PropertyValuesCard from "@/components/property-values/property-values-card";
 import PropertyValueForm from "@/components/property-values/property-value-form";
 import Styles from "./page.module.css";
+import LocationsCard from "@/components/locations/locations-card";
+import { Product, PropertyValue } from "@/types/entities";
 
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
   const productId = params.id;
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPropertyValueModalVisible, setIsPropertyValueModalVisible] =
     useState(false);
@@ -25,6 +27,19 @@ export default function ProductDetailPage({ params }) {
 
   const handleDeleteClick = () => {
     setIsModalVisible(true);
+  };
+
+  const handleEditPropertyValueClick = (propertyValue: PropertyValue) => {};
+
+  const handleDeletePropertyValueClick = async (
+    propertyValue: PropertyValue
+  ) => {
+    await fetch(
+      `/api/products/${productId}/property-values/${propertyValue.id}`,
+      {
+        method: "DELETE",
+      }
+    );
   };
 
   const handleCloseModal = () => {
@@ -68,9 +83,12 @@ export default function ProductDetailPage({ params }) {
         <div className={Styles.fullWidth}>
           <ProductDetails product={product} onProductUpdated={setProduct} />
         </div>
+        <LocationsCard></LocationsCard>
         <PropertyValuesCard
           propertyValues={product.propertyValues}
           handleAddClick={showPropertyAddForm}
+          handleDeleteClick={handleDeletePropertyValueClick}
+          handleEditClick={handleEditPropertyValueClick}
         />
       </div>
 

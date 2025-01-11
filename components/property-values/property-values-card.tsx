@@ -1,16 +1,20 @@
 import React from "react";
 import { CardBody, CardHeader } from "../ui/modal/Card/action-card";
 import { MdAddCircle, MdEdit, MdDelete } from "react-icons/md";
-import { Property, PropertyValue } from "@/types/entities";
+import { PropertyValue } from "@/types/entities";
 
 interface PropertyValuesCardProps {
   propertyValues: PropertyValue[];
   handleAddClick: () => void;
+  handleDeleteClick: (propertyValue: PropertyValue) => void;
+  handleEditClick: (propertyValue: PropertyValue) => void;
 }
 
 const PropertyValuesCard: React.FC<PropertyValuesCardProps> = ({
   propertyValues,
   handleAddClick,
+  handleDeleteClick,
+  handleEditClick,
 }) => {
   return (
     <div className="w-full bg-white shadow-md rounded-lg">
@@ -59,13 +63,13 @@ const PropertyValuesCard: React.FC<PropertyValuesCardProps> = ({
                 {/* Edit Icon */}
                 <MdEdit
                   className="text-gray-600 text-blue-400 cursor-pointer hover:text-blue-600 text-xl"
-                  onClick={() => handleEditClick(propertyValue.id)}
+                  onClick={() => handleEditClick(propertyValue)}
                 />
 
                 {/* Delete Icon */}
                 <MdDelete
                   className="text-gray-600 text-red-400 cursor-pointer hover:text-red-600 text-xl"
-                  onClick={() => handleDeleteClick(propertyValue.id)}
+                  onClick={() => handleDeleteClick(propertyValue)}
                 />
               </dd>
             </div>

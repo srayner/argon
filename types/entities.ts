@@ -1,3 +1,41 @@
+import { number } from "zod";
+
+export interface Category {
+  id: string;
+  name: string;
+}
+
+export interface Image {
+  id: number;
+  name: string;
+}
+
+export interface Manufacturer {
+  id: number;
+  name: string;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  category?: Category;
+  categoryId?: string;
+  manufacturer: Manufacturer | null;
+  manufacturerId: number | null;
+  manufacturerPartNo: string | null;
+  supplier: Supplier | null;
+  supplierId: number | null;
+  supplierPartNo: string | null;
+  cost: number | null;
+  qtyInStock: number;
+  location: string | null;
+  image?: Image;
+  imageId?: number;
+  propertyValues?: PropertyValue[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface Property {
   id: string;
   name: string;
@@ -16,4 +54,9 @@ export interface PropertyValue {
   productId: number;
   propertyId: string;
   property: Property;
+}
+
+export interface Supplier {
+  id: number;
+  name: string;
 }
