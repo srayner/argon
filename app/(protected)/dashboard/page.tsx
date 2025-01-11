@@ -35,6 +35,7 @@ export default function Home() {
             title="Categories"
             text="Products belong to categories."
             count={data && data.categories.count}
+            testid="categories-count"
           />
           <Card
             href="/dashboard/manufacturers"
@@ -42,6 +43,7 @@ export default function Home() {
             title="Manufacturers"
             text="Manufacturers make products."
             count={data && data.manufacturers.count}
+            testid="manufacturers-count"
           />
           <Card
             href="/dashboard/suppliers"
@@ -49,6 +51,7 @@ export default function Home() {
             title="Suppliers"
             text="Suppliers sell products."
             count={data && data.suppliers.count}
+            testid="suppliers-count"
           />
           <Card
             href="/dashboard/products"
@@ -56,6 +59,7 @@ export default function Home() {
             title="Products"
             text="Track your products and their locations."
             count={data && data.products.count}
+            testid="products-count"
           />
           <Card
             href="/dashboard/images"
@@ -63,6 +67,7 @@ export default function Home() {
             title="Images"
             text="Images can be added to products."
             count={data && data.images.count}
+            testid="images-count"
           />
         </div>
       </div>

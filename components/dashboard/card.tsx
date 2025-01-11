@@ -1,9 +1,12 @@
 import Link from "next/link";
 
-export const Card = ({ href, icon: Icon, title, text, count }: any) => {
+export const Card = ({ href, icon: Icon, title, text, count, testid }: any) => {
   return (
     <Link href={href}>
-      <div className="p-6 w-full h-[160px] mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 hover:bg-gray-100 hover:shadow-xl">
+      <div
+        className="p-6 w-full h-[160px] mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 hover:bg-gray-100 hover:shadow-xl"
+        data-testid={testid}
+      >
         <div className="shrink-0">
           <Icon className="text-6xl" />
         </div>
