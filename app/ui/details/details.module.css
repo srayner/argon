@@ -1,7 +1,5 @@
 .container {
   border: 1px solid var(--seperator-color);
-  font-family: "IBM Plex Sans", -apple-system, "system-ui", "Segoe UI", Roboto,
-    Oxygen;
   font-size: 14px;
   background-color: white;
 }

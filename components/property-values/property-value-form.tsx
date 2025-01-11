@@ -13,12 +13,14 @@ import FormRow from "@/components/form/form-row";
 interface PropertyValueFormProps {
   productId: number;
   properties: Property[];
+  onSubmit: () => void;
   onClose: () => void;
 }
 
 const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
   productId,
   properties,
+  onSubmit,
   onClose,
 }) => {
   const propertyValueSchema = z
@@ -70,7 +72,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
     resolver: zodResolver(propertyValueSchema),
   });
 
-  const onSubmit: SubmitHandler<PropertyValueFormData> = async (data) => {
+  const submit: SubmitHandler<PropertyValueFormData> = async (data) => {
     const property = properties.find(
       (property) => property.id === data.propertyId
     );
@@ -105,6 +107,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
     }
 
     onClose();
+    onSubmit();
   };
 
   const selectedPropertyId = watch("propertyId");
@@ -113,7 +116,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
   );
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(submit)}>
       <FormRow>
         <Select
           register={register}

@@ -3,6 +3,7 @@ import { number } from "zod";
 export interface Category {
   id: string;
   name: string;
+  properties: Property[];
 }
 
 export interface Image {
@@ -31,7 +32,7 @@ export interface Product {
   location: string | null;
   image?: Image;
   imageId?: number;
-  propertyValues?: PropertyValue[];
+  propertyValues: PropertyValue[];
   createdAt?: string;
   updatedAt?: string;
 }

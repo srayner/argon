@@ -1,5 +1,6 @@
 "use client";
 
+import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ProductDetails } from "@/app/ui/details/details";
@@ -13,7 +14,13 @@ import Styles from "./page.module.css";
 import LocationsCard from "@/components/locations/locations-card";
 import { Product, PropertyValue } from "@/types/entities";
 
-export default function ProductDetailPage({ params }) {
+type Params = { id: string };
+
+type ProductPageProps = {
+  params: Params;
+};
+
+const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
   const router = useRouter();
   const productId = params.id;
   const [product, setProduct] = useState<Product | null>(null);
@@ -40,6 +47,7 @@ export default function ProductDetailPage({ params }) {
         method: "DELETE",
       }
     );
+    fetchProduct();
   };
 
   const handleCloseModal = () => {
@@ -58,17 +66,19 @@ export default function ProductDetailPage({ params }) {
     setIsPropertyValueModalVisible(true);
   };
 
+  const fetchProduct = async () => {
+    const response = await fetch(`/api/products/${productId}`);
+    const product = await response.json();
+    setProduct(product);
+  };
+
   useEffect(() => {
-    const fetchProduct = async () => {
-      const response = await fetch(`/api/products/${productId}`);
-      const product = await response.json();
-      setProduct(product);
-    };
     fetchProduct();
-  }, [productId]);
+  }, []);
 
   if (!product) return <div>Loading...</div>;
 
+  console.log(product.category);
   return (
     <>
       <Header>
@@ -84,12 +94,15 @@ export default function ProductDetailPage({ params }) {
           <ProductDetails product={product} onProductUpdated={setProduct} />
         </div>
         <LocationsCard></LocationsCard>
-        <PropertyValuesCard
-          propertyValues={product.propertyValues}
-          handleAddClick={showPropertyAddForm}
-          handleDeleteClick={handleDeletePropertyValueClick}
-          handleEditClick={handleEditPropertyValueClick}
-        />
+
+        {product.category && (
+          <PropertyValuesCard
+            propertyValues={product.propertyValues}
+            handleAddClick={showPropertyAddForm}
+            handleDeleteClick={handleDeletePropertyValueClick}
+            handleEditClick={handleEditPropertyValueClick}
+          />
+        )}
       </div>
 
       <ConfirmationModal
@@ -99,17 +112,22 @@ export default function ProductDetailPage({ params }) {
         entityName="product"
       />
 
-      <Modal
-        isVisible={isPropertyValueModalVisible}
-        onClose={() => setIsPropertyValueModalVisible(false)}
-      >
-        <h2>Add Property Value</h2>
-        <PropertyValueForm
-          productId={product.id}
-          properties={product.category.properties}
+      {product.category && (
+        <Modal
+          isVisible={isPropertyValueModalVisible}
           onClose={() => setIsPropertyValueModalVisible(false)}
-        />
-      </Modal>
+        >
+          <h2>Add Property Value</h2>
+          <PropertyValueForm
+            productId={product.id}
+            properties={product.category.properties}
+            onSubmit={() => fetchProduct()}
+            onClose={() => setIsPropertyValueModalVisible(false)}
+          />
+        </Modal>
+      )}
     </>
   );
-}
+};
+
+export default ProductDetailPage;
