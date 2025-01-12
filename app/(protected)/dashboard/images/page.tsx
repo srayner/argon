@@ -31,7 +31,9 @@ const ImagesPage = () => {
         <div>Images</div>
       </Header>
       <form onSubmit={onsubmit}>
+        <label htmlFor="file-input">Upload file:</label>
         <input
+          id="file-input"
           type="file"
           name="file"
           onChange={(e) => setFile(e.target.files?.[0])}

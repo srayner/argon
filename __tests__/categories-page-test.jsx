@@ -12,8 +12,8 @@ const mockData = {
     },
   ],
   meta: {
-    totalItems: 14,
-    totalPages: 2,
+    totalItems: 1,
+    totalPages: 1,
     currentPage: 1,
     pageSize: 10,
   },
