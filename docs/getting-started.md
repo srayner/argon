@@ -1,6 +1,6 @@
 # Getting Started
 
-Welcome to the `Agon` project! This guide will walk you through setting up the project on your local machine.
+Welcome to the `Argon` project! This guide will walk you through setting up the project on your local development machine.
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ Before you begin, ensure you have the following:
 Start by cloning the repository to your local machine:
 
 ```bash
-git clone https://github.com/srayner/agon.git
+git clone https://github.com/srayner/argon.git
 ```
 
 ### 2. Navigate to the Project Directory
@@ -26,7 +26,7 @@ git clone https://github.com/srayner/agon.git
 Change into the project directory:
 
 ```bash
-cd agon
+cd argon
 ```
 
 ### 3. Install Dependencies
@@ -44,18 +44,20 @@ Create a Database: Log into your MySQL server and create a new database.
 Example MySQL command:
 
 ```sql
-CREATE DATABASE agon_db;
-Configure Environment Variables: Create a .env file in the root of your project directory and add your database connection details. Here's a sample .env file:
+CREATE DATABASE argon;
 ```
 
-env
+Configure Environment Variables: Create a .env file in the root of your project directory and add your database connection details. Here's a sample .env file:
 
-DATABASE_URL="mysql://username:password@localhost:3306/agon_db"
-Replace username, password, and agon_db with your MySQL credentials and database name.
+```env
+DATABASE_URL="mysql://username:password@localhost:3306/argon"
+```
+
+Replace username, password, and argon with your MySQL credentials and database name.
 
 ### 5. Prisma Setup (if needed)
 
-The project likely uses Prisma for database management. You'll need to ensure Prisma is set up correctly:
+The project uses Prisma for database management. You'll need to ensure Prisma is set up correctly:
 
 Generate Prisma Client: Run the following command to generate the Prisma client:
 
@@ -74,7 +76,6 @@ This will apply the current schema to your database and ensure it's up to date.
 Start the development server with:
 
 ```bash
-Copy code
 npm run dev
 ```
 
@@ -88,4 +89,4 @@ You should see the application running locally.
 Additional Notes
 If you encounter any issues during setup, check the logs for errors and ensure all services (like MySQL) are running.
 For further customization or environment-specific settings, update the .env file accordingly.
-Enjoy working on Agon!
+Enjoy working on Argon!
