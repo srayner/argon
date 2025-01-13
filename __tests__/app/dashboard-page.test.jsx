@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import DashboardPage from "../app/(protected)/dashboard/page";
+import DashboardPage from "@/app/(protected)/dashboard/page";
 
 const mockData = {
   data: {
