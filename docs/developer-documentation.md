@@ -1,4 +1,4 @@
-# Argon Documentation
+# Argon Developer Documentation
 
 ## Database Schema
 

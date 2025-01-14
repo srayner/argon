@@ -41,7 +41,7 @@ Argon is a comprehensive inventory management system designed to track product q
 ## Resources
 
 - [Installation Instructions](https://srayner.github.io/argon/getting-started)
-- [User Documentation](https://srayner.github.io/srayner/argon/user-manual)
+- [User Documentation](https://srayner.github.io/argon/user-manual)
 - [Developer Documentation](https://srayner.github.io/argon/developer-documentation)
 
 Argon is the ideal solution for anyone seeking to optimize their inventory management processes,
