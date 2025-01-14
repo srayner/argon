@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ActiveStatus {
+  ACTIVE
+  INACTIVE
+}
+
 enum PropertyType {
   STRING
   NUMERIC
@@ -70,12 +75,18 @@ model Account {
 
 model Category {
   id            String         @id @default(cuid())
-  name          String?        @unique @db.VarChar(64)
+  code          String?        @unique @db.VarChar(20)
+  name          String?        @unique @db.VarChar(40)
+  status        ActiveStatus?  @default(ACTIVE)
   parentId      String?
   parent        Category?      @relation("ParentChild", fields: [parentId], references: [id])
   children      Category[]     @relation("ParentChild")
+  depth         Int?
+  fullPath      String?        @db.VarChar(341)
   products      Product[]
   properties    Property[]
+  image         Image?        @relation(fields: [imageId], references: [id])
+  imageId       Int?
   
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
@@ -85,6 +96,7 @@ model Image {
   id           Int            @id @default(autoincrement())
   href         String         @db.VarChar(255)
   name         String         @db.VarChar(128)
+  category     Category[]
   product      Product[]
   supplier     Supplier[]
   manufacturer Manufacturer[]

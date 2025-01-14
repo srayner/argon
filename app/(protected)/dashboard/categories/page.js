@@ -10,21 +10,33 @@ import SearchInput from "../../../ui/actionbar/searchInput";
 export default function CategoriesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const columnDefs = [
-    { headerName: "ID", field: "id" },
+    { headerName: "Code", field: "code" },
     {
       headerName: "Name",
       field: "name",
       flex: 1,
       cellRenderer: (params) => {
         return params.data ? (
-          <Link href={`/dashboard/categories/${params.data.id}`}>
-            {params.value}
-          </Link>
+          <Link href={`/dashboard/categories/${params.data.id}`}>{params.value}</Link>
         ) : (
           ""
         );
       },
     },
+    {
+      headerName: "Parent",
+      field: "parent.name",
+      flex: 1,
+      cellRenderer: (params) => {
+        return params.data && params.data.parent ? (
+          <Link href={`/dashboard/categories/${params.data.parent.id}`}>{params.value}</Link>
+        ) : (
+          ""
+        );
+      },
+    },
+    { headerName: "Full Path", field: "fullPathString", flex: 1 },
+    { headerName: "Depth", field: "depth" },
   ];
 
   const handleSearchChange = (event) => {
@@ -41,11 +53,7 @@ export default function CategoriesPage() {
         </Button>
       </Header>
 
-      <DataGrid
-        columnDefs={columnDefs}
-        dataEndpoint="/api/categories"
-        searchTerm={searchTerm}
-      />
+      <DataGrid columnDefs={columnDefs} dataEndpoint="/api/categories" searchTerm={searchTerm} />
     </>
   );
 }

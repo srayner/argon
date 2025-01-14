@@ -13,10 +13,7 @@ export async function GET(request: NextRequest) {
     const pageSize = parseInt(url.searchParams.get("pageSize") || "10", 10);
 
     if (page < 1 || pageSize < 1) {
-      return NextResponse.json(
-        { error: "Invalid pagination parameters" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid pagination parameters" }, { status: 400 });
     }
 
     const totalItems = await prisma.category.count({ where: searchObject });
@@ -27,6 +24,9 @@ export async function GET(request: NextRequest) {
     }
 
     const categories = await prisma.category.findMany({
+      include: {
+        parent: true,
+      },
       skip: (page - 1) * pageSize,
       take: pageSize,
       where: searchObject,
@@ -43,10 +43,7 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
-      return NextResponse.json(
-        { error: "A database error occurred" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "A database error occurred" }, { status: 500 });
     }
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
@@ -67,15 +64,9 @@ export async function POST(request: NextRequest) {
             { status: 409 }
           );
         case "P2003":
-          return NextResponse.json(
-            { error: "Referenced foreign key not found" },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: "Referenced foreign key not found" }, { status: 400 });
         default:
-          return NextResponse.json(
-            { error: "A database error occurred" },
-            { status: 500 }
-          );
+          return NextResponse.json({ error: "A database error occurred" }, { status: 500 });
       }
     }
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
