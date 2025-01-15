@@ -13,6 +13,7 @@ import PropertyValueForm from "@/components/property-values/property-value-form"
 import Styles from "./page.module.css";
 import LocationsCard from "@/components/locations/locations-card";
 import { Product, PropertyValue } from "@/types/entities";
+import DetailViewCard from "@/components/ui/card/detail-view-card";
 
 type Params = { id: string };
 
@@ -25,8 +26,7 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
   const productId = params.id;
   const [product, setProduct] = useState<Product | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isPropertyValueModalVisible, setIsPropertyValueModalVisible] =
-    useState(false);
+  const [isPropertyValueModalVisible, setIsPropertyValueModalVisible] = useState(false);
 
   const handleEditClick = () => {
     router.push(`/dashboard/products/${productId}/edit`);
@@ -38,15 +38,10 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
 
   const handleEditPropertyValueClick = (propertyValue: PropertyValue) => {};
 
-  const handleDeletePropertyValueClick = async (
-    propertyValue: PropertyValue
-  ) => {
-    await fetch(
-      `/api/products/${productId}/property-values/${propertyValue.id}`,
-      {
-        method: "DELETE",
-      }
-    );
+  const handleDeletePropertyValueClick = async (propertyValue: PropertyValue) => {
+    await fetch(`/api/products/${productId}/property-values/${propertyValue.id}`, {
+      method: "DELETE",
+    });
     fetchProduct();
   };
 
@@ -93,6 +88,8 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
         <div className={Styles.fullWidth}>
           <ProductDetails product={product} onProductUpdated={setProduct} />
         </div>
+
+        <DetailViewCard></DetailViewCard>
         <LocationsCard></LocationsCard>
 
         {product.category && (
