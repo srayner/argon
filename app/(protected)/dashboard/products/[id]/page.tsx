@@ -3,14 +3,12 @@
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ProductDetails } from "@/app/ui/details/details";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import Modal from "@/components/ui/modal/modal";
 import PropertyValuesCard from "@/components/property-values/property-values-card";
 import PropertyValueForm from "@/components/property-values/property-value-form";
-import Styles from "./page.module.css";
 import LocationsCard from "@/components/locations/locations-card";
 import { Image, Product, PropertyValue } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/detail-view-card";
