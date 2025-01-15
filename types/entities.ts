@@ -8,6 +8,7 @@ export interface Category {
 
 export interface Image {
   id: number;
+  href: string;
   name: string;
 }
 

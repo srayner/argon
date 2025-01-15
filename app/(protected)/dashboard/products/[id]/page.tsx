@@ -12,8 +12,8 @@ import PropertyValuesCard from "@/components/property-values/property-values-car
 import PropertyValueForm from "@/components/property-values/property-value-form";
 import Styles from "./page.module.css";
 import LocationsCard from "@/components/locations/locations-card";
-import { Product, PropertyValue } from "@/types/entities";
-import DetailViewCard from "@/components/ui/card/detail-view-card";
+import { Image, Product, PropertyValue } from "@/types/entities";
+import { DetailViewCard, FieldRow } from "@/components/ui/card/detail-view-card";
 
 type Params = { id: string };
 
@@ -45,6 +45,22 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
     fetchProduct();
   };
 
+  const handleImageChange = async (image: Image) => {
+    const response = await fetch(`/api/products/${productId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ imageId: image.id }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update product image");
+    }
+
+    fetchProduct();
+  };
+
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
@@ -73,7 +89,17 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
 
   if (!product) return <div>Loading...</div>;
 
-  console.log(product.category);
+  const productFields = [
+    { label: "Category", value: product.category?.name },
+    { label: "Manufacturer", value: product.manufacturer?.name },
+    { label: "Manufacturer Part No", value: product.manufacturerPartNo },
+    { label: "Supplier", value: product.supplier?.name },
+    { label: "Supplier Part No", value: product.supplierPartNo },
+    { label: "Cost", value: product.cost !== null ? "£" + product.cost.toFixed(2) : null },
+    { label: "Qty In Stock", value: product.qtyInStock },
+    { label: "Location", value: product.location },
+  ];
+
   return (
     <>
       <Header>
@@ -84,14 +110,21 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
         </Button>
       </Header>
 
-      <div className={Styles.container}>
-        <div className={Styles.fullWidth}>
-          <ProductDetails product={product} onProductUpdated={setProduct} />
+      <div className="grid grid-cols-2 gap-5">
+        <div className="col-span-2">
+          <DetailViewCard image={product.image} onImageChange={handleImageChange}>
+            {productFields.map(
+              (field, index) =>
+                field.value && (
+                  <FieldRow key={index} name={field.label}>
+                    {field.value}
+                  </FieldRow>
+                )
+            )}
+          </DetailViewCard>
         </div>
 
-        <DetailViewCard></DetailViewCard>
         <LocationsCard></LocationsCard>
-
         {product.category && (
           <PropertyValuesCard
             propertyValues={product.propertyValues}

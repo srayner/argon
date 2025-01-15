@@ -15,12 +15,7 @@ interface PaginatorProps {
   onPageChange: (page: number) => void;
 }
 
-export function Paginator({
-  totalItems,
-  itemsPerPage,
-  currentPage,
-  onPageChange,
-}: PaginatorProps) {
+export function Paginator({ totalItems, itemsPerPage, currentPage, onPageChange }: PaginatorProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   let startPage = Math.max(1, currentPage - 2);
   let endPage = Math.min(totalPages, currentPage + 2);
@@ -47,8 +42,8 @@ export function Paginator({
   return (
     <Pagination className="mt-5">
       <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious href="#" />
+        <PaginationItem className={`${currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}`}>
+          <PaginationPrevious href="#" onClick={() => onPageChange(currentPage - 1)} />
         </PaginationItem>
 
         {prevPages && (
@@ -77,8 +72,10 @@ export function Paginator({
           </PaginationItem>
         )}
 
-        <PaginationItem>
-          <PaginationNext href="#" />
+        <PaginationItem
+          className={`${currentPage === endPage ? "cursor-not-allowed opacity-50" : ""}`}
+        >
+          <PaginationNext href="#" onClick={() => onPageChange(currentPage + 1)} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
