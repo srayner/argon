@@ -11,7 +11,7 @@ import PropertyValuesCard from "@/components/property-values/property-values-car
 import PropertyValueForm from "@/components/property-values/property-value-form";
 import LocationsCard from "@/components/locations/locations-card";
 import { Image, Product, PropertyValue } from "@/types/entities";
-import { DetailViewCard, FieldRow } from "@/components/ui/card/detail-view-card";
+import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 
 type Params = { id: string };
 
@@ -24,7 +24,8 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
   const productId = params.id;
   const [product, setProduct] = useState<Product | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isPropertyValueModalVisible, setIsPropertyValueModalVisible] = useState(false);
+  const [isPropertyValueModalVisible, setIsPropertyValueModalVisible] =
+    useState(false);
 
   const handleEditClick = () => {
     router.push(`/dashboard/products/${productId}/edit`);
@@ -36,10 +37,15 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
 
   const handleEditPropertyValueClick = (propertyValue: PropertyValue) => {};
 
-  const handleDeletePropertyValueClick = async (propertyValue: PropertyValue) => {
-    await fetch(`/api/products/${productId}/property-values/${propertyValue.id}`, {
-      method: "DELETE",
-    });
+  const handleDeletePropertyValueClick = async (
+    propertyValue: PropertyValue
+  ) => {
+    await fetch(
+      `/api/products/${productId}/property-values/${propertyValue.id}`,
+      {
+        method: "DELETE",
+      }
+    );
     fetchProduct();
   };
 
@@ -93,7 +99,10 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
     { label: "Manufacturer Part No", value: product.manufacturerPartNo },
     { label: "Supplier", value: product.supplier?.name },
     { label: "Supplier Part No", value: product.supplierPartNo },
-    { label: "Cost", value: product.cost !== null ? "£" + product.cost.toFixed(2) : null },
+    {
+      label: "Cost",
+      value: product.cost !== null ? "£" + product.cost.toFixed(2) : null,
+    },
     { label: "Qty In Stock", value: product.qtyInStock },
     { label: "Location", value: product.location },
   ];
@@ -110,7 +119,10 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
 
       <div className="grid grid-cols-2 gap-5">
         <div className="col-span-2">
-          <DetailViewCard image={product.image} onImageChange={handleImageChange}>
+          <DetailViewCard
+            image={product.image}
+            onImageChange={handleImageChange}
+          >
             {productFields.map(
               (field, index) =>
                 field.value && (

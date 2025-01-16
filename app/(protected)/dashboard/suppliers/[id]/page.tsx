@@ -7,24 +7,22 @@ import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
-import { Image, Manufacturer } from "@/types/entities";
+import { Supplier, Image } from "@/types/entities";
 
 type Params = { id: string };
 
-type ManufacturerPageProps = {
+type SupplierDetailPageProps = {
   params: Params;
 };
 
-const ManufacturerDetailPage: NextPage<ManufacturerPageProps> = ({
-  params,
-}) => {
+const SupplierDetailPage: NextPage<SupplierDetailPageProps> = ({ params }) => {
   const router = useRouter();
-  const manufacturerId = params.id;
-  const [manufacturer, setManufacturer] = useState<Manufacturer | null>(null);
+  const supplierId = params.id;
+  const [supplier, setSupplier] = useState<Supplier | null>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const handleEditClick = () => {
-    router.push(`/dashboard/manufacturers/${manufacturerId}/edit`);
+    router.push(`/dashboard/suppliers/${supplierId}/edit`);
   };
 
   const handleDeleteClick = () => {
@@ -36,15 +34,15 @@ const ManufacturerDetailPage: NextPage<ManufacturerPageProps> = ({
   };
 
   const handleConfirmDelete = async () => {
-    await fetch(`/api/manufacturers/${manufacturerId}`, {
+    await fetch(`/api/suppliers/${supplierId}`, {
       method: "DELETE",
     });
 
-    router.push("/dashboard/manufacturers");
+    router.push("/dashboard/suppliers");
   };
 
   const handleImageChange = async (image: Image) => {
-    const response = await fetch(`/api/manufacturers/${manufacturerId}`, {
+    const response = await fetch(`/api/suppliers/${supplierId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -53,30 +51,30 @@ const ManufacturerDetailPage: NextPage<ManufacturerPageProps> = ({
     });
 
     if (!response.ok) {
-      throw new Error("Failed to update manufacturer image");
+      throw new Error("Failed to update supplier image");
     }
 
-    fetchManufacturer();
+    fetchSupplier();
   };
 
-  const fetchManufacturer = async () => {
-    const response = await fetch(`/api/manufacturers/${manufacturerId}`);
-    const manufacturer = await response.json();
-    setManufacturer(manufacturer);
+  const fetchSupplier = async () => {
+    const response = await fetch(`/api/suppliers/${supplierId}`);
+    const supplier = await response.json();
+    setSupplier(supplier);
   };
 
   useEffect(() => {
-    fetchManufacturer();
-  }, []);
+    fetchSupplier();
+  }, [supplierId]);
 
-  if (!manufacturer) return <div>Loading...</div>;
+  if (!supplier) return <div>Loading...</div>;
 
-  const fields = [{ label: "Name", value: manufacturer.name }];
+  const fields = [{ label: "Name", value: supplier.name }];
 
   return (
     <>
       <Header>
-        <span>{manufacturer.name}</span>
+        <span>{supplier.name}</span>
         <Button onClick={handleEditClick}>Edit</Button>
         <Button color="danger" onClick={handleDeleteClick}>
           Delete
@@ -86,7 +84,7 @@ const ManufacturerDetailPage: NextPage<ManufacturerPageProps> = ({
       <div className="grid grid-cols-2 gap-5">
         <div className="col-span-2">
           <DetailViewCard
-            image={manufacturer.image}
+            image={supplier.image}
             onImageChange={handleImageChange}
           >
             {fields.map(
@@ -105,10 +103,10 @@ const ManufacturerDetailPage: NextPage<ManufacturerPageProps> = ({
         isVisible={isModalVisible}
         onClose={handleCloseModal}
         onConfirm={handleConfirmDelete}
-        entityName="manufacturer"
+        entityName="supplier"
       />
     </>
   );
 };
 
-export default ManufacturerDetailPage;
+export default SupplierDetailPage;
