@@ -4,6 +4,7 @@ export interface Category {
   id: string;
   name: string;
   properties: Property[];
+  image?: Image;
 }
 
 export interface Image {
@@ -15,6 +16,7 @@ export interface Image {
 export interface Manufacturer {
   id: number;
   name: string;
+  image?: Image;
 }
 
 export interface Product {
@@ -61,4 +63,5 @@ export interface PropertyValue {
 export interface Supplier {
   id: number;
   name: string;
+  image?: Image;
 }

@@ -29,6 +29,9 @@ export async function GET(
   try {
     const manufacturer = await prisma.manufacturer.findUnique({
       where: { id: parsedId },
+      include: {
+        image: true,
+      },
     });
 
     if (!manufacturer) {
