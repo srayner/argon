@@ -22,6 +22,7 @@ COPY lib ./lib
 COPY prisma ./prisma
 COPY public ./public
 COPY schemas ./schemas
+COPY types ./types
 COPY uploads ./uploads
 COPY *.ts ./
 COPY *.json ./
