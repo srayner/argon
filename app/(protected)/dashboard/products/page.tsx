@@ -46,6 +46,12 @@ const Products: NextPage<ProductsPageProps> = ({ params }) => {
       flex: 4,
     },
     {
+      headerName: "Category",
+      field: "category.name",
+      sortable: false,
+      flex: 2,
+    },
+    {
       headerName: "Supplier",
       field: "supplier.name",
       sortable: false,
