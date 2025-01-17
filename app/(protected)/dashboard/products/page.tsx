@@ -1,14 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { NextPage } from "next";
+import { ChangeEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "../../../ui/datagrid/datagrid";
 import Header from "../../../ui/header/header";
 import styles from "./page.module.css";
 
-export default function ProductsPage() {
+type Params = { id: string };
+
+type ProductsPageProps = {
+  params: Params;
+};
+
+const Products: NextPage<ProductsPageProps> = ({ params }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -26,7 +34,7 @@ export default function ProductsPage() {
     {
       headerName: "Product",
       field: "name",
-      cellRenderer: (params) => {
+      cellRenderer: (params: ICellRendererParams) => {
         return params.data ? (
           <Link href={`/dashboard/products/${params.data.id}`}>
             {params.value}
@@ -45,15 +53,15 @@ export default function ProductsPage() {
     },
     {
       field: "cost",
-      valueFormatter: (p) => {
+      valueFormatter: (params: ValueFormatterParams) => {
         if (
-          p === undefined ||
-          p.value === undefined ||
-          typeof p.value !== "number"
+          params === undefined ||
+          params.value === undefined ||
+          typeof params.value !== "number"
         ) {
           return "";
         }
-        return "£" + p.value.toFixed(2);
+        return "£" + params.value.toFixed(2);
       },
       cellStyle: { textAlign: "right" },
       sortable: true,
@@ -83,10 +91,10 @@ export default function ProductsPage() {
       currentParams.delete("search");
     }
 
-    router.push(`${pathname}?${currentParams.toString()}`, { shallow: true });
+    router.push(`${pathname}?${currentParams.toString()}`);
   }, [searchTerm]);
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
@@ -112,4 +120,6 @@ export default function ProductsPage() {
       />
     </>
   );
-}
+};
+
+export default Products;

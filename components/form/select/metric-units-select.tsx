@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 
 interface MetricUnitsSelectProps {
   symbol: string;
@@ -51,12 +51,18 @@ const MetricUnitsSelect: React.FC<MetricUnitsSelectProps> = ({
     return options;
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (onChange) {
+      onChange(Number(e.target.value));
+    }
+  };
+
   const options = generateOptions(symbol, min, max);
 
   return (
     <div>
       <label>Metric Units</label>
-      <select value={value} onChange={(e) => onChange(e.target.value)}>
+      <select value={value} onChange={handleChange}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
