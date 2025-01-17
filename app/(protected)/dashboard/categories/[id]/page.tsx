@@ -1,20 +1,29 @@
 "use client";
 
+import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { DetailList, DetailRow } from "@/app/ui/detail/detail";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import PropertiesList from "@/components/properties/properties-list";
 import PropertyModal from "@/components/properties/property-add-modal";
+import { Category, Image } from "@/types/entities";
+import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 
-export default function CategoryDetailPage({ params }) {
+type Params = { id: string };
+
+type CategoryDetailPageProps = {
+  params: Params;
+};
+
+const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
   const router = useRouter();
   const categoryId = params.id;
-  const [category, setCategory] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isPropertyModalVisible, setIsPropertyModalVisible] = useState(false);
+  const [category, setCategory] = useState<Category | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isPropertyModalVisible, setIsPropertyModalVisible] =
+    useState<boolean>(false);
 
   const handleEditClick = () => {
     router.push(`/dashboard/categories/${categoryId}/edit`);
@@ -36,8 +45,24 @@ export default function CategoryDetailPage({ params }) {
     router.push("/dashboard/categories");
   };
 
-  const handleAddProperty = (newProperty) => {
+  const handleAddProperty = () => {
     setIsPropertyModalVisible(false);
+    fetchCategory();
+  };
+
+  const handleImageChange = async (image: Image) => {
+    const response = await fetch(`/api/products/${categoryId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ imageId: image.id }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update product image");
+    }
+
     fetchCategory();
   };
 
@@ -53,6 +78,11 @@ export default function CategoryDetailPage({ params }) {
 
   if (!category) return <div>Loading...</div>;
 
+  const productFields = [
+    { label: "Name", value: category.name },
+    { label: "Parent Category", value: category.parent?.name },
+  ];
+
   return (
     <>
       <Header>
@@ -63,10 +93,23 @@ export default function CategoryDetailPage({ params }) {
         </Button>
       </Header>
 
-      <DetailList>
-        <DetailRow title="Name" value={category.name} />
-        <DetailRow title="Parent Category" value={category.parent?.name} />
-      </DetailList>
+      <div className="grid grid-cols-2 gap-5">
+        <div className="col-span-2">
+          <DetailViewCard
+            image={category.image}
+            onImageChange={handleImageChange}
+          >
+            {productFields.map(
+              (field, index) =>
+                field.value && (
+                  <FieldRow key={index} name={field.label}>
+                    {field.value}
+                  </FieldRow>
+                )
+            )}
+          </DetailViewCard>
+        </div>
+      </div>
 
       <PropertiesList
         properties={category.properties}
@@ -87,4 +130,6 @@ export default function CategoryDetailPage({ params }) {
       />
     </>
   );
-}
+};
+
+export default CategoryDetailPage;

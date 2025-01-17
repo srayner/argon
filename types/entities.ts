@@ -3,6 +3,7 @@ import { number } from "zod";
 export interface Category {
   id: string;
   name: string;
+  parent: Category | null;
   properties: Property[];
   image?: Image;
 }
