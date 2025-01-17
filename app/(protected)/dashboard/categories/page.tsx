@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Link from "next/link";
+import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "../../../ui/datagrid/datagrid";
 import Header from "../../../ui/header/header";
@@ -15,9 +16,11 @@ export default function CategoriesPage() {
       headerName: "Name",
       field: "name",
       flex: 1,
-      cellRenderer: (params) => {
+      cellRenderer: (params: ICellRendererParams) => {
         return params.data ? (
-          <Link href={`/dashboard/categories/${params.data.id}`}>{params.value}</Link>
+          <Link href={`/dashboard/categories/${params.data.id}`}>
+            {params.value}
+          </Link>
         ) : (
           ""
         );
@@ -27,9 +30,11 @@ export default function CategoriesPage() {
       headerName: "Parent",
       field: "parent.name",
       flex: 1,
-      cellRenderer: (params) => {
+      cellRenderer: (params: ICellRendererParams) => {
         return params.data && params.data.parent ? (
-          <Link href={`/dashboard/categories/${params.data.parent.id}`}>{params.value}</Link>
+          <Link href={`/dashboard/categories/${params.data.parent.id}`}>
+            {params.value}
+          </Link>
         ) : (
           ""
         );
@@ -39,7 +44,7 @@ export default function CategoriesPage() {
     { headerName: "Depth", field: "depth" },
   ];
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
@@ -53,7 +58,11 @@ export default function CategoriesPage() {
         </Button>
       </Header>
 
-      <DataGrid columnDefs={columnDefs} dataEndpoint="/api/categories" searchTerm={searchTerm} />
+      <DataGrid
+        columnDefs={columnDefs}
+        dataEndpoint="/api/categories"
+        searchTerm={searchTerm}
+      />
     </>
   );
 }

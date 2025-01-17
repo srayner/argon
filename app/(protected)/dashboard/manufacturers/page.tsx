@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Link from "next/link";
+import { ICellRendererParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "../../../ui/datagrid/datagrid";
 import Header from "../../../ui/header/header";
@@ -15,7 +16,7 @@ export default function ManufacturersPage() {
       headerName: "Name",
       field: "name",
       flex: 1,
-      cellRenderer: (params) => {
+      cellRenderer: (params: ICellRendererParams) => {
         return params.data ? (
           <Link href={`/dashboard/manufacturers/${params.data.id}`}>
             {params.value}
@@ -27,7 +28,7 @@ export default function ManufacturersPage() {
     },
   ];
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
