@@ -24,32 +24,4 @@ const parseSortParams = (sortString: string): OrderBy[] => {
   }, [] as OrderBy[]);
 };
 
-function runTests() {
-  const testCases = [
-    {
-      name: "Test 1: Empty input",
-      input: "",
-      expected: [],
-    },
-    {
-      name: "Test 2: Simple field",
-      input: "name",
-      expected: [{ name: "asc" }],
-    },
-    {
-      name: "Test 3: Simple and nested fields",
-      input: "name,-category.name",
-      expected: [{ name: "asc" }, { category: { name: "desc" } }],
-    },
-    {
-      name: "Test 4: Simple and deep nested fields",
-      input: "name,-category.name,category.type.name",
-      expected: [
-        { name: "asc" },
-        { category: { name: "desc" } },
-        { category: { type: { name: "asc" } } },
-      ],
-    },
-  ];
-
 export default parseSortParams;
