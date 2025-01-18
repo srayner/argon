@@ -125,7 +125,9 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
           >
             {productFields.map(
               (field, index) =>
-                field.value && (
+                field.value !== null &&
+                field.value !== undefined &&
+                field.value !== "" && (
                   <FieldRow key={index} name={field.label}>
                     {field.value}
                   </FieldRow>
