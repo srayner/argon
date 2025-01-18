@@ -58,6 +58,7 @@ export async function GET(request: NextRequest) {
         { status: 500 }
       );
     }
+    console.log(error);
     return NextResponse.json(
       { error: "An unknown error occured" },
       { status: 500 }

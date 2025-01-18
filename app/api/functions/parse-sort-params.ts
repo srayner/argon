@@ -1,16 +1,55 @@
-type SortDirection = 'asc' | 'desc';
+type OrderBy = {
+  [key: string]: "asc" | "desc" | { [nestedKey: string]: "asc" | "desc" };
+};
 
-interface OrderBy {
-  [field: string]: SortDirection;
-}
+const parseSortParams = (sortString: string): OrderBy[] => {
+  if (!sortString.trim()) {
+    return [];
+  }
 
-function parseSortParams(sortString: string): OrderBy[] {
   const sortParams = sortString.split(",");
-  return sortParams.map((param) => {
-    const direction: SortDirection = param.startsWith("-") ? "desc" : "asc";
-    const field: string = param.startsWith("-") ? param.substring(1) : param;
-    return { [field]: direction };
-  });
-}
+
+  return sortParams.reduce((orderBy, param) => {
+    const direction = param.startsWith("-") ? "desc" : "asc";
+    const field = param.startsWith("-") ? param.substring(1) : param;
+
+    const keys = field.split(".");
+    const sortObject: any = keys.reduceRight((acc, key, index) => {
+      return index === keys.length - 1 ? { [key]: direction } : { [key]: acc };
+    }, {});
+
+    orderBy.push(sortObject);
+
+    return orderBy;
+  }, [] as OrderBy[]);
+};
+
+function runTests() {
+  const testCases = [
+    {
+      name: "Test 1: Empty input",
+      input: "",
+      expected: [],
+    },
+    {
+      name: "Test 2: Simple field",
+      input: "name",
+      expected: [{ name: "asc" }],
+    },
+    {
+      name: "Test 3: Simple and nested fields",
+      input: "name,-category.name",
+      expected: [{ name: "asc" }, { category: { name: "desc" } }],
+    },
+    {
+      name: "Test 4: Simple and deep nested fields",
+      input: "name,-category.name,category.type.name",
+      expected: [
+        { name: "asc" },
+        { category: { name: "desc" } },
+        { category: { type: { name: "asc" } } },
+      ],
+    },
+  ];
 
 export default parseSortParams;
