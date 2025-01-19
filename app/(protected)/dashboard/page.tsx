@@ -9,6 +9,7 @@ import {
   FcGallery,
   FcTreeStructure,
 } from "react-icons/fc";
+import { FaSearch } from "react-icons/fa";
 import { Card } from "@/components/dashboard/card";
 
 export default function Home() {
@@ -68,6 +69,12 @@ export default function Home() {
             text="Images can be added to products."
             count={data && data.images.count}
             testid="images-count"
+          />
+          <Card
+            href="/dashboard/search"
+            icon={FaSearch}
+            title="Advanced Search"
+            text="Search products by custom properties."
           />
         </div>
       </div>
