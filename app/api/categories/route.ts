@@ -13,6 +13,11 @@ export async function GET(request: NextRequest) {
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const pageSize = parseInt(url.searchParams.get("pageSize") || "10", 10);
 
+    const parentId = url.searchParams.get("parentId");
+    const parentFilter = parentId
+      ? { parentId: parentId === "null" ? null : parentId }
+      : {};
+
     if (page < 1 || pageSize < 1) {
       return NextResponse.json(
         { error: "Invalid pagination parameters" },
@@ -20,7 +25,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const totalItems = await prisma.category.count({ where: searchObject });
+    const totalItems = await prisma.category.count({
+      where: { ...searchObject, ...parentFilter },
+    });
     const totalPages = Math.ceil(totalItems / pageSize);
 
     if (page > 1 && page > totalPages) {
@@ -33,10 +40,11 @@ export async function GET(request: NextRequest) {
     const categories = await prisma.category.findMany({
       include: {
         parent: true,
+        children: true,
       },
       skip: (page - 1) * pageSize,
       take: pageSize,
-      where: searchObject,
+      where: { ...searchObject, ...parentFilter },
       orderBy: orderBy,
     });
 

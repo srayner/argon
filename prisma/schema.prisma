@@ -90,6 +90,8 @@ model Category {
   
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+
+  @@index([parentId])
 }
 
 model Image {

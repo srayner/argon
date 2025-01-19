@@ -4,6 +4,7 @@ export interface Category {
   id: string;
   name: string;
   parent: Category | null;
+  children: Category[];
   properties: Property[];
   image?: Image;
 }
