@@ -30,7 +30,7 @@ const CategoryExplorer: React.FC<CategoryExplorerProps> = ({
             <div className="flex flex-col space-y-4">
               <ul className="text-sm px-2 mb-4">
                 {category.children.map((child) => (
-                  <li>
+                  <li key={child.id}>
                     <Link
                       href="#"
                       onClick={() => handleCategoryClick(child.id)}
