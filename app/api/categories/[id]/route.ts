@@ -10,8 +10,10 @@ export async function GET(
     const category = await prisma.category.findUnique({
       where: { id: params.id },
       include: {
+        children: true,
         parent: true,
         properties: true,
+        image: true,
       },
     });
 
@@ -24,6 +26,7 @@ export async function GET(
 
     return NextResponse.json(category, { status: 200 });
   } catch (error) {
+    co;
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }

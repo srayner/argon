@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Button from "../../app/ui/button/button";
+import { MdAddCircle, MdEdit, MdDelete } from "react-icons/md";
 import SimpleDataGrid from "../../app/ui/datagrid/simple-data-grid";
-import Header from "../../app/ui/header/header";
+import { CardHeader, CardBody } from "../ui/modal/Card/action-card";
 
 interface PropertiesLstProps {
   properties: any;
@@ -51,16 +51,21 @@ const PropertiesLst: React.FC<PropertiesLstProps> = ({
   ];
 
   return (
-    <>
-      <Header>
-        <div>Properties</div>
-        <Button color="primary" onClick={onAddClicked}>
-          Add
-        </Button>
-      </Header>
+    <div className="w-full bg-white shadow-md rounded-lg">
+      <CardHeader
+        title="Properties"
+        actions={[
+          {
+            icon: <MdAddCircle className="text-black-500 text-3xl" />,
+            onClick: onAddClicked,
+          },
+        ]}
+      />
 
-      <SimpleDataGrid rowData={properties} columnDefs={columnDefs} />
-    </>
+      <CardBody>
+        <SimpleDataGrid rowData={properties} columnDefs={columnDefs} />
+      </CardBody>
+    </div>
   );
 };
 

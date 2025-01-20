@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
+import ChildCategoriesList from "@/components/categories/ChildCategoriesList";
 import PropertiesList from "@/components/properties/properties-list";
 import PropertyModal from "@/components/properties/property-add-modal";
 import { Category, Image } from "@/types/entities";
@@ -51,7 +52,7 @@ const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
   };
 
   const handleImageChange = async (image: Image) => {
-    const response = await fetch(`/api/products/${categoryId}`, {
+    const response = await fetch(`/api/categories/${categoryId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -109,12 +110,13 @@ const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
             )}
           </DetailViewCard>
         </div>
+        <PropertiesList
+          properties={category.properties}
+          onAddClicked={() => setIsPropertyModalVisible(true)}
+        />
+        <ChildCategoriesList categories={category.children} />
       </div>
 
-      <PropertiesList
-        properties={category.properties}
-        onAddClicked={() => setIsPropertyModalVisible(true)}
-      />
       <PropertyModal
         isVisible={isPropertyModalVisible}
         onSubmit={handleAddProperty}
