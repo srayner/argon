@@ -26,7 +26,7 @@ export async function GET(
 
     return NextResponse.json(category, { status: 200 });
   } catch (error) {
-    co;
+    console.log(error);
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }
