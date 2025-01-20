@@ -111,3 +111,14 @@ a {
 a:hover {
   color: var(--primary-highlight);
 }
+
+/* Override ag-Grid font */
+.ag-root,
+.ag-header,
+.ag-cell {
+  font-family: var(--font-sans);
+}
+
+.ag-header-row {
+  font-weight: 700 !important;
+}

@@ -9,7 +9,11 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const DetailViewCard: React.FC<Props> = ({ image, onImageChange, children }) => {
+export const DetailViewCard: React.FC<Props> = ({
+  image,
+  onImageChange,
+  children,
+}) => {
   return (
     <div className="w-full bg-white shadow-md rounded-lg">
       <CardHeader title="Details" actions={[]} />

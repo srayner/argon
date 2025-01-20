@@ -23,7 +23,7 @@ interface CardHeaderProps {
 
 const CardHeader: React.FC<CardHeaderProps> = ({ title, actions }) => {
   return (
-    <div className="bg-zinc-300 w-full py-2 px-4 flex justify-between items-center rounded-t-lg">
+    <div className="bg-zinc-300 w-full min-h-[46px] py-2 px-4 flex justify-between items-center rounded-t-lg">
       <h3 className="text-black text-sm font-semibold">{title}</h3>
       <div className="flex space-x-4">
         {/* Render each clickable action */}
@@ -44,7 +44,7 @@ interface CardBodyProps {
 }
 
 const CardBody: React.FC<CardBodyProps> = ({ children }) => {
-  return <div className="p-4">{children}</div>;
+  return <div className="p-4 h-full">{children}</div>;
 };
 
 export { CardHeader, CardBody };

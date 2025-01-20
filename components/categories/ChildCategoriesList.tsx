@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { MdAddCircle, MdEdit, MdDelete } from "react-icons/md";
 import SimpleDataGrid from "../../app/ui/datagrid/simple-data-grid";
 import { CardHeader, CardBody } from "../ui/modal/Card/action-card";
 
@@ -19,7 +18,15 @@ const ChildCategoriesList: React.FC<ChildCategoriesListProps> = ({
       <CardHeader title="Child Categories" actions={[]} />
 
       <CardBody>
-        <SimpleDataGrid rowData={categories} columnDefs={columnDefs} />
+        {categories.length > 0 ? (
+          <SimpleDataGrid rowData={categories} columnDefs={columnDefs} />
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-center">
+              This category does not have any child categories.
+            </p>
+          </div>
+        )}
       </CardBody>
     </div>
   );
