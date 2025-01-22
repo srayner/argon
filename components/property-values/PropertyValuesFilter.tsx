@@ -2,16 +2,23 @@ import React, { useState, useEffect } from "react";
 import ListBox, { ListBoxOption } from "@/components/ui/listbox";
 import { Button } from "@/components/ui/button";
 
+export interface Filter {
+  property: string;
+  values: (string | number)[];
+}
+
 interface PropertyValuesFilterProps {
   properties: Array<{
+    id: string;
     name: string;
     width: string;
     propertyValues: Array<{ value: string | number }>;
   }>;
-  onRefresh: (newFilterData: any) => void;
+  onRefresh: (newFilterData: Filter[]) => void;
 }
 
 interface Property {
+  id: string;
   name: string;
   width: string;
   values: ListBoxOption[];
@@ -25,6 +32,7 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
 
   useEffect(() => {
     const transformedFilters = properties.map((property) => ({
+      id: property.id,
       name: property.name,
       width: "",
       values: property.propertyValues.map((value) => ({
@@ -63,14 +71,27 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
       values: property.values.map((value) => ({ ...value, selected: false })),
     }));
     setFilters(resetState);
-    onRefresh(resetState);
+    onRefresh([]);
   };
 
   const handleSubmit = () => {
-    const filterData = filters.reduce((acc, property) => {
-      acc[property.name] = property.values.filter((value) => value.selected);
-      return acc;
-    }, {} as { [key: string]: ListBoxOption[] });
+    console.log(filters);
+    const filterData = filters
+      .map((property) => {
+        const selectedValues = property.values
+          .filter((value) => value.selected)
+          .map((value) => value.name);
+
+        if (selectedValues.length > 0) {
+          return {
+            property: property.id,
+            values: selectedValues,
+          };
+        }
+
+        return null;
+      })
+      .filter(Boolean) as Filter[];
 
     onRefresh(filterData);
   };

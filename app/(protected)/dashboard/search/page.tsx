@@ -1,13 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import PropertyValuesFilter from "@/components/property-values/PropertyValuesFilter";
+import PropertyValuesFilter, {
+  Filter,
+} from "@/components/property-values/PropertyValuesFilter";
 import CategoryExplorer from "@/components/categories/CategoryExplorer";
+import { Product } from "@/types/entities";
 
 const SearchPage: React.FC = () => {
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [categories, setCategories] = useState([]);
   const [properties, setProperties] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   const fetchCategories = async () => {
     const queryParam =
@@ -33,6 +37,26 @@ const SearchPage: React.FC = () => {
     setProperties(data);
   };
 
+  const fetchProducts = async (filters: Filter[]) => {
+    const response = await fetch("api/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sort: "name",
+        customProperties: filters,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch products");
+    }
+
+    const { data } = await response.json();
+    setProducts(data);
+  };
+
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -47,10 +71,6 @@ const SearchPage: React.FC = () => {
 
     fetchInitialData();
   }, [categoryId]);
-
-  const handleRefresh = (newFilterState: any) => {
-    console.log("Filter state submitted or reset:", newFilterState);
-  };
 
   const handleCategorySelect = (categoryId: string) => {
     console.log(`Category selected: ${categoryId}`);
@@ -74,8 +94,16 @@ const SearchPage: React.FC = () => {
           <h2 className="text-2xl font-bold mb-4">Advanced Search</h2>
           <PropertyValuesFilter
             properties={properties}
-            onRefresh={handleRefresh}
+            onRefresh={fetchProducts}
           />
+        </div>
+      )}
+
+      {products.length !== 0 && (
+        <div>
+          {products.map((product, index) => {
+            return <div key={index}>{product.name}</div>;
+          })}
         </div>
       )}
     </>
