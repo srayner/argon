@@ -38,7 +38,7 @@ const SearchPage: React.FC = () => {
   };
 
   const fetchProducts = async (filters: Filter[]) => {
-    const response = await fetch("api/search", {
+    const response = await fetch("/api/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
