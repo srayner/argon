@@ -84,7 +84,7 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
       .map((property) => {
         const selectedValues = property.values
           .filter((value) => value.selected)
-          .map((value) => value.name);
+          .map((value) => value.value);
 
         if (selectedValues.length > 0) {
           return {

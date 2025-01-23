@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import PropertyValuesFilter, {
   Filter,
 } from "@/components/property-values/PropertyValuesFilter";
 import CategoryExplorer from "@/components/categories/CategoryExplorer";
+import SimpleDataGrid from "@/components/ui/datagrid/SimpleDataGrid";
+import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
 import { Product } from "@/types/entities";
 
 const SearchPage: React.FC = () => {
@@ -77,6 +80,71 @@ const SearchPage: React.FC = () => {
     setCategoryId(categoryId);
   };
 
+  const columnDefs = [
+    {
+      headerName: "Image",
+      field: "image",
+      width: 150,
+      maxWidth: 150,
+      cellRenderer: (params: ICellRendererParams) => {
+        return params.data && params.data.image ? (
+          <img
+            src={params.data.image.href}
+            alt={params.data.image.name}
+            className="w-full h-full object-contain"
+          />
+        ) : (
+          ""
+        );
+      },
+    },
+    {
+      headerName: "Manufacturer",
+      field: "manufacturer.name",
+    },
+    {
+      headerName: "Product",
+      field: "name",
+      cellRenderer: (params: ICellRendererParams) => {
+        return params.data ? (
+          <Link href={`/dashboard/products/${params.data.id}`}>
+            {params.value}
+          </Link>
+        ) : (
+          ""
+        );
+      },
+    },
+    {
+      headerName: "Category",
+      field: "category.name",
+    },
+    {
+      headerName: "Supplier",
+      field: "supplier.name",
+    },
+    {
+      field: "cost",
+      valueFormatter: (params: ValueFormatterParams) => {
+        if (
+          params === undefined ||
+          params.value === undefined ||
+          typeof params.value !== "number"
+        ) {
+          return "";
+        }
+        return "£" + params.value.toFixed(2);
+      },
+      cellStyle: { textAlign: "right" },
+      sortable: true,
+    },
+    {
+      header: "Qty in stock",
+      field: "qtyInStock",
+      cellStyle: { textAlign: "right" },
+    },
+  ];
+
   return (
     <>
       {categories.length !== 0 && (
@@ -100,11 +168,11 @@ const SearchPage: React.FC = () => {
       )}
 
       {products.length !== 0 && (
-        <div>
-          {products.map((product, index) => {
-            return <div key={index}>{product.name}</div>;
-          })}
-        </div>
+        <SimpleDataGrid
+          rowData={products}
+          rowHeight={100}
+          columnDefs={columnDefs}
+        />
       )}
     </>
   );

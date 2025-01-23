@@ -9,8 +9,8 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
     const searchObject = buildPropertiesSearchObject(data.customProperties);
 
-    console.log(JSON.stringify(searchObject, null, 2));
-    return NextResponse.json({});
+    //console.log(JSON.stringify(searchObject, null, 2));
+    //return NextResponse.json({ data: [] });
 
     const page = parseInt(data.page || "1", 10);
     const pageSize = parseInt(data.page || "10", 10);
@@ -41,6 +41,7 @@ export async function POST(request: NextRequest) {
         category: true,
         manufacturer: true,
         supplier: true,
+        image: true,
       },
     });
 
