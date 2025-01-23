@@ -80,6 +80,7 @@ const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
   if (!category) return <div>Loading...</div>;
 
   const productFields = [
+    { label: "Code", value: category.code },
     { label: "Name", value: category.name },
     { label: "Parent Category", value: category.parent?.name },
   ];

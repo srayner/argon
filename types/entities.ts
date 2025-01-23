@@ -2,6 +2,7 @@ import { number } from "zod";
 
 export interface Category {
   id: string;
+  code: string;
   name: string;
   parent: Category | null;
   children: Category[];

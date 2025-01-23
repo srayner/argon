@@ -18,6 +18,7 @@ interface CategoryEditPageProps {
 
 const CategoryEditPage: React.FC<CategoryEditPageProps> = ({ params }) => {
   const editCategorySchema = z.object({
+    code: z.string(),
     name: z.string().min(1, { message: "Name is required." }),
     parentId: z.string().nullable(),
   });
@@ -87,6 +88,16 @@ const CategoryEditPage: React.FC<CategoryEditPageProps> = ({ params }) => {
     <>
       <Header>Edit Category</Header>
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.formItem}>
+          <label>Code</label>
+          <div>
+            <input {...register("code")} type="text" autoComplete="off" />
+            {errors.code && (
+              <p className={styles.errorMessage}>{`${errors.code.message}`}</p>
+            )}
+          </div>
+        </div>
+
         <div className={styles.formItem}>
           <label>Name</label>
           <div>
