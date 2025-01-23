@@ -1,12 +1,7 @@
-type CustomProperties = {
-  [propertyId: string]: (string | number)[];
-};
+import { Filter } from "@/components/property-values/PropertyValuesFilter";
 
 type WhereCondition = {
-  property: {
-    id: string;
-    type?: string | { not: string };
-  };
+  propertyId: string;
   valueString?: {
     in: (string | number)[];
   };
@@ -15,50 +10,26 @@ type WhereCondition = {
   };
 };
 
-type WhereConditions = {
-  OR: WhereCondition[];
-};
+export function buildPropertiesSearchObject(filters: Filter[]) {
+  const whereConditions: WhereCondition[] = [];
+  filters.forEach((filter) => {
+    const condition =
+      filter.type === "STRING"
+        ? {
+            propertyId: filter.property,
+            valueString: { in: filter.values.map((value) => value.toString()) },
+          }
+        : {
+            propertyId: filter.property,
+            valueNumeric: { in: filter.values },
+          };
 
-function buildObject(customProperties: string): CustomProperties {
-  const cleanedStr = customProperties.slice(1, -1);
-  const pairs = cleanedStr.split("],");
-
-  const result: CustomProperties = {};
-
-  pairs.forEach((pair) => {
-    const [propertyId, valuesStr] = pair.split("=[");
-    const values = valuesStr
-      .slice(0, -1)
-      .split(",")
-      .map((value) => {
-        const numValue = Number(value);
-        return isNaN(numValue) ? value : numValue;
-      });
-    result[propertyId] = values;
+    whereConditions.push(condition);
   });
 
-  return result;
-}
-
-function parseCustomProperties(queryParam: string): WhereConditions[] {
-  const properties = buildObject(queryParam);
-  const whereConditions: WhereConditions[] = [];
-
-  for (const [propertyId, values] of Object.entries(properties)) {
-    const valueStringCondition = {
-      property: { id: propertyId, type: "STRING" },
-      valueString: { in: values.map((value) => value.toString()) },
-    };
-
-    const valueNumericCondition = {
-      property: { id: propertyId, type: { not: "STRING" } },
-      valueNumeric: { in: values },
-    };
-
-    whereConditions.push({
-      OR: [valueStringCondition, valueNumericCondition],
-    });
-  }
-
-  return whereConditions;
+  return {
+    propertyValues: {
+      some: whereConditions,
+    },
+  };
 }

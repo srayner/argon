@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export interface Filter {
   property: string;
+  type: string;
   values: (string | number)[];
 }
 
@@ -11,6 +12,7 @@ interface PropertyValuesFilterProps {
   properties: Array<{
     id: string;
     name: string;
+    type: string;
     width: string;
     propertyValues: Array<{ value: string | number }>;
   }>;
@@ -20,6 +22,7 @@ interface PropertyValuesFilterProps {
 interface Property {
   id: string;
   name: string;
+  type: string;
   width: string;
   values: ListBoxOption[];
 }
@@ -34,6 +37,7 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
     const transformedFilters = properties.map((property) => ({
       id: property.id,
       name: property.name,
+      type: property.type,
       width: "",
       values: property.propertyValues.map((value) => ({
         name: value.value.toString(),
@@ -85,6 +89,7 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
         if (selectedValues.length > 0) {
           return {
             property: property.id,
+            type: property.type,
             values: selectedValues,
           };
         }
