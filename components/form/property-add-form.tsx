@@ -33,6 +33,7 @@ const PropertyAddForm: React.FC<PropertyAddFormProps> = ({
     name: z.string().min(1, { message: "Name is required." }),
     type: z.string(),
     units: z.string().optional(),
+    unitPosition: z.string(),
   });
 
   type AddPropertySchema = z.infer<typeof addPropertySchema>;
@@ -50,6 +51,7 @@ const PropertyAddForm: React.FC<PropertyAddFormProps> = ({
   const units = watch("units", "");
 
   const onSubmit = async (data: FieldValues) => {
+    console.log(data);
     data.categoryId = categoryId;
     const response = await fetch("/api/properties", {
       method: "POST",
