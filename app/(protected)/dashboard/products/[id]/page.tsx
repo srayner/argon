@@ -3,6 +3,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
@@ -94,7 +95,11 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
   if (!product) return <div>Loading...</div>;
 
   const productFields = [
-    { label: "Category", value: product.category?.name },
+    {
+      label: "Category",
+      value: product.category?.name,
+      href: `/dashboard/categories/${product.category?.id}`,
+    },
     { label: "Manufacturer", value: product.manufacturer?.name },
     { label: "Manufacturer Part No", value: product.manufacturerPartNo },
     { label: "Supplier", value: product.supplier?.name },
@@ -129,7 +134,8 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
                 field.value !== undefined &&
                 field.value !== "" && (
                   <FieldRow key={index} name={field.label}>
-                    {field.value}
+                    {field.href && <Link href={field.href}>{field.value}</Link>}
+                    {!field.href && field.value}
                   </FieldRow>
                 )
             )}
