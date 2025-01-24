@@ -53,7 +53,9 @@ const PropertyValuesCard: React.FC<PropertyValuesCardProps> = ({
                   {propertyValue.property.type === "STRING"
                     ? propertyValue.valueString
                     : propertyValue.valueNumeric}
-                  {propertyValue.property.type === "NUMERIC" &&
+                  {["NUMERIC", "METRIC"].includes(
+                    propertyValue.property.type
+                  ) &&
                     propertyValue.property.units &&
                     propertyValue.property.unitPosition === "SUFFIX" && (
                       <span>{propertyValue.property.units}</span>
