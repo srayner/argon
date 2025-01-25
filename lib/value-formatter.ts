@@ -115,3 +115,5 @@ const formatPropertyValue = (propertyValue: PropertyValue): string => {
       return valueString;
   }
 };
+
+export default formatPropertyValue;

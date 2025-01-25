@@ -2,6 +2,7 @@ import React from "react";
 import { CardBody, CardHeader } from "../ui/modal/Card/action-card";
 import { MdAddCircle, MdEdit, MdDelete } from "react-icons/md";
 import { PropertyValue } from "@/types/entities";
+import formatPropertyValue from "@/lib/value-formatter";
 
 interface PropertyValuesCardProps {
   propertyValues: PropertyValue[];
@@ -45,19 +46,7 @@ const PropertyValuesCard: React.FC<PropertyValuesCardProps> = ({
               <dd className="text-left flex items-center space-x-4">
                 {/* Category Value */}
                 <span className="flex-grow">
-                  {propertyValue.property.type !== "STRING" &&
-                    propertyValue.property.units &&
-                    propertyValue.property.unitPosition === "PREFIX" && (
-                      <span>{propertyValue.property.units}</span>
-                    )}
-                  {propertyValue.property.type === "STRING"
-                    ? propertyValue.valueString
-                    : propertyValue.valueNumeric}
-                  {propertyValue.property.type !== "STRING" &&
-                    propertyValue.property.units &&
-                    propertyValue.property.unitPosition === "SUFFIX" && (
-                      <span>{propertyValue.property.units}</span>
-                    )}
+                  {formatPropertyValue(propertyValue)}
                 </span>
 
                 {/* Edit Icon */}
