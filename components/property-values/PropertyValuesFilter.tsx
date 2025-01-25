@@ -6,36 +6,36 @@ import {
   formatMetricValue,
   formatImperialValue,
 } from "@/lib/value-formatter";
+import { Property, PropertyType } from "@/types/entities";
+
 export interface Filter {
   property: string;
   type: string;
   values: (string | number)[];
 }
 
-interface PropertyValuesFilterProps {
-  properties: Array<{
-    id: string;
-    name: string;
-    type: string;
-    width: string;
-    propertyValues: Array<{ value: string | number }>;
-  }>;
-  onRefresh: (newFilterData: Filter[]) => void;
-}
-
-interface Property {
+interface PropertyFilter {
   id: string;
   name: string;
-  type: string;
+  type: PropertyType;
   width: string;
-  values: ListBoxOption[];
+  values: Array<{
+    name: string;
+    value: string | number;
+    selected: boolean;
+  }>;
+}
+
+interface PropertyValuesFilterProps {
+  properties: Property[];
+  onRefresh: (newFilterData: Filter[]) => void;
 }
 
 const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
   properties,
   onRefresh,
 }) => {
-  const [filters, setFilters] = useState<Property[]>([]);
+  const [filters, setFilters] = useState<PropertyFilter[]>([]);
 
   useEffect(() => {
     const transformedFilters = properties.map((property) => ({
@@ -43,41 +43,42 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
       name: property.name,
       type: property.type,
       width: "",
-      values: property.propertyValues.map((value) => {
-        let formattedName: string;
-        switch (property.type) {
-          case "NUMERIC":
-            formattedName = formatNumericValue(
-              typeof value.value === "number" ? value.value : NaN,
-              property.units,
-              property.unitsPosition
-            );
-            break;
+      values:
+        property.propertyValues?.map((value) => {
+          let formattedName: string;
+          switch (property.type) {
+            case "NUMERIC":
+              formattedName = formatNumericValue(
+                typeof value.value === "number" ? value.value : NaN,
+                property.units,
+                property.unitPosition
+              );
+              break;
 
-          case "METRIC":
-            formattedName = formatMetricValue(
-              typeof value.value === "number" ? value.value : NaN,
-              property.units
-            );
-            break;
+            case "METRIC":
+              formattedName = formatMetricValue(
+                typeof value.value === "number" ? value.value : NaN,
+                property.units
+              );
+              break;
 
-          case "IMPERIAL":
-            formattedName = formatImperialValue(
-              typeof value.value === "number" ? value.value : NaN,
-              property.units,
-              32 // precision
-            );
-            break;
+            case "IMPERIAL":
+              formattedName = formatImperialValue(
+                typeof value.value === "number" ? value.value : NaN,
+                property.units,
+                32 // precision
+              );
+              break;
 
-          default:
-            formattedName = value.value.toString();
-        }
-        return {
-          name: formattedName,
-          value: value.value,
-          selected: false,
-        };
-      }),
+            default:
+              formattedName = value.value.toString();
+          }
+          return {
+            name: formattedName,
+            value: value.value,
+            selected: false,
+          };
+        }) ?? [],
     }));
 
     setFilters(transformedFilters);

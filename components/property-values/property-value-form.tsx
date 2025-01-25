@@ -70,6 +70,9 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
     watch,
   } = useForm<PropertyValueFormData>({
     resolver: zodResolver(propertyValueSchema),
+    defaultValues: {
+      propertyId: properties.length > 0 ? properties[0].id : "",
+    },
   });
 
   const submit: SubmitHandler<PropertyValueFormData> = async (data) => {
@@ -115,6 +118,12 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
     (prop) => prop.id === selectedPropertyId
   );
 
+  console.log("Selected property id:");
+  console.log(selectedPropertyId);
+
+  console.log("Selected property:");
+  console.log(selectedProperty);
+
   return (
     <Form onSubmit={handleSubmit(submit)}>
       <FormRow>
@@ -126,13 +135,15 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
           isOptional={false}
         />
 
-        {selectedProperty?.type === "NUMERIC" &&
+        {selectedProperty &&
+          ["NUMERIC", "METRIC", "IMPERIAL"].includes(selectedProperty.type) &&
           selectedProperty.units &&
           selectedProperty.unitPosition === "PREFIX" && (
             <span>{selectedProperty.units}</span>
           )}
         <TextInput register={register} fieldName="value" errors={errors} />
-        {selectedProperty?.type === "NUMERIC" &&
+        {selectedProperty &&
+          ["NUMERIC", "METRIC", "IMPERIAL"].includes(selectedProperty.type) &&
           selectedProperty.units &&
           selectedProperty.unitPosition === "SUFFIX" && (
             <span>{selectedProperty.units}</span>

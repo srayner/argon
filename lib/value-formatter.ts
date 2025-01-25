@@ -10,17 +10,20 @@ export const formatNumericValue = (
   }
 
   if (unitPosition === "PREFIX") {
-    return `${units} ${value}`;
+    return `${units}${value}`;
   }
 
   if (unitPosition === "SUFFIX") {
-    return `${value} ${units}`;
+    return `${value}${units}`;
   }
 
   return value.toString();
 };
 
-export const formatMetricValue = (value: number, units: string): string => {
+export const formatMetricValue = (
+  value: number,
+  units: string | null
+): string => {
   const prefixes = [
     { factor: 1e12, prefix: "T" }, // Tera (10^12)
     { factor: 1e9, prefix: "G" }, // Giga (10^9)
@@ -47,10 +50,12 @@ export const formatMetricValue = (value: number, units: string): string => {
   const formattedValue =
     scaledValue % 1 === 0 ? scaledValue.toFixed(0) : scaledValue.toFixed(1);
 
-  return `${formattedValue} ${selectedPrefix}${units}`;
+  return `${formattedValue}${selectedPrefix}${units}`;
 };
 
 const gcd = (a: number, b: number): number => {
+  a = Math.abs(a);
+  b = Math.abs(b);
   return b === 0 ? a : gcd(b, a % b);
 };
 
@@ -70,22 +75,23 @@ const decimalToFraction = (
 
 export const formatImperialValue = (
   value: number,
+  units: string | null,
   precision: 8 | 16 | 32 = 8
 ): string => {
   const wholeNumber = Math.floor(value);
   const fractionalPart = value - wholeNumber;
 
   if (fractionalPart === 0) {
-    return `${wholeNumber}"`;
+    return `${wholeNumber}${units}`;
   }
 
   const fraction = decimalToFraction(fractionalPart, precision);
 
   if (wholeNumber > 0) {
-    return `${wholeNumber} ${fraction}"`;
+    return `${wholeNumber}-${fraction}${units}`;
   }
 
-  return `${fraction}"`;
+  return `${fraction}${units}`;
 };
 
 const formatPropertyValue = (propertyValue: PropertyValue): string => {

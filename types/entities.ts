@@ -55,6 +55,10 @@ export interface Property {
   categoryId: string;
   createdAt: string;
   updatedAt: string;
+  propertyValues?: Array<{
+    value: string | number;
+    count: number;
+  }>;
 }
 
 export interface PropertyValue {
