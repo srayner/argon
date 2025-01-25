@@ -1,5 +1,8 @@
 import { number } from "zod";
 
+export type PropertyType = "STRING" | "NUMERIC" | "METRIC" | "IMPERIAL";
+export type UnitPosition = "PREFIX" | "SUFFIX";
+
 export interface Category {
   id: string;
   code: string;
@@ -46,9 +49,9 @@ export interface Product {
 export interface Property {
   id: string;
   name: string;
-  type: string;
+  type: PropertyType;
   units: string | null;
-  unitPosition: string;
+  unitPosition: UnitPosition;
   categoryId: string;
   createdAt: string;
   updatedAt: string;
@@ -61,6 +64,11 @@ export interface PropertyValue {
   productId: number;
   propertyId: string;
   property: Property;
+}
+
+export interface AggregatedPropertyValue {
+  value: string | number;
+  count: number;
 }
 
 export interface Supplier {

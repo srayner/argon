@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import ListBox, { ListBoxOption } from "@/components/ui/listbox";
 import { Button } from "@/components/ui/button";
-
+import {
+  formatNumericValue,
+  formatMetricValue,
+  formatImperialValue,
+} from "@/lib/value-formatter";
 export interface Filter {
   property: string;
   type: string;
@@ -39,11 +43,41 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
       name: property.name,
       type: property.type,
       width: "",
-      values: property.propertyValues.map((value) => ({
-        name: value.value.toString(),
-        value: value.value,
-        selected: false,
-      })),
+      values: property.propertyValues.map((value) => {
+        let formattedName: string;
+        switch (property.type) {
+          case "NUMERIC":
+            formattedName = formatNumericValue(
+              typeof value.value === "number" ? value.value : NaN,
+              property.units,
+              property.unitsPosition
+            );
+            break;
+
+          case "METRIC":
+            formattedName = formatMetricValue(
+              typeof value.value === "number" ? value.value : NaN,
+              property.units
+            );
+            break;
+
+          case "IMPERIAL":
+            formattedName = formatImperialValue(
+              typeof value.value === "number" ? value.value : NaN,
+              property.units,
+              32 // precision
+            );
+            break;
+
+          default:
+            formattedName = value.value.toString();
+        }
+        return {
+          name: formattedName,
+          value: value.value,
+          selected: false,
+        };
+      }),
     }));
 
     setFilters(transformedFilters);
