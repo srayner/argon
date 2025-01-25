@@ -8,7 +8,12 @@ export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
     const searchTerm = url.searchParams.get("search") || "";
-    const searchFields = ["name", "manufacturerPartNo", "supplierPartNo"];
+    const searchFields = [
+      "name",
+      "manufacturerPartNo",
+      "supplierPartNo",
+      "location",
+    ];
     const searchObject = createSearchObject(searchFields, searchTerm);
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const pageSize = parseInt(url.searchParams.get("pageSize") || "10", 10);

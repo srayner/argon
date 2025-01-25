@@ -76,6 +76,11 @@ const Products: NextPage<ProductsPageProps> = ({ params }) => {
       cellStyle: { textAlign: "right" },
       flex: 1,
     },
+    {
+      header: "Location",
+      field: "location",
+      flex: 1,
+    },
   ];
 
   useEffect(() => {
