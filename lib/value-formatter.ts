@@ -109,7 +109,7 @@ const formatPropertyValue = (propertyValue: PropertyValue): string => {
       return formatMetricValue(valueNumeric, property.units || "");
 
     case "IMPERIAL":
-      return formatImperialValue(valueNumeric, 32);
+      return formatImperialValue(valueNumeric, property.units, 32);
 
     default:
       return valueString;
