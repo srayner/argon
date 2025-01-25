@@ -45,7 +45,7 @@ const PropertyValuesCard: React.FC<PropertyValuesCardProps> = ({
               <dd className="text-left flex items-center space-x-4">
                 {/* Category Value */}
                 <span className="flex-grow">
-                  {propertyValue.property.type === "NUMERIC" &&
+                  {propertyValue.property.type !== "STRING" &&
                     propertyValue.property.units &&
                     propertyValue.property.unitPosition === "PREFIX" && (
                       <span>{propertyValue.property.units}</span>
@@ -53,9 +53,7 @@ const PropertyValuesCard: React.FC<PropertyValuesCardProps> = ({
                   {propertyValue.property.type === "STRING"
                     ? propertyValue.valueString
                     : propertyValue.valueNumeric}
-                  {["NUMERIC", "METRIC"].includes(
-                    propertyValue.property.type
-                  ) &&
+                  {propertyValue.property.type !== "STRING" &&
                     propertyValue.property.units &&
                     propertyValue.property.unitPosition === "SUFFIX" && (
                       <span>{propertyValue.property.units}</span>
