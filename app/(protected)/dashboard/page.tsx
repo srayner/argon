@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import {
   FcFactory,
+  FcOrganization,
   FcShipped,
   FcPackage,
   FcGallery,
@@ -37,6 +38,14 @@ export default function Home() {
             text="Products belong to categories."
             count={data && data.categories.count}
             testid="categories-count"
+          />
+          <Card
+            href="/dashboard/locations"
+            icon={FcOrganization}
+            title="Locations"
+            text="Products can be stocked in multiple Locations."
+            count={data && data.locations.count}
+            testid="locations-count"
           />
           <Card
             href="/dashboard/manufacturers"

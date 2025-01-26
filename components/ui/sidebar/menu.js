@@ -12,6 +12,10 @@ export function Menu() {
       url: "/dashboard/categories",
     },
     {
+      caption: "Locations",
+      url: "/dashboard/locations",
+    },
+    {
       caption: "Manufacturers",
       url: "/dashboard/manufacturers",
     },

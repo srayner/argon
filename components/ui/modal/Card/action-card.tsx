@@ -44,7 +44,7 @@ interface CardBodyProps {
 }
 
 const CardBody: React.FC<CardBodyProps> = ({ children }) => {
-  return <div className="p-4 h-full">{children}</div>;
+  return <div className="p-4">{children}</div>;
 };
 
 export { CardHeader, CardBody };

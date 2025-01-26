@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
       );
     }
     console.log(error);
-    return NextResponse.json({ error: "An error occurred" }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
@@ -76,6 +76,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(createdLocation, { status: 201 });
   } catch (error) {
+    console.log(error);
     if (error instanceof PrismaClientKnownRequestError) {
       switch (error.code) {
         case "P2002":
@@ -95,6 +96,6 @@ export async function POST(request: NextRequest) {
           );
       }
     }
-    return NextResponse.json({ error: "An error occurred" }, { status: 500 });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }

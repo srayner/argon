@@ -19,6 +19,15 @@ export interface Image {
   name: string;
 }
 
+export interface Location {
+  id: string;
+  code: string | null;
+  name: string;
+  parent: Location | null;
+  children: Location[];
+  image?: Image;
+}
+
 export interface Manufacturer {
   id: number;
   name: string;
