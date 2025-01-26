@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Prisma Schema
 
 generator client {
   provider = "prisma-client-js"
@@ -46,8 +42,8 @@ model User {
   role          UserRole       @default(USER)
   accounts      Account[]
 
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Account {
@@ -74,104 +70,137 @@ model Account {
 }
 
 model Category {
-  id            String         @id @default(cuid())
-  code          String?        @unique @db.VarChar(20)
-  name          String?        @unique @db.VarChar(40)
-  status        ActiveStatus?  @default(ACTIVE)
-  parentId      String?
-  parent        Category?      @relation("ParentChild", fields: [parentId], references: [id])
-  children      Category[]     @relation("ParentChild")
-  depth         Int?
-  fullPath      String?        @db.VarChar(341)
-  products      Product[]
-  properties    Property[]
-  image         Image?        @relation(fields: [imageId], references: [id])
-  imageId       Int?
+  id                 String         @id @default(cuid())
+  code               String?        @unique @db.VarChar(20)
+  name               String?        @unique @db.VarChar(40)
+  status             ActiveStatus?  @default(ACTIVE)
+  parentId           String?
+  parent             Category?      @relation("ParentChild", fields: [parentId], references: [id])
+  children           Category[]     @relation("ParentChild")
+  depth              Int?
+  fullPath           String?        @db.VarChar(341)
+  products           Product[]
+  properties         Property[]
+  image              Image?         @relation(fields: [imageId], references: [id])
+  imageId            Int?
   
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 
   @@index([parentId])
 }
 
 model Image {
-  id           Int            @id @default(autoincrement())
-  href         String         @db.VarChar(255)
-  name         String         @db.VarChar(128)
-  category     Category[]
-  product      Product[]
-  supplier     Supplier[]
-  manufacturer Manufacturer[]
+  id                 Int            @id @default(autoincrement())
+  href               String         @db.VarChar(255)
+  name               String         @db.VarChar(128)
+  category           Category[]
+  product            Product[]
+  supplier           Supplier[]
+  manufacturer       Manufacturer[]
 
-  createdAt DateTime @default(now())
+  createdAt          DateTime       @default(now())
+}
+
+model Location {
+  id                 String         @id @default(cuid())
+  name               String         @db.VarChar(40)
+  parentId           String?
+  parent             Location?      @relation("ParentChild", fields: [parentId], references: [id])
+  children           Location[]     @relation("ParentChild")
+  depth              Int
+  fullPath           String         @db.VarChar(341)
+  stock              Stock[]
+  
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@index([parentId])
 }
 
 model Product {
-  id                 Int           @id @default(autoincrement())
-  name               String        @db.VarChar(128)
-  category           Category?     @relation(fields: [categoryId], references: [id])
+  id                 Int            @id @default(autoincrement())
+  name               String         @db.VarChar(128)
+  category           Category?      @relation(fields: [categoryId], references: [id])
   categoryId         String?
-  manufacturer       Manufacturer? @relation(fields: [manufacturerId], references: [id])
+  manufacturer       Manufacturer?  @relation(fields: [manufacturerId], references: [id])
   manufacturerId     Int?
-  manufacturerPartNo String?       @db.VarChar(64)
-  supplier           Supplier?     @relation(fields: [supplierId], references: [id])
+  manufacturerPartNo String?        @db.VarChar(64)
+  supplier           Supplier?      @relation(fields: [supplierId], references: [id])
   supplierId         Int?
-  supplierPartNo     String?       @db.VarChar(64)
+  supplierPartNo     String?        @db.VarChar(64)
   cost               Float?
   qtyInStock         Int
-  location           String?       @db.VarChar(64)
-  image              Image?        @relation(fields: [imageId], references: [id])
+  location           String?        @db.VarChar(64)
+  image              Image?         @relation(fields: [imageId], references: [id])
   imageId            Int?
   propertyValues     PropertyValue[]
+  stock              Stock[]
 
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 }
 
 model Property {
-  id                 String        @id @default(cuid())
+  id                 String         @id @default(cuid())
   name               String
   type               PropertyType
   units              String?
-  unitPosition       UnitPosition  @default(SUFFIX)
+  unitPosition       UnitPosition   @default(SUFFIX)
   categoryId         String
-  category           Category      @relation(fields: [categoryId], references: [id])
+  category           Category       @relation(fields: [categoryId], references: [id])
   propertyValues     PropertyValue[]
 
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime?     @updatedAt
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime?      @updatedAt
 }
 
 model PropertyValue {
-  id                 String        @id @default(cuid())
+  id                 String         @id @default(cuid())
   valueString        String?
   valueNumeric       Float?
   productId          Int
-  product            Product       @relation(fields: [productId], references: [id])
+  product            Product        @relation(fields: [productId], references: [id])
   propertyId         String
-  property           Property      @relation(fields: [propertyId], references: [id])
+  property           Property       @relation(fields: [propertyId], references: [id])
 
   @@unique([productId, propertyId])
 }
 
 model Manufacturer {
-  id                 Int           @id @default(autoincrement())
-  name               String        @db.VarChar(128)
-  image              Image?        @relation(fields: [imageId], references: [id])
+  id                 Int            @id @default(autoincrement())
+  name               String         @db.VarChar(128)
+  image              Image?         @relation(fields: [imageId], references: [id])
   imageId            Int?
   Product            Product[]
 
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+}
+
+model Stock {
+  id                 String         @id @default(cuid())
+  locationId         String
+  location           Location       @relation(fields: [locationId], references: [id])
+  productId          Int
+  product            Product        @relation(fields: [productId], references: [id])
+  qty                Int
+
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@unique([locationId, productId])
+  @@index([locationId])
+  @@index([productId])
 }
 
 model Supplier {
-  id                 Int           @id @default(autoincrement())
-  name               String        @db.VarChar(128)
-  image              Image?        @relation(fields: [imageId], references: [id])
+  id                 Int            @id @default(autoincrement())
+  name               String         @db.VarChar(128)
+  image              Image?         @relation(fields: [imageId], references: [id])
   imageId            Int?
   Product            Product[]
 
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 }
