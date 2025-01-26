@@ -13,6 +13,7 @@ import PropertyValueForm from "@/components/property-values/property-value-form"
 import LocationsCard from "@/components/locations/locations-card";
 import { Image, Product, PropertyValue } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
+import AddStockModal from "@/components/stock/addStockModal";
 
 type Params = { id: string };
 
@@ -27,6 +28,7 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isPropertyValueModalVisible, setIsPropertyValueModalVisible] =
     useState(false);
+  const [isAddStockModalVisible, setIsAddStockModalVisible] = useState(false);
 
   const handleEditClick = () => {
     router.push(`/dashboard/products/${productId}/edit`);
@@ -142,7 +144,9 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
           </DetailViewCard>
         </div>
 
-        <LocationsCard></LocationsCard>
+        <LocationsCard
+          onAdd={() => setIsAddStockModalVisible(true)}
+        ></LocationsCard>
         {product.category && (
           <PropertyValuesCard
             propertyValues={product.propertyValues}
@@ -174,6 +178,13 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
           />
         </Modal>
       )}
+
+      <AddStockModal
+        isVisible={isAddStockModalVisible}
+        onSubmit={() => {}}
+        onClose={() => setIsAddStockModalVisible(false)}
+        product={product}
+      />
     </>
   );
 };

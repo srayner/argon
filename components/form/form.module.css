@@ -25,6 +25,7 @@
 }
 
 .formItem input[type="text"],
+.formItem input[type="number"],
 .formItem select {
   width: 300px;
   height: 32px;
