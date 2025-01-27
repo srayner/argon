@@ -2,7 +2,7 @@
 
 ## Guides for developers
 
-![Project Folder Structure](./dev/project-folder-structure)
+[Project Folder Structure](./dev/project-folder-structure.md)
 
 ## Database Schema
 
