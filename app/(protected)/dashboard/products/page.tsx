@@ -8,7 +8,7 @@ import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "../../../ui/datagrid/datagrid";
 import Header from "../../../ui/header/header";
-import styles from "./page.module.css";
+import SearchInput from "@/components/ui/SearchInput";
 
 type Params = { id: string };
 
@@ -110,13 +110,7 @@ const Products: NextPage<ProductsPageProps> = ({ params }) => {
     <>
       <Header>
         <div>Products</div>
-        <label className={styles.searchLabel}>Search</label>
-        <input
-          className={styles.searchInput}
-          type="text"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
+        <SearchInput handleSearchChange={handleSearchChange} />
         <Button color="primary" href="/dashboard/products/add">
           Add
         </Button>

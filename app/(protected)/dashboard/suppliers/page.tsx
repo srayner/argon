@@ -6,7 +6,7 @@ import { ICellRendererParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "../../../ui/datagrid/datagrid";
 import Header from "../../../ui/header/header";
-import styles from "./page.module.css";
+import SearchInput from "@/components/ui/SearchInput";
 
 export default function SuppliersPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,12 +36,7 @@ export default function SuppliersPage() {
     <>
       <Header>
         <div>Suppliers</div>
-        <label className={styles.searchLabel}>Search</label>
-        <input
-          className={styles.searchInput}
-          type="text"
-          onChange={handleSearchChange}
-        />
+        <SearchInput handleSearchChange={handleSearchChange} />
         <Button color="primary" href="/dashboard/suppliers/add">
           Add
         </Button>

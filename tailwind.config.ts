@@ -16,6 +16,13 @@ const config = {
     },
     extend: {
       colors: {
+        // standard argon colours
+        label: "#333333",
+        inputBorder: "#D1D5DB",
+        inputText: "#111827",
+        focusRing: "#2563EB",
+
+        // probably from shadcn
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

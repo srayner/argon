@@ -6,7 +6,7 @@ import { ICellRendererParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "../../../ui/datagrid/datagrid";
 import Header from "../../../ui/header/header";
-import SearchInput from "../../../ui/actionbar/searchInput";
+import SearchInput from "@/components/ui/SearchInput";
 
 export default function LocationsPage() {
   const [searchTerm, setSearchTerm] = useState("");
