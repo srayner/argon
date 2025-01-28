@@ -1,3 +1,4 @@
+import { Hepta_Slab } from "next/font/google";
 import type { Config } from "tailwindcss";
 
 const { fontFamily } = require("tailwindcss/defaultTheme");
@@ -21,6 +22,7 @@ const config = {
         inputBorder: "#D1D5DB",
         inputText: "#111827",
         focusRing: "#2563EB",
+        neutral: "hsl(var(--neutral))",
 
         // probably from shadcn
         border: "hsl(var(--border))",

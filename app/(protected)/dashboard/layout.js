@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { signOut } from "@/auth";
 import { Menu } from "@/components/ui/sidebar/menu";
-import Breadcrumbs from "@/app/ui/breadcrumbs/breadcrumbs";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import styles from "./layout.module.css";
 
 export default function DashboardLayout({ children }) {
@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }) {
         <Menu />
       </section>
       <main className={styles.main}>
-        <Breadcrumbs />
+        <Breadcrumb />
         <Suspense>{children}</Suspense>
       </main>
     </div>
