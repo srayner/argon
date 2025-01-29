@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
-import SubmitContainer from "@/app/ui/submit-container/submit-container";
+import SubmitContainer from "@/components/form/SubmitContainer";
 import styles from "./page.module.css";
 
 interface LocationEditPageProps {

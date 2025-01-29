@@ -1,11 +1,12 @@
-import Select from "@/components/form/select";
-import TextInput from "@/components/form/text-input";
-import NumberInput from "../form/numberInput";
+import React from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, useForm } from "react-hook-form";
-import SubmitContainer from "@/app/ui/submit-container/submit-container";
 import Button from "@/app/ui/button/button";
+import NumberInput from "../form/numberInput";
+import Select from "@/components/form/select";
+import SubmitContainer from "@/components/form/SubmitContainer";
+import TextInput from "@/components/form/text-input";
 
 interface AddStockFormProps {
   productId: number;

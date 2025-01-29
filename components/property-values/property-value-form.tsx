@@ -4,11 +4,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Form from "@/components/form/form";
+import FormRow from "@/components/form/form-row";
 import Select from "@/components/form/select";
 import TextInput from "@/components/form/text-input";
-import SubmitContainer from "@/app/ui/submit-container/submit-container";
+import SubmitContainer from "@/components/form/SubmitContainer";
 import { Property } from "@/types/entities";
-import FormRow from "@/components/form/form-row";
 
 interface PropertyValueFormProps {
   productId: number;

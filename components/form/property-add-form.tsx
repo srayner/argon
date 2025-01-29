@@ -1,10 +1,10 @@
-import Select from "@/components/form/select";
-import TextInput from "@/components/form/text-input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
-import SubmitContainer from "@/app/ui/submit-container/submit-container";
 import Button from "@/app/ui/button/button";
+import Select from "@/components/form/select";
+import SubmitContainer from "@/components/form/SubmitContainer";
+import TextInput from "@/components/form/text-input";
 
 interface PropertyAddFormProps {
   categoryId: string;
