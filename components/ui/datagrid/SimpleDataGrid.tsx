@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import DeleteCellRenderer from "./delete-cell-renderer";
+import DeleteCellRenderer from "./DeleteCellRenderer";
 import { any, number } from "zod";
 
 interface SimpleDataGridProps {

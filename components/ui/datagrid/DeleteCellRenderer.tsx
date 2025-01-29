@@ -26,7 +26,7 @@ const DeleteCellRenderer: React.FC<DeleteCellRendererProps> = ({
       onClick={handleDelete}
       style={{ border: "none", background: "transparent" }}
     >
-      <MdDelete size={20} />
+      <MdDelete className="text-red-400 hover:text-red-600" size={20} />
     </button>
   );
 };
