@@ -2,7 +2,7 @@
 
 import React from "react";
 import { MdAddCircle, MdEdit, MdDelete } from "react-icons/md";
-import SimpleDataGrid from "../../app/ui/datagrid/simple-data-grid";
+import SimpleDataGrid from "../ui/datagrid/SimpleDataGrid";
 import { CardHeader, CardBody } from "../ui/modal/Card/action-card";
 
 interface PropertiesLstProps {

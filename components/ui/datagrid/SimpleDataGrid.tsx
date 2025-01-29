@@ -8,7 +8,7 @@ import { any, number } from "zod";
 interface SimpleDataGridProps {
   columnDefs: any;
   rowData: any;
-  rowHeight: number;
+  rowHeight?: number;
 }
 
 const SimpleDataGrid: React.FC<SimpleDataGridProps> = ({

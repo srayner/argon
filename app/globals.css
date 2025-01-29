@@ -123,3 +123,8 @@ a:hover {
 .ag-header-row {
   font-weight: 700 !important;
 }
+
+.customGrid .ag-root-wrapper {
+  border: none;
+  border-radius: 0;
+}
