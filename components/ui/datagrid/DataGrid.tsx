@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
 export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
-  const [ gridApi, setGridApi ] = useState(null);
+  const [gridApi, setGridApi] = useState(null);
 
   const fetchData = async (page, pageSize, sortParams, successCallback) => {
     const response = await fetch(
@@ -16,11 +16,13 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
   };
 
   const buildSortParams = (api) => {
-    const sortedColumns = api.getColumnState().filter(s => s.sort !== null);
-    return sortedColumns.map((column) => {
-      const direction = column.sort === 'desc' ? '-' : '';
-      return `${direction}${column.colId}`;
-    }).join(',');
+    const sortedColumns = api.getColumnState().filter((s) => s.sort !== null);
+    return sortedColumns
+      .map((column) => {
+        const direction = column.sort === "desc" ? "-" : "";
+        return `${direction}${column.colId}`;
+      })
+      .join(",");
   };
 
   const onGridReady = (params) => {
@@ -35,7 +37,7 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
         fetchData(page, pageSize, sortParams, params.successCallback);
       },
     };
-    
+
     params.api.setGridOption("datasource", dataSource);
     params.api.setGridOption(
       "cacheBlockSize",
@@ -63,7 +65,7 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
           fetchData(page, pageSize, sortParams, params.successCallback);
         },
       };
-      
+
       gridApi.setGridOption("datasource", dataSource);
     }
   }, [searchTerm, gridApi]);
@@ -83,4 +85,3 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
     </div>
   );
 }
-

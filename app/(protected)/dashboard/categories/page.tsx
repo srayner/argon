@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import Link from "next/link";
 import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
-import DataGrid from "../../../ui/datagrid/datagrid";
+import DataGrid from "@/components/ui/datagrid/DataGrid";
 import Header from "../../../ui/header/header";
 import SearchInput from "@/components/ui/SearchInput";
 
