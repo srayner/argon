@@ -1,14 +1,19 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "../../../ui/header/header";
+import Button from "@/app/ui/button/button";
 
 const ImagesPage = () => {
   const [file, setFile] = useState<File>();
+  const [loading, setLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onsubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
+
+    setLoading(true);
 
     try {
       const data = new FormData();
@@ -19,9 +24,14 @@ const ImagesPage = () => {
         body: data,
       });
 
+      setFile(undefined);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+
       if (!res.ok) throw new Error(await res.text());
     } catch (e: any) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,19 +40,24 @@ const ImagesPage = () => {
       <Header>
         <div>Images</div>
       </Header>
-      <form onSubmit={onsubmit}>
+      <form onSubmit={onsubmit} className="w-[500px]">
         <label htmlFor="file-input">Upload file:</label>
         <input
+          ref={fileInputRef}
           id="file-input"
           type="file"
           name="file"
           onChange={(e) => setFile(e.target.files?.[0])}
         />
-        <input
-          type="submit"
-          value="Upload"
-          className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-        />
+        {file && (
+          <img
+            src={URL.createObjectURL(file)}
+            alt="Selected preview"
+            className="mt-2 max-w-full h-auto"
+          />
+        )}
+
+        <Button type="submit">{loading ? "Uploading..." : "Upload"}</Button>
       </form>
     </>
   );
