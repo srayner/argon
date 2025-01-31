@@ -7,6 +7,10 @@
 }
 
 .formVertical {
+  width: 500px;
+}
+
+.formVertical {
   display: flex;
   flex-direction: column;
   gap: 10px;
