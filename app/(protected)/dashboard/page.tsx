@@ -1,6 +1,5 @@
 "use client";
 
-import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import {
   FcFactory,
@@ -28,7 +27,7 @@ export default function Home() {
   return (
     <main>
       <div>
-        <h1 className={styles.heading}>Stock Control</h1>
+        <h1 className="mb-5">Stock Control</h1>
 
         <div className="grid grid-cols-2 gap-4">
           <Card
