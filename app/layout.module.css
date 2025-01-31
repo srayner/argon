@@ -16,14 +16,6 @@
   padding: 20px;
 }
 
-.sidebar {
-  background-color: #05668d;
-  color: white;
-  grid-column: 1 / 2;
-  grid-row: 1 / 3;
-  padding: 10px;
-}
-
 .main {
   background-color: var(--background-color);
   padding: 20px;

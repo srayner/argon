@@ -1,4 +1,3 @@
-import { Hepta_Slab } from "next/font/google";
 import type { Config } from "tailwindcss";
 
 const { fontFamily } = require("tailwindcss/defaultTheme");
@@ -18,6 +17,9 @@ const config = {
     extend: {
       colors: {
         // standard argon colours
+        primaryColor: "var(--primary-color)",
+        backgroundColor: "var(--background-color)",
+        seperatorColor: "var(--seperator-color)",
         label: "#333333",
         inputBorder: "#D1D5DB",
         inputText: "#111827",
