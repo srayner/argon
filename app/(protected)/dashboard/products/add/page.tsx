@@ -8,11 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import SubmitContainer from "@/components/form/SubmitContainer";
+import Form from "@/components/form/form";
 import Select from "@/components/form/select";
 import NumberInput from "@/components/form/input/NumberInput";
 import TextInput from "@/components/form/input/TextInput";
-
-import Form from "@/components/form/form";
 
 const ProductAddPage: React.FC = () => {
   const addProductSchema = z.object({

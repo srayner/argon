@@ -6,9 +6,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
+import Form from "@/components/form/form";
 import Header from "@/app/ui/header/header";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import styles from "./page.module.css";
+import Select from "@/components/form/select";
+import NumberInput from "@/components/form/input/NumberInput";
+import TextInput from "@/components/form/input/TextInput";
 
 interface ProductEditPageProps {
   params: {
@@ -57,7 +60,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    const response = await fetch(`/api/products/${productId}`, {
+    await fetch(`/api/products/${productId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -118,168 +121,73 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
   return (
     <>
       <Header>Edit Product</Header>
-      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formItem}>
-          <label>Name</label>
-          <div>
-            <input {...register("name")} type="text" autoComplete="off" />
-            {errors.name && (
-              <p className={styles.errorMessage}>{`${errors.name.message}`}</p>
-            )}
-          </div>
-        </div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TextInput
+          label={"Name"}
+          register={register}
+          fieldName={"name"}
+          errors={errors}
+        />
 
-        <div className={styles.formItem}>
-          <label>Category</label>
-          <select
-            {...register("categoryId", {
-              setValueAs: (value) => (!value ? null : value),
-            })}
-          >
-            <option key="!" value="">
-              Unknown
-            </option>
-            {categories.map((c) => {
-              return (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              );
-            })}
-          </select>
-          {errors.categoryId && (
-            <p
-              className={styles.errorMessage}
-            >{`${errors.categoryId.message}`}</p>
-          )}
-        </div>
+        <Select
+          label={"Category"}
+          register={register}
+          fieldName={"categoryId"}
+          isValueNumeric={false}
+          options={categories}
+        />
 
-        <div className={styles.formItem}>
-          <label>Manufacturer</label>
-          <select
-            {...register("manufacturerId", {
-              setValueAs: (value) => (!value ? null : Number(value)),
-            })}
-          >
-            <option key="!" value="">
-              Unknown
-            </option>
-            {manufacturers.map((m) => {
-              return (
-                <option key={m.id} value={m.id}>
-                  {m.name}
-                </option>
-              );
-            })}
-          </select>
-          {errors.manufacturerId && (
-            <p
-              className={styles.errorMessage}
-            >{`${errors.manufacturerId.message}`}</p>
-          )}
-        </div>
+        <Select
+          label={"Manufacturer"}
+          register={register}
+          fieldName={"manufacturerId"}
+          isValueNumeric={true}
+          options={manufacturers}
+        />
 
-        <div className={styles.formItem}>
-          <label>Manufactuer Part No</label>
-          <div>
-            <input
-              {...register("manufacturerPartNo")}
-              type="text"
-              autoComplete="off"
-            />
-            {errors.manufacturerPartNo && (
-              <p
-                className={styles.errorMessage}
-              >{`${errors.manufacturerPartNo.message}`}</p>
-            )}
-          </div>
-        </div>
+        <TextInput
+          label={"Manufacturer Part No"}
+          register={register}
+          fieldName={"manufacturerPartNo"}
+          errors={errors}
+        />
 
-        <div className={styles.formItem}>
-          <label>Supplier</label>
-          <select
-            {...register("supplierId", {
-              setValueAs: (value) => (!value ? null : Number(value)),
-            })}
-          >
-            <option key="!" value="">
-              Unknown
-            </option>
-            {suppliers.map((s) => {
-              return (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              );
-            })}
-          </select>
-          {errors.supplierId && (
-            <p
-              className={styles.errorMessage}
-            >{`${errors.supplierId.message}`}</p>
-          )}
-        </div>
+        <Select
+          label={"Supplier"}
+          register={register}
+          fieldName={"supplierId"}
+          isValueNumeric={true}
+          options={suppliers}
+        />
 
-        <div className={styles.formItem}>
-          <label>Supplier Part No</label>
-          <div>
-            <input
-              {...register("supplierPartNo")}
-              type="text"
-              autoComplete="off"
-            />
-            {errors.supplierPartNo && (
-              <p
-                className={styles.errorMessage}
-              >{`${errors.supplierPartNo.message}`}</p>
-            )}
-          </div>
-        </div>
+        <TextInput
+          label={"Supplier Part No"}
+          register={register}
+          fieldName={"supplierPartNo"}
+          errors={errors}
+        />
 
-        <div className={styles.formItem}>
-          <label>Cost</label>
-          <div>
-            <input
-              {...register("cost", {
-                setValueAs: (v) =>
-                  v === "" || v === null ? null : parseFloat(v),
-              })}
-              type="text"
-              autoComplete="off"
-            />
-            {errors.cost && (
-              <p className={styles.errorMessage}>{`${errors.cost.message}`}</p>
-            )}
-          </div>
-        </div>
+        <NumberInput
+          label={"Cost"}
+          register={register}
+          fieldName={"cost"}
+          errors={errors}
+          isFloat={true}
+        />
 
-        <div className={styles.formItem}>
-          <label>Qty In Stock</label>
-          <div>
-            <input
-              {...register("qtyInStock", { valueAsNumber: true })}
-              type="text"
-              autoComplete="off"
-            />
-            {errors.qtyInStock && (
-              <p
-                className={styles.errorMessage}
-              >{`${errors.qtyInStock.message}`}</p>
-            )}
-          </div>
-        </div>
+        <NumberInput
+          label={"Qty In Stock"}
+          register={register}
+          fieldName={"qtyInStock"}
+          errors={errors}
+        />
 
-        <div className={styles.formItem}>
-          <label>Location</label>
-          <div>
-            <input {...register("location")} type="text" autoComplete="off" />
-            {errors.location && (
-              <p
-                className={styles.errorMessage}
-              >{`${errors.location.message}`}</p>
-            )}
-          </div>
-        </div>
+        <TextInput
+          label={"Location"}
+          register={register}
+          fieldName={"location"}
+          errors={errors}
+        />
 
         <SubmitContainer>
           <Button color="secondary" href={`/dashboard/products/${productId}`}>
@@ -289,7 +197,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
             Edit
           </Button>
         </SubmitContainer>
-      </form>
+      </Form>
     </>
   );
 };
