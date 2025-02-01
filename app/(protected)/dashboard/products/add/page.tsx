@@ -8,9 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import styles from "./page.module.css";
 import Select from "@/components/form/select";
-import TextInput from "@/components/form/text-input";
+import NumberInput from "@/components/form/input/NumberInput";
+import TextInput from "@/components/form/input/TextInput";
+
+import Form from "@/components/form/form";
 
 const ProductAddPage: React.FC = () => {
   const addProductSchema = z.object({
@@ -87,7 +89,7 @@ const ProductAddPage: React.FC = () => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    const response = await fetch("/api/products", {
+    await fetch("/api/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,13 +100,13 @@ const ProductAddPage: React.FC = () => {
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p className={styles.errorMessage}>{error}</p>;
+  if (error) return <p className="text-sm text-red-600">{error}</p>;
 
   return (
     <>
       <Header>Add Product</Header>
 
-      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           label={"Name"}
           register={register}
@@ -150,33 +152,20 @@ const ProductAddPage: React.FC = () => {
           errors={errors}
         />
 
-        <div className={styles.formItem}>
-          <label>Cost</label>
-          <input
-            {...register("cost", {
-              setValueAs: (v) =>
-                v === "" || v === null ? null : parseFloat(v),
-            })}
-            type="text"
-            autoComplete="off"
-          />
-        </div>
+        <NumberInput
+          label={"Cost"}
+          register={register}
+          fieldName={"cost"}
+          errors={errors}
+          isFloat={true}
+        />
 
-        <div className={styles.formItem}>
-          <label>Qty In Stock</label>
-          <div>
-            <input
-              {...register("qtyInStock", { valueAsNumber: true })}
-              type="text"
-              autoComplete="off"
-            />
-            {errors.qtyInStock && (
-              <p
-                className={styles.errorMessage}
-              >{`${errors.qtyInStock.message}`}</p>
-            )}
-          </div>
-        </div>
+        <NumberInput
+          label={"Qty In Stock"}
+          register={register}
+          fieldName={"qtyInStock"}
+          errors={errors}
+        />
 
         <TextInput
           label={"Location"}
@@ -193,7 +182,7 @@ const ProductAddPage: React.FC = () => {
             Add
           </Button>
         </SubmitContainer>
-      </form>
+      </Form>
     </>
   );
 };
