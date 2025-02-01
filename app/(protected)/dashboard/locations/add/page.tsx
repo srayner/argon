@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,8 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import styles from "./page.module.css";
-import { useEffect, useState } from "react";
+import Form from "@/components/form/form";
+import TextInput from "@/components/form/input/TextInput";
+import Select from "@/components/form/select/Select";
 
 const LocationAddPage: React.FC = () => {
   const addLocationSchema = z.object({
@@ -73,49 +75,37 @@ const LocationAddPage: React.FC = () => {
     router.push("/dashboard/locations");
   };
 
+  const parentOptions = [
+    { id: "", name: "None - root location" },
+    ...locations.map(({ id, name }) => ({ id, name })),
+  ];
+
   return (
     <>
       <Header>Add Location</Header>
-      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formItem}>
-          <label>Code</label>
-          <div>
-            <input {...register("code")} type="text" autoComplete="off" />
-            {errors.code && (
-              <p className={styles.errorMessage}>{`${errors.code.message}`}</p>
-            )}
-          </div>
-        </div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TextInput
+          fieldName="code"
+          label="Code"
+          register={register}
+          errors={errors}
+        />
 
-        <div className={styles.formItem}>
-          <label>Name</label>
-          <div>
-            <input {...register("name")} type="text" autoComplete="off" />
-            {errors.name && (
-              <p className={styles.errorMessage}>{`${errors.name.message}`}</p>
-            )}
-          </div>
-        </div>
+        <TextInput
+          fieldName="name"
+          label="Name"
+          register={register}
+          errors={errors}
+        />
 
-        <div className={styles.formItem}>
-          <label>Parent Location</label>
-          <select
-            {...register("parentId", {
-              setValueAs: (value) => (!value ? null : value),
-            })}
-          >
-            <option key="!" value="">
-              None - root parent
-            </option>
-            {locations.map((c) => {
-              return (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
+        <Select
+          label="Parent Location"
+          register={register}
+          fieldName="parentId"
+          isValueNumeric={false}
+          isOptional={false}
+          options={parentOptions}
+        />
 
         <SubmitContainer>
           <Button color="secondary" href="/dashboard/locations">
@@ -125,7 +115,7 @@ const LocationAddPage: React.FC = () => {
             Add
           </Button>
         </SubmitContainer>
-      </form>
+      </Form>
     </>
   );
 };

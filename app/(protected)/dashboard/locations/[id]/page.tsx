@@ -73,7 +73,7 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
   const productFields = [
     { label: "Code", value: location.code },
     { label: "Name", value: location.name },
-    { label: "Parent Locatoin", value: location.parent?.name },
+    { label: "Parent Location", value: location.parent?.name },
   ];
 
   return (
