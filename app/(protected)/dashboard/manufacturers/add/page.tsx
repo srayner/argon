@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,7 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import styles from "./page.module.css";
+import Form from "@/components/form/form";
+import TextInput from "@/components/form/input/TextInput";
 
 const ManufacturerAddPage: React.FC = () => {
   const addManufacturerSchema = z.object({
@@ -40,16 +42,13 @@ const ManufacturerAddPage: React.FC = () => {
   return (
     <>
       <Header>Add Manufacturer</Header>
-      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formItem}>
-          <label>Name</label>
-          <div>
-            <input {...register("name")} type="text" autoComplete="off" />
-            {errors.name && (
-              <p className={styles.errorMessage}>{`${errors.name.message}`}</p>
-            )}
-          </div>
-        </div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TextInput
+          fieldName="name"
+          label="Name"
+          register={register}
+          errors={errors}
+        />
 
         <SubmitContainer>
           <Button color="secondary" href="/dashboard/manufacturers">
@@ -59,7 +58,7 @@ const ManufacturerAddPage: React.FC = () => {
             Add
           </Button>
         </SubmitContainer>
-      </form>
+      </Form>
     </>
   );
 };

@@ -1,14 +1,15 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Header from "@/app/ui/header/header";
 import Button from "@/app/ui/button/button";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import styles from "./page.module.css";
+import Form from "@/components/form/form";
+import TextInput from "@/components/form/input/TextInput";
 
 interface ManufacturerEditPageProps {
   params: {
@@ -65,16 +66,13 @@ const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = ({
   return (
     <>
       <Header>Edit Manufacturer</Header>
-      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formItem}>
-          <label>Name</label>
-          <div>
-            <input {...register("name")} type="text" autoComplete="off" />
-            {errors.name && (
-              <p className={styles.errorMessage}>{`${errors.name.message}`}</p>
-            )}
-          </div>
-        </div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TextInput
+          fieldName="name"
+          label="Name"
+          register={register}
+          errors={errors}
+        />
 
         <SubmitContainer>
           <Button
@@ -87,7 +85,7 @@ const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = ({
             Edit
           </Button>
         </SubmitContainer>
-      </form>
+      </Form>
     </>
   );
 };
