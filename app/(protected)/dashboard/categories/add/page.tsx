@@ -99,6 +99,7 @@ const CategoryAddPage: React.FC = () => {
           register={register}
           fieldName="parentId"
           isValueNumeric={false}
+          isOptional={false}
           options={parentOptions}
         />
 
