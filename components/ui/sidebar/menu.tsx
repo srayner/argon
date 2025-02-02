@@ -40,11 +40,16 @@ export function Menu() {
           return (
             <li
               key={item.url}
-              className={`${styles.item} ${
-                item.url === currentPage ? styles.selected : ""
+              className={`text-base my-5 mx-5 list-none rounded-[8px] select-none hover:bg-hoverMenu ${
+                item.url === currentPage ? "bg-currentMenu" : ""
               }`}
             >
-              <Link href={item.url}>{item.caption}</Link>
+              <Link
+                href={item.url}
+                className="text-white no-underline block py-2 px-4 hover:text-white"
+              >
+                {item.caption}
+              </Link>
             </li>
           );
         })}

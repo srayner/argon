@@ -26,6 +26,11 @@ const config = {
         focusRing: "#2563EB",
         neutral: "hsl(var(--neutral))",
 
+        sideMenu: "hsl(200, 100%, 45%)",
+        sideMenuText: "hsl(195, 100%, 85%)",
+        currentMenu: "rgba(0, 0, 0, 0.2)",
+        hoverMenu: "rgba(0, 0, 0, 0.1)",
+
         // probably from shadcn
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
