@@ -1,10 +1,11 @@
 "use client";
 
+import { NextPage } from "next";
 import React, { useRef, useState } from "react";
 import Header from "../../../ui/header/header";
 import Button from "@/app/ui/button/button";
 
-const ImagesPage = () => {
+const ImagesPage: NextPage = () => {
   const [file, setFile] = useState<File>();
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
