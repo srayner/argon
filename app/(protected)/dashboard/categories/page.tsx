@@ -1,14 +1,15 @@
 "use client";
 
+import { NextPage } from "next";
 import { ChangeEvent, useState } from "react";
 import Link from "next/link";
-import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
+import { ICellRendererParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "@/components/ui/datagrid/DataGrid";
 import Header from "../../../ui/header/header";
 import SearchInput from "@/components/ui/SearchInput";
 
-export default function CategoriesPage() {
+const CategoriesPage: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const columnDefs = [
     { headerName: "Code", field: "code" },
@@ -65,4 +66,6 @@ export default function CategoriesPage() {
       />
     </>
   );
-}
+};
+
+export default CategoriesPage;

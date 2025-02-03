@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { NextPage } from "next";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -12,7 +13,7 @@ import Form from "@/components/form/form";
 import TextInput from "@/components/form/input/TextInput";
 import Select from "@/components/form/select/Select";
 
-const CategoryAddPage: React.FC = () => {
+const CategoryAddPage: NextPage = () => {
   const addCategorySchema = z.object({
     code: z.string(),
     name: z.string().min(1, { message: "Name is required." }),

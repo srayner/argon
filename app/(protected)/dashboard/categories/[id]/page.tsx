@@ -12,10 +12,8 @@ import PropertyModal from "@/components/properties/property-add-modal";
 import { Category, Image } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 
-type Params = { id: string };
-
 type CategoryDetailPageProps = {
-  params: Params;
+  params: { id: string };
 };
 
 const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
