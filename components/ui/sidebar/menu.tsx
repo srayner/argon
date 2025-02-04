@@ -40,13 +40,15 @@ export function Menu() {
           return (
             <li
               key={item.url}
-              className={`text-base my-5 mx-5 list-none rounded-[8px] select-none hover:bg-hoverMenu ${
-                item.url === currentPage ? "bg-currentMenu" : ""
+              className={`text-base my-5 mx-5 list-none select-none border-l-4 ${
+                item.url === currentPage
+                  ? "bg-gradient-to-r from-white/10 to-white/5 border-blue-500"
+                  : "border-transparent"
               }`}
             >
               <Link
                 href={item.url}
-                className="text-white no-underline block py-2 px-4 hover:text-white"
+                className="text-white text-opacity-60 no-underline block py-2 px-4 hover:text-white"
               >
                 {item.caption}
               </Link>
