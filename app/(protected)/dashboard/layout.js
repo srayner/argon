@@ -19,7 +19,7 @@ export default function DashboardLayout({ children }) {
         </form>
       </header>
       <section className="bg-sideMenu text-white col-span-1 row-span-2 p-2">
-        <h1 className="p-2 text-center">Argon</h1>
+        <h1 className="p-2 text-white">📦 Argon</h1>
         <Menu />
       </section>
       <main className="bg-backgroundColor p-5">
