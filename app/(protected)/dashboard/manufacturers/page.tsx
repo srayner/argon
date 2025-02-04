@@ -1,5 +1,6 @@
 "use client";
 
+import { NextPage } from "next";
 import { ChangeEvent, useState } from "react";
 import Link from "next/link";
 import { ICellRendererParams } from "ag-grid-community";
@@ -8,7 +9,7 @@ import DataGrid from "@/components/ui/datagrid/DataGrid";
 import Header from "../../../ui/header/header";
 import SearchInput from "@/components/ui/SearchInput";
 
-export default function ManufacturersPage() {
+const ManufacturersPage: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const columnDefs = [
     { headerName: "ID", field: "id" },
@@ -49,4 +50,6 @@ export default function ManufacturersPage() {
       />
     </>
   );
-}
+};
+
+export default ManufacturersPage;
