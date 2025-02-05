@@ -173,6 +173,58 @@ async function seedCategories(
   }
 }
 
+async function seedProducts() {
+  const manufacturers = await prisma.manufacturer.findMany({});
+  const suppliers = await prisma.supplier.findMany({});
+  const categories = await prisma.category.findMany({});
+
+  const productData = [
+    {
+      name: '8 x 1/2" PP/ST Zinc Screw',
+      category: "Mechanical",
+      qtyInStock: 10,
+    },
+    {
+      name: "SN74LS32 OR Gate",
+      supplier: "Global Supplies",
+      qtyInStock: 0,
+    },
+    {
+      name: "Special Connector",
+      manufacturer: "Solar Solutions",
+      qtyInStock: 5,
+    },
+    {
+      name: "100Ohm Resistor",
+      manufacturer: "Eagle Industries",
+      supplier: "Global Supplies",
+      category: "Through Hole Resistors",
+      qtyInStock: 4,
+    },
+  ];
+
+  for (const product of productData) {
+    const data = {
+      name: product.name,
+      qtyInStock: product.qtyInStock,
+      categoryId: findIdByName(categories, product.category),
+      supplierId: findIdByName(suppliers, product.supplier),
+      manufacturerId: findIdByName(manufacturers, product.manufacturer),
+    };
+    await prisma.product.create({ data });
+
+    console.log(`Product '${product.name}' created`);
+  }
+}
+
+function findIdByName<T extends { id: string | number; name?: string | null }>(
+  array: T[],
+  name: string | undefined
+): T["id"] | null {
+  const result = array.find((entity) => entity.name === name);
+  return result ? result.id : null;
+}
+
 // Main function to call all the seed functions
 async function main() {
   await clearData();
@@ -230,6 +282,7 @@ async function main() {
   await seedSuppliers();
   await seedLocations();
   await seedCategories(categoryHierarchy);
+  await seedProducts();
 
   console.log("All data has been seeded!");
 }
