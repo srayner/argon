@@ -1,12 +1,35 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
+import {
+  ColDef,
+  GridReadyEvent,
+  GridApi,
+  IGetRowsParams,
+  IDatasource,
+  PaginationChangedEvent,
+} from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
-export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
-  const [gridApi, setGridApi] = useState(null);
+interface DataGridProps {
+  columnDefs: ColDef[];
+  dataEndpoint: string;
+  searchTerm?: string;
+}
 
-  const fetchData = async (page, pageSize, sortParams, successCallback) => {
+const DataGrid: React.FC<DataGridProps> = ({
+  columnDefs,
+  dataEndpoint,
+  searchTerm,
+}) => {
+  const [gridApi, setGridApi] = useState<GridApi | null>(null);
+
+  const fetchData = async (
+    page: number,
+    pageSize: number,
+    sortParams: string,
+    successCallback: (rows: any[], lastRow: number | undefined) => void
+  ) => {
     const response = await fetch(
       `${dataEndpoint}?page=${page}&pageSize=${pageSize}&search=${searchTerm}&sort=${sortParams}`
     );
@@ -15,7 +38,7 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
     successCallback(data, lastRow);
   };
 
-  const buildSortParams = (api) => {
+  const buildSortParams = (api: GridApi) => {
     const sortedColumns = api.getColumnState().filter((s) => s.sort !== null);
     return sortedColumns
       .map((column) => {
@@ -25,27 +48,23 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
       .join(",");
   };
 
-  const onGridReady = (params) => {
-    setGridApi(params.api);
-    const api = params.api;
-    const dataSource = {
-      rowCount: null,
-      getRows: (params) => {
+  const onGridReady = (gridParams: GridReadyEvent) => {
+    setGridApi(gridParams.api);
+    const api = gridParams.api;
+    const dataSource: IDatasource = {
+      getRows: (rowParams: IGetRowsParams) => {
         const pageSize = api.paginationGetPageSize();
-        const page = Math.floor(params.startRow / pageSize) + 1;
+        const page = Math.floor(rowParams.startRow / pageSize) + 1;
         const sortParams = buildSortParams(api);
-        fetchData(page, pageSize, sortParams, params.successCallback);
+        fetchData(page, pageSize, sortParams, rowParams.successCallback);
       },
     };
 
-    params.api.setGridOption("datasource", dataSource);
-    params.api.setGridOption(
-      "cacheBlockSize",
-      params.api.paginationGetPageSize()
-    );
+    api.setGridOption("datasource", dataSource);
+    api.setGridOption("cacheBlockSize", api.paginationGetPageSize());
   };
 
-  const onPaginationChanged = (params) => {
+  const onPaginationChanged = (params: PaginationChangedEvent) => {
     if (params.newPageSize) {
       params.api.setGridOption(
         "cacheBlockSize",
@@ -56,13 +75,12 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
 
   useEffect(() => {
     if (gridApi) {
-      const dataSource = {
-        rowCount: null,
-        getRows: (params) => {
+      const dataSource: IDatasource = {
+        getRows: (rowParams: IGetRowsParams) => {
           const pageSize = gridApi.paginationGetPageSize();
-          const page = Math.floor(params.startRow / pageSize) + 1;
+          const page = Math.floor(rowParams.startRow / pageSize) + 1;
           const sortParams = buildSortParams(gridApi);
-          fetchData(page, pageSize, sortParams, params.successCallback);
+          fetchData(page, pageSize, sortParams, rowParams.successCallback);
         },
       };
 
@@ -84,4 +102,6 @@ export default function DataGrid({ columnDefs, dataEndpoint, searchTerm }) {
       />
     </div>
   );
-}
+};
+
+export default DataGrid;
