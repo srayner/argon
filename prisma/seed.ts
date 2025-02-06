@@ -88,7 +88,6 @@ async function seedSuppliers() {
   console.log("Suppliers have been seeded!");
 }
 
-// Function to seed locations with hierarchy (sequential creation)
 async function seedLocations() {
   const garage = await prisma.location.create({
     data: {
@@ -180,9 +179,19 @@ async function seedProducts() {
 
   const productData = [
     {
+      name: '8 x 3/8" PP/ST Zinc Screw',
+      category: "Mechanical",
+      qtyInStock: 100,
+    },
+    {
       name: '8 x 1/2" PP/ST Zinc Screw',
       category: "Mechanical",
-      qtyInStock: 10,
+      qtyInStock: 75,
+    },
+    {
+      name: '8 x 3/4" PP/ST Zinc Screw',
+      category: "Mechanical",
+      qtyInStock: 50,
     },
     {
       name: "SN74LS32 OR Gate",
@@ -195,11 +204,32 @@ async function seedProducts() {
       qtyInStock: 5,
     },
     {
-      name: "100Ohm Resistor",
+      name: "100 Ohm Resistor",
       manufacturer: "Eagle Industries",
       supplier: "Global Supplies",
       category: "Through Hole Resistors",
       qtyInStock: 4,
+    },
+    {
+      name: "220 Ohm Resistor",
+      manufacturer: "Eagle Industries",
+      supplier: "Global Supplies",
+      category: "Through Hole Resistors",
+      qtyInStock: 17,
+    },
+    {
+      name: "330 Ohm Resistor",
+      manufacturer: "Eagle Industries",
+      supplier: "Global Supplies",
+      category: "Through Hole Resistors",
+      qtyInStock: 10,
+    },
+    {
+      name: "470 Ohm Resistor",
+      manufacturer: "Eagle Industries",
+      supplier: "Global Supplies",
+      category: "Through Hole Resistors",
+      qtyInStock: 9,
     },
   ];
 
@@ -225,14 +255,23 @@ function findIdByName<T extends { id: string | number; name?: string | null }>(
   return result ? result.id : null;
 }
 
-// Main function to call all the seed functions
 async function main() {
   await clearData();
 
   const categoryHierarchy = [
     {
       name: "Mechanical",
-      children: [],
+      children: [
+        {
+          name: "Screws",
+          properties: [
+            { name: "Drive Type", type: "STRING" },
+            { name: "Head Type", type: "STRING" },
+            { name: "Thread", type: "NUMERIC" },
+            { name: "Length", type: "IMPERIAL" },
+          ],
+        },
+      ],
     },
     {
       name: "Electronic",
