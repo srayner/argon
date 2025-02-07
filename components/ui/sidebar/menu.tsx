@@ -10,26 +10,32 @@ export function Menu() {
     {
       caption: "Categories",
       url: "/dashboard/categories",
+      e2e: "categories-link",
     },
     {
       caption: "Locations",
       url: "/dashboard/locations",
+      e2e: "locations-link",
     },
     {
       caption: "Manufacturers",
       url: "/dashboard/manufacturers",
+      e2e: "manufacturers-link",
     },
     {
       caption: "Products",
       url: "/dashboard/products",
+      e2e: "products-link",
     },
     {
       caption: "Suppliers",
       url: "/dashboard/suppliers",
+      e2e: "suppliers-link",
     },
     {
       caption: "Images",
       url: "/dashboard/images",
+      e2e: "images-link",
     },
   ];
 
@@ -49,6 +55,7 @@ export function Menu() {
               <Link
                 href={item.url}
                 className="text-white text-opacity-60 no-underline block py-2 px-4 hover:text-white"
+                data-e2e={item.e2e}
               >
                 {item.caption}
               </Link>

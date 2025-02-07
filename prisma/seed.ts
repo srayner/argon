@@ -1,7 +1,59 @@
 import { PrismaClient } from "@prisma/client";
-import { clearData } from "./clearData";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
+
+async function clearData() {
+  // Models should be cleared in the correct order, dependencies first.
+  const models: (keyof PrismaClient)[] = [
+    "propertyValue",
+    "product",
+    "property",
+    "category",
+    "location",
+    "supplier",
+    "manufacturer",
+    "user",
+    "account",
+  ];
+
+  for (const model of models) {
+    await (prisma[model] as any).deleteMany({});
+  }
+
+  console.log("Data has been cleared!");
+}
+
+async function seedUsers() {
+  console.log("User Password: ", process.env.USER_PASSWORD_USER);
+  const hashedUserPassword = await bcrypt.hash(
+    process.env.USER_PASSWORD_USER || "",
+    10
+  );
+  const hashedAdminPassword = await bcrypt.hash(
+    process.env.USER_PASSWORD_ADMIN || "",
+    10
+  );
+
+  await prisma.user.createMany({
+    data: [
+      {
+        name: "Example User",
+        email: "user@example.com",
+        password: hashedUserPassword,
+        role: "USER",
+      },
+      {
+        name: "Admin User",
+        email: "admin@example.com",
+        password: hashedAdminPassword,
+        role: "ADMIN",
+      },
+    ],
+  });
+
+  console.log("Users have been created with hashed passwords!");
+}
 
 async function seedManufacturers() {
   const adjectives = [
@@ -256,8 +308,6 @@ function findIdByName<T extends { id: string | number; name?: string | null }>(
 }
 
 async function main() {
-  await clearData();
-
   const categoryHierarchy = [
     {
       name: "Mechanical",
@@ -317,11 +367,13 @@ async function main() {
     },
   ];
 
+  await clearData();
   await seedManufacturers();
   await seedSuppliers();
   await seedLocations();
   await seedCategories(categoryHierarchy);
   await seedProducts();
+  await seedUsers();
 
   console.log("All data has been seeded!");
 }
