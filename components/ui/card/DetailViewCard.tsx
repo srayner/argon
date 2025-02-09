@@ -19,7 +19,7 @@ export const DetailViewCard: React.FC<Props> = ({
       <CardHeader title="Details" actions={[]} />
       <CardBody>
         <div className="grid grid-cols-[300px,1fr]">
-          <div className="border-r border-r-[var(--seperator-color)] p-2 min-h-[240px]">
+          <div className="border-r border-r-[var(--seperator-color)] pr-4 min-h-[240px]">
             <EditableImage image={image} onImageChange={onImageChange} />
           </div>
           <div>{children}</div>
