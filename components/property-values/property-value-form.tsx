@@ -125,7 +125,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
   console.log(selectedProperty);
 
   return (
-    <Form onSubmit={handleSubmit(submit)}>
+    <Form onSubmit={handleSubmit(submit)} layout="horizontal">
       <FormRow>
         <Select
           register={register}
