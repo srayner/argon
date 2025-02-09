@@ -47,9 +47,11 @@ const ListBox: React.FC<ListBoxProps> = ({
   const sortedOptions = sort(options);
 
   return (
-    <div className={`mb-4 ${widthClass}`}>
-      <h3 className="font-bold text-sm mb-2 px-2">{label}</h3>
-      <div className="bg-white rounded p-2 w-full h-[176px] overflow-y-auto">
+    <>
+      <h3 className="font-bold text-sm mt-auto mb-2 px-2 row-start-1">
+        {label}
+      </h3>
+      <div className="bg-white rounded p-2 w-full h-[176px] overflow-y-auto row-start-2">
         <ul>
           {sortedOptions.map((option) => (
             <li
@@ -66,7 +68,7 @@ const ListBox: React.FC<ListBoxProps> = ({
           ))}
         </ul>
       </div>
-    </div>
+    </>
   );
 };
 

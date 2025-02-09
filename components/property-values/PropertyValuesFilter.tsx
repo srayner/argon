@@ -138,7 +138,7 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
 
   return (
     <div className="bg-gray-200 p-4">
-      <div className="flex space-x-4">
+      <div className="grid gap-x-4 mb-4">
         {filters.map((property, index) => (
           <ListBox
             key={index}
