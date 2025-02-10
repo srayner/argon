@@ -4,7 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import NumberInput from "../form/numberInput";
-import Select from "@/components/form/select";
+import FetchSelect from "@/components/form/select/FetchSelect";
 import SubmitContainer from "@/components/form/SubmitContainer";
 import TextInput from "@/components/form/text-input";
 
@@ -21,7 +21,7 @@ const AddStockForm: React.FC<AddStockFormProps> = ({
 }) => {
   const addStockSchema = z.object({
     productId: z.number(),
-    locationId: z.string(),
+    locationId: z.string({ message: "Location is required." }),
     qty: z
       .number({ message: "Qty is required." })
       .min(1, { message: "Quantity must be at least 1." })
@@ -57,13 +57,12 @@ const AddStockForm: React.FC<AddStockFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Select
+      <FetchSelect
         label={"Location"}
         register={register}
-        fieldName={"type"}
-        isValueNumeric={false}
-        options={mockLocation}
-        isOptional={false}
+        fieldName={"locationId"}
+        errors={errors}
+        url={"/api/locations"}
       />
 
       <NumberInput
