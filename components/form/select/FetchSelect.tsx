@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Error from "@/components/form/Error";
-
-type option = {
-  value: string | number;
-  name: string;
-};
+import CustomSelect, { option } from "./CustomSelect";
 
 type FetchSelectProps = {
   label: string;
@@ -29,22 +25,13 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
   isValueNumeric = false,
   pageSize = 10,
 }) => {
-  console.log("Rendering...");
-
-  const placeholderOption = {
-    value: "",
-    name: "Please select",
-  };
-
-  const [options, setOptions] = useState<option[]>([placeholderOption]);
+  const [options, setOptions] = useState<option[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
-    console.log("Fetching...");
-    console.log(loading);
     if (loading) return;
 
     setLoading(true);
@@ -79,7 +66,6 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
 
   useEffect(() => {
     if (isFetching.current) {
-      console.log("Skipping fetch: Already fetching...");
       return;
     }
 
@@ -90,15 +76,15 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
     });
   }, [page]);
 
-  // const handleScroll = (e: React.UIEvent<HTMLSelectElement, UIEvent>) => {
-  //   const bottom =
-  //     e.currentTarget.scrollHeight ===
-  //     e.currentTarget.scrollTop + e.currentTarget.clientHeight;
-  //   if (bottom) {
-  //     console.log("setting page");
-  //     //setPage((prevPage) => prevPage + 1);
-  //   }
-  // };
+  const handleScroll = () => {
+    if (loading || !hasMore) {
+      return;
+    }
+    setPage((prev) => prev + 1);
+  };
+
+  // Some hardcoded options for now;
+  const mockOptions = ["Apple", "Bannana", "Carot", "Fish", "Oraage", "Peach"];
 
   return (
     <div className="flex">
@@ -108,25 +94,11 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
         </label>
       )}
       <div>
-        <select
-          size={5}
-          disabled={loading}
-          className="w-[300px] h-[32px] border border-[var(--seperator-color)] rounded px-2.5 py-1 text-[var(--text-color)] text-base"
-          {...register(fieldName, {
-            setValueAs: (value: any) => {
-              if (!value) return null;
-              return isValueNumeric ? Number(value) : value;
-            },
-          })}
-        >
-          {options.map((option) => {
-            return (
-              <option key={option.value} value={option.value}>
-                {option.name}
-              </option>
-            );
-          })}
-        </select>
+        <CustomSelect
+          options={options}
+          width="w-[300px]"
+          onScrollToBottom={handleScroll}
+        />
         {errors && errors[fieldName] && (
           <Error message={errors[fieldName].message} />
         )}
