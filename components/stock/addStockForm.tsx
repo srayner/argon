@@ -3,24 +3,22 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
-import NumberInput from "../form/numberInput";
+import NumberInput from "../form/input/NumberInput";
 import FetchSelect from "@/components/form/select/FetchSelect";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import TextInput from "@/components/form/text-input";
 
 interface AddStockFormProps {
   productId: number;
-  onSubmitCallback?: () => void;
+  onSubmit?: () => void;
   onCancel?: () => void;
 }
 
 const AddStockForm: React.FC<AddStockFormProps> = ({
   productId,
-  onSubmitCallback,
+  onSubmit,
   onCancel,
 }) => {
   const addStockSchema = z.object({
-    productId: z.number(),
     locationId: z.string({ message: "Location is required." }),
     qty: z
       .number({ message: "Qty is required." })
@@ -32,6 +30,7 @@ const AddStockForm: React.FC<AddStockFormProps> = ({
 
   const {
     formState: { errors, isSubmitting },
+    control,
     register,
     handleSubmit,
     watch,
@@ -39,15 +38,15 @@ const AddStockForm: React.FC<AddStockFormProps> = ({
     resolver: zodResolver(addStockSchema),
   });
 
-  const onSubmit = async (data: FieldValues) => {
+  const processSubmit = async (data: FieldValues) => {
     const response = await fetch("/api/stock", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ productId, ...data }),
     });
-    onSubmitCallback?.();
+    onSubmit?.();
   };
 
   const mockLocation = [
@@ -56,12 +55,11 @@ const AddStockForm: React.FC<AddStockFormProps> = ({
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(processSubmit)}>
       <FetchSelect
         label={"Location"}
-        register={register}
+        control={control}
         fieldName={"locationId"}
-        errors={errors}
         url={"/api/locations"}
       />
 

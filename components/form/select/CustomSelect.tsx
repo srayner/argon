@@ -7,16 +7,18 @@ export type option = {
 };
 
 interface CustomSelectProps {
+  value: string | number;
   options: option[];
   width?: string;
-  onSelect?: (value: option) => void;
+  onChange?: (value: string | number) => void;
   onScrollToBottom?: () => void;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
+  value,
   options,
   width = "",
-  onSelect,
+  onChange,
   onScrollToBottom,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -67,9 +69,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
 
     setIsOpen(false);
 
-    if (typeof onSelect === "function") {
-      onSelect(item);
-    }
+    onChange?.(item.value);
   };
 
   useEffect(() => {
@@ -100,10 +100,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   };
 
   return (
-    <div className={`relative inline-block text-sm ${width}`}>
+    <div className={`relative inline-block text-base ${width}`}>
       <div
         onClick={toggleDropdown}
-        className={`flex justify-between items-center gap-2 p-2 border border-[var(--seperator-color)] ${
+        className={`flex justify-between items-center gap-2 px-2 py-1.5 border border-[var(--seperator-color)] ${
           isOpen ? "rounded-t" : "rounded"
         } bg-white shadow-md cursor-pointer`}
       >

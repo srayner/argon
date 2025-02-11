@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { Controller } from "react-hook-form";
 import Error from "@/components/form/Error";
 import CustomSelect, { option } from "./CustomSelect";
 
 type FetchSelectProps = {
   label: string;
-  register: any;
+  control: any;
   fieldName: string;
-  errors: any;
   url: string;
   valueField?: string;
   nameField?: string;
@@ -16,9 +16,8 @@ type FetchSelectProps = {
 
 const FetchSelect: React.FC<FetchSelectProps> = ({
   label,
-  register,
+  control,
   fieldName,
-  errors,
   url,
   valueField = "id",
   nameField = "name",
@@ -94,14 +93,23 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
         </label>
       )}
       <div>
-        <CustomSelect
-          options={options}
-          width="w-[300px]"
-          onScrollToBottom={handleScroll}
+        <Controller
+          name={fieldName}
+          control={control}
+          render={({ field, fieldState }) => (
+            <>
+              <CustomSelect
+                {...field}
+                options={options}
+                width="w-[300px]"
+                onScrollToBottom={handleScroll}
+              />
+              {fieldState.error && fieldState.error.message && (
+                <Error message={fieldState.error.message} />
+              )}
+            </>
+          )}
         />
-        {errors && errors[fieldName] && (
-          <Error message={errors[fieldName].message} />
-        )}
       </div>
     </div>
   );

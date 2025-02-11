@@ -21,7 +21,11 @@ const AddStockModal: React.FC<PropertyModalProps> = ({
   return (
     <Modal isVisible={isVisible} onClose={onClose}>
       <h2>Add New Stock for {product.name}</h2>
-      <AddStockForm productId={product.id} onCancel={onClose} />
+      <AddStockForm
+        productId={product.id}
+        onSubmit={onSubmit}
+        onCancel={onClose}
+      />
     </Modal>
   );
 };
