@@ -41,6 +41,11 @@ export async function GET(
             property: true,
           },
         },
+        stock: {
+          include: {
+            location: true,
+          },
+        },
         supplier: true,
         image: true,
       },

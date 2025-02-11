@@ -48,6 +48,7 @@ export interface Product {
   cost: number | null;
   qtyInStock: number;
   location: string | null;
+  stock: Stock[];
   image?: Image;
   imageId?: number;
   propertyValues: PropertyValue[];
@@ -88,4 +89,11 @@ export interface Supplier {
   id: number;
   name: string;
   image?: Image;
+}
+
+export interface Stock {
+  id: string;
+  location?: Location;
+  product?: Product;
+  qty: number;
 }

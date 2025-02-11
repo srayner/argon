@@ -145,6 +145,7 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
         </div>
 
         <LocationsCard
+          stock={product.stock}
           onAdd={() => setIsAddStockModalVisible(true)}
         ></LocationsCard>
         {product.category && (
