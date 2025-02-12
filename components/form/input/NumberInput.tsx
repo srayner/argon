@@ -27,7 +27,7 @@ const NumberInput: React.FC<TextInputProps> = ({
   return (
     <div className="flex">
       {label && (
-        <label className="w-[200px] p-1.5 text-[var(--text-color)] text-sm font-bold">
+        <label className="w-[200px] p-1.5 text-[var(--text-color)] text-base font-bold">
           {label}
         </label>
       )}

@@ -1,4 +1,5 @@
 import React from "react";
+import Error from "@/components/form/Error";
 
 interface TextInputProps {
   label?: string;
@@ -16,7 +17,7 @@ const TextInput: React.FC<TextInputProps> = ({
   return (
     <div className="flex">
       {label && (
-        <label className="w-[200px] p-1.5 text-[var(--text-color)] text-sm font-bold">
+        <label className="w-[200px] p-1.5 text-[var(--text-color)] text-base font-bold">
           {label}
         </label>
       )}
@@ -25,10 +26,10 @@ const TextInput: React.FC<TextInputProps> = ({
           {...register(fieldName)}
           type="text"
           autoComplete="off"
-          className="w-[300px] h-[32px] border border-[var(--seperator-color)] rounded px-2.5 py-1 text-[var(--text-color)] text-sm"
+          className="w-[300px] border border-[var(--seperator-color)] rounded px-2 py-1.5 text-[var(--text-color)] text-base shadow-md"
         ></input>
         {errors && errors[fieldName] && (
-          <p className="text-sm text-red-600">{`${errors[fieldName].message}`}</p>
+          <Error message={`${errors[fieldName].message}`} />
         )}
       </div>
     </div>
