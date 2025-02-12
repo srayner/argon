@@ -1,4 +1,5 @@
 import React from "react";
+import { MdAddCircle } from "react-icons/md";
 import { CardBody, CardHeader } from "../ui/modal/Card/action-card";
 import SimpleDataGrid from "../ui/datagrid/SimpleDataGrid";
 import { Button } from "../ui/button";
@@ -26,10 +27,17 @@ const LocationsCard: React.FC<LocationsCardProps> = ({ stock, onAdd }) => {
 
   return (
     <div className="w-full bg-white shadow-md rounded-lg">
-      <CardHeader title="Stock Locations" actions={[]} />
+      <CardHeader
+        title="Stock Locations"
+        actions={[
+          {
+            icon: <MdAddCircle className="text-black-500 text-3xl" />,
+            onClick: onAdd,
+          },
+        ]}
+      />
       <CardBody>
         <SimpleDataGrid rowData={stock} columnDefs={columnDefs} />
-        <Button onClick={() => onAdd()}>Add</Button>
       </CardBody>
     </div>
   );
