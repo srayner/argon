@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Header from "@/app/ui/header/header";
 import Button from "@/app/ui/button/button";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import Form from "@/components/form/form";
+import Form from "@/components/form/Form";
 import TextInput from "@/components/form/input/TextInput";
 
 interface ManufacturerEditPageProps {

@@ -3,6 +3,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
+import Form from "@/components/form/Form";
 import NumberInput from "../form/input/NumberInput";
 import FetchSelect from "@/components/form/select/FetchSelect";
 import SubmitContainer from "@/components/form/SubmitContainer";
@@ -55,7 +56,7 @@ const AddStockForm: React.FC<AddStockFormProps> = ({
   ];
 
   return (
-    <form onSubmit={handleSubmit(processSubmit)}>
+    <Form onSubmit={handleSubmit(processSubmit)}>
       <FetchSelect
         label={"Location"}
         control={control}
@@ -78,7 +79,7 @@ const AddStockForm: React.FC<AddStockFormProps> = ({
           Add
         </Button>
       </SubmitContainer>
-    </form>
+    </Form>
   );
 };
 

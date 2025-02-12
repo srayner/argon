@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import Styles from "./form.module.css";
 
 interface FormProps {
   layout?: string;
@@ -15,7 +14,9 @@ const Form: React.FC<FormProps> = ({
   ...rest
 }) => {
   const formClassName =
-    layout === "horizontal" ? Styles.formHorizontal : Styles.formVertical;
+    layout === "horizontal"
+      ? "flex flex-row items-start gap-2.5"
+      : "w-[500px] flex flex-col gap-2.5";
 
   return (
     <form className={formClassName} onSubmit={onSubmit} {...rest}>

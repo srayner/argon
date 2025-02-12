@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Header from "@/app/ui/header/header";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import Form from "@/components/form/form";
+import Form from "@/components/form/Form";
 import TextInput from "@/components/form/input/TextInput";
 import Select from "@/components/form/select/Select";
 

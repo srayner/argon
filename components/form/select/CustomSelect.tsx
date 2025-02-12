@@ -59,7 +59,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     };
   }, [options, highlightedIndex, isOpen]);
 
-  const toggleDropdown = () => setIsOpen((prev) => !prev);
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   const handleSelect = (item: option) => {
     setSelected(item);
@@ -72,19 +74,19 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     onChange?.(item.value);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (
+  //       dropdownRef.current &&
+  //       !dropdownRef.current.contains(event.target as Node)
+  //     ) {
+  //       setIsOpen(false);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => document.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
 
   // Detect scroll to bottom
   const handleScroll = () => {
@@ -100,12 +102,16 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   };
 
   return (
-    <div className={`relative inline-block text-base ${width}`}>
+    <div
+      className={`relative inline-block text-base text-[var(--text-color)] ${width}`}
+    >
       <div
+        tabIndex={0}
         onClick={toggleDropdown}
-        className={`flex justify-between items-center gap-2 px-2 py-1.5 border border-[var(--seperator-color)] ${
-          isOpen ? "rounded-t" : "rounded"
-        } bg-white shadow-md cursor-pointer`}
+        onBlur={() => setIsOpen(false)}
+        className={`flex justify-between items-center gap-2 px-2 py-1.5 border border-[var(--seperator-color)] bg-white shadow-md cursor-pointer focus:outline focus:outline-2 focus:outline-offset-[-2px]
+          ${isOpen ? "rounded-t" : "rounded"}
+        `}
       >
         <span className="flex-grow">
           {selected?.name || "Select an option"}
@@ -119,12 +125,12 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         <ul
           ref={dropdownRef}
           onScroll={handleScroll}
-          className="absolute top-full -mt-px w-full border border-[var(--seperator-color)] rounded-b bg-white max-h-[288px] overflow-y-auto shadow-md"
+          className="absolute top-full w-full border border-[var(--seperator-color)] rounded-b bg-white max-h-[288px] overflow-y-auto shadow-md"
         >
           {options.map((item, index) => (
             <li
               key={item.value}
-              onClick={() => handleSelect(item)}
+              onMouseDown={() => handleSelect(item)}
               className={`px-4 py-2 cursor-pointer hover:bg-gray-200 ${
                 highlightedIndex === index ? "bg-gray-200" : ""
               }`}

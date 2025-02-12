@@ -75,10 +75,8 @@ export async function POST(request: NextRequest) {
 
   const path = join(process.cwd(), "uploads/images", file.name);
   await writeFile(path, buffer);
-  console.log(`open ${path} to see the uploaded file`);
 
   const encodedFilename = encodeURIComponent(file.name);
-  console.log(encodedFilename);
   const href = join("/api/uploads/images/", encodeURIComponent(file.name));
   const createdSupplier = await prisma.image.create({
     data: {

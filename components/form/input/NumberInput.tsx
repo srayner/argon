@@ -1,5 +1,6 @@
 import React from "react";
 import { RegisterOptions } from "react-hook-form";
+import Error from "@/components/form/Error";
 
 interface TextInputProps {
   label?: string;
@@ -35,10 +36,10 @@ const NumberInput: React.FC<TextInputProps> = ({
           {...register(fieldName, options)}
           type="text"
           autoComplete="off"
-          className="w-[300px] h-[32px] border border-[var(--seperator-color)] rounded px-2.5 py-1 text-[var(--text-color)] text-sm"
+          className="w-[300px] border border-[var(--seperator-color)] rounded px-2 py-1.5 text-[var(--text-color)] text-base shadow-md"
         ></input>
         {errors && errors[fieldName] && (
-          <p className="text-sm text-red-600">{`${errors[fieldName].message}`}</p>
+          <Error message={errors[fieldName].message} />
         )}
       </div>
     </div>

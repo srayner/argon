@@ -1,18 +1,7 @@
-.formHorizontal,
 .formRow {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 10px;
-}
-
-.formVertical {
-  width: 500px;
-}
-
-.formVertical {
-  display: flex;
-  flex-direction: column;
   gap: 10px;
 }
 

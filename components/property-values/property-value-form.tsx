@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
-import Form from "@/components/form/form";
+import Form from "@/components/form/Form";
 import FormRow from "@/components/form/form-row";
 import Select from "@/components/form/select";
 import TextInput from "@/components/form/text-input";
@@ -117,12 +117,6 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
   const selectedProperty = properties.find(
     (prop) => prop.id === selectedPropertyId
   );
-
-  console.log("Selected property id:");
-  console.log(selectedPropertyId);
-
-  console.log("Selected property:");
-  console.log(selectedProperty);
 
   return (
     <Form onSubmit={handleSubmit(submit)} layout="horizontal">

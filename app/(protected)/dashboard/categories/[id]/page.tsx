@@ -45,7 +45,6 @@ const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
   };
 
   const handleAddProperty = () => {
-    console.log("trying to close modal");
     setIsPropertyModalVisible(false);
     fetchCategory();
   };
