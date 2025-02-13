@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,19 +7,22 @@ import Form from "@/components/form/Form";
 import NumberInput from "../form/input/NumberInput";
 import FetchSelect from "@/components/form/select/FetchSelect";
 import SubmitContainer from "@/components/form/SubmitContainer";
+import { Stock } from "@/types/entities";
 
-interface AddStockFormProps {
+interface EditStockFormProps {
   productId: number;
+  stock: Stock;
   onSubmit?: () => void;
   onCancel?: () => void;
 }
 
-const EditStockForm: React.FC<AddStockFormProps> = ({
+const EditStockForm: React.FC<EditStockFormProps> = ({
   productId,
+  stock,
   onSubmit,
   onCancel,
 }) => {
-  const addStockSchema = z.object({
+  const editStockSchema = z.object({
     locationId: z.string({ message: "Location is required." }),
     qty: z
       .number({ message: "Qty is required." })
@@ -27,20 +30,21 @@ const EditStockForm: React.FC<AddStockFormProps> = ({
       .max(10000, { message: "Quantity cannot exceed 10,000." }),
   });
 
-  type AddStockSchema = z.infer<typeof addStockSchema>;
+  type EditStockSchema = z.infer<typeof editStockSchema>;
 
   const {
     formState: { errors, isSubmitting },
     control,
     register,
     handleSubmit,
-  } = useForm<AddStockSchema>({
-    resolver: zodResolver(addStockSchema),
+    reset,
+  } = useForm<EditStockSchema>({
+    resolver: zodResolver(editStockSchema),
   });
 
   const processSubmit = async (data: FieldValues) => {
-    const response = await fetch("/api/stock", {
-      method: "POST",
+    const response = await fetch(`/api/stock/${stock.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -48,6 +52,13 @@ const EditStockForm: React.FC<AddStockFormProps> = ({
     });
     onSubmit?.();
   };
+
+  useEffect(() => {
+    reset({
+      locationId: stock.location?.id,
+      qty: stock.qty,
+    });
+  }, [reset, stock]);
 
   return (
     <Form onSubmit={handleSubmit(processSubmit)}>
@@ -70,7 +81,7 @@ const EditStockForm: React.FC<AddStockFormProps> = ({
           Cancel
         </Button>
         <Button color="primary" type="submit">
-          Add
+          Edit
         </Button>
       </SubmitContainer>
     </Form>

@@ -28,6 +28,15 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   const dropdownRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
+    if (value) {
+      const selectedItem = options.find((opt) => opt.value === value);
+      if (selectedItem) {
+        setSelected(selectedItem);
+      }
+    }
+  }, [value, options]);
+
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isOpen) {
         if (event.key === "ArrowDown" || event.key === "ArrowUp") {
@@ -73,20 +82,6 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
 
     onChange?.(item.value);
   };
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       dropdownRef.current &&
-  //       !dropdownRef.current.contains(event.target as Node)
-  //     ) {
-  //       setIsOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => document.removeEventListener("mousedown", handleClickOutside);
-  // }, []);
 
   // Detect scroll to bottom
   const handleScroll = () => {

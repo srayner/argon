@@ -11,9 +11,10 @@ import Modal from "@/components/ui/modal/modal";
 import PropertyValuesCard from "@/components/property-values/property-values-card";
 import PropertyValueForm from "@/components/property-values/property-value-form";
 import LocationsCard from "@/components/locations/locations-card";
-import { Image, Product, PropertyValue } from "@/types/entities";
+import { Image, Product, PropertyValue, Stock } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 import AddStockModal from "@/components/stock/addStockModal";
+import EditStockModal from "@/components/stock/EditStockModal";
 
 type Params = { id: string };
 
@@ -29,6 +30,8 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
   const [isPropertyValueModalVisible, setIsPropertyValueModalVisible] =
     useState(false);
   const [isAddStockModalVisible, setIsAddStockModalVisible] = useState(false);
+  const [isEditStockModalVisible, setIsEditStockModalVisible] = useState(false);
+  const [stockData, setStockData] = useState<Stock | null>(null);
 
   const handleEditClick = () => {
     router.push(`/dashboard/products/${productId}/edit`);
@@ -57,6 +60,11 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
       method: "DELETE",
     });
     fetchProduct();
+  };
+
+  const handleStartEditingStock = (stock: Stock) => {
+    setStockData(stock);
+    setIsEditStockModalVisible(true);
   };
 
   const handleImageChange = async (image: Image) => {
@@ -155,6 +163,7 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
           stock={product.stock}
           onAdd={() => setIsAddStockModalVisible(true)}
           onDelete={handleDeleteStock}
+          onEdit={handleStartEditingStock}
         ></LocationsCard>
         {product.category && (
           <PropertyValuesCard
@@ -196,6 +205,17 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
         }}
         onClose={() => setIsAddStockModalVisible(false)}
         product={product}
+      />
+
+      <EditStockModal
+        isVisible={isEditStockModalVisible}
+        onSubmit={() => {
+          setIsEditStockModalVisible(false);
+          fetchProduct();
+        }}
+        onClose={() => setIsEditStockModalVisible(false)}
+        product={product}
+        stock={stockData}
       />
     </>
   );

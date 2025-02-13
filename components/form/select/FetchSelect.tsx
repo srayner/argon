@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Controller } from "react-hook-form";
 import Error from "@/components/form/Error";
 import CustomSelect, { option } from "./CustomSelect";
+import { mergeArraysNoDuplicates } from "@/lib/mergeArrays";
 
 type FetchSelectProps = {
   label: string;
@@ -21,30 +22,64 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
   url,
   valueField = "id",
   nameField = "name",
-  isValueNumeric = false,
   pageSize = 10,
 }) => {
+  console.log(control);
+
   const [options, setOptions] = useState<option[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  if (control._defaultValues[fieldName]) {
+    console.log(control._defaultValues[fieldName]);
+  }
+
   const fetchData = useCallback(async () => {
     if (loading) return;
 
     setLoading(true);
-    setError(null);
     try {
-      const response = await fetch(`${url}?page=${page}&pageSize=${pageSize}`);
-      const { data, meta } = await response.json();
-      const newOptions = data.map((item: any) => ({
+      const pageRequest = await fetch(
+        `${url}?page=${page}&pageSize=${pageSize}&sort=name`
+      ).then((res) => res.json());
+
+      const selectedValue = control._defaultValues?.[fieldName];
+
+      const selectedItemRequest = !options.some(
+        (opt) => opt.value === selectedValue
+      )
+        ? fetch(`${url}/${selectedValue}`).then((res) => res.json())
+        : Promise.resolve(null);
+
+      const [pageResponse, selectedItemResponse] = await Promise.all([
+        pageRequest,
+        selectedItemRequest,
+      ]);
+
+      const pageData = pageResponse.data.map((item) => ({
         value: item[valueField],
         name: item[nameField],
       }));
 
-      setOptions((prevOptions) => [...prevOptions, ...newOptions]);
-      setHasMore(meta.totalPages > meta.currentPage);
+      const selectedItem = selectedItemResponse
+        ? {
+            value: selectedItemResponse[valueField],
+            name: selectedItemResponse[nameField],
+          }
+        : null;
+
+      setOptions((prevOptions) =>
+        mergeArraysNoDuplicates(
+          prevOptions,
+          [...pageData, ...(selectedItem ? [selectedItem] : [])],
+          "value",
+          "name"
+        )
+      );
+
+      setHasMore(pageResponse.meta.totalPages > pageResponse.meta.currentPage);
     } catch (err) {
       setError("Failed to load options.");
     } finally {
@@ -61,17 +96,17 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
     options.length,
   ]);
 
-  const isFetching = useRef(false);
+  // const isFetching = useRef(false);
 
   useEffect(() => {
-    if (isFetching.current) {
-      return;
-    }
+    // if (isFetching.current) {
+    //  return;
+    // }
 
-    isFetching.current = true;
+    // isFetching.current = true;
 
     fetchData().finally(() => {
-      isFetching.current = false; // Reset after fetch completes
+      // isFetching.current = false; // Reset after fetch completes
     });
   }, [page]);
 
@@ -81,9 +116,6 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
     }
     setPage((prev) => prev + 1);
   };
-
-  // Some hardcoded options for now;
-  const mockOptions = ["Apple", "Bannana", "Carot", "Fish", "Oraage", "Peach"];
 
   return (
     <div className="flex">
