@@ -52,6 +52,13 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
     fetchProduct();
   };
 
+  const handleDeleteStock = async (stockId: string) => {
+    await fetch(`/api/stock/${stockId}`, {
+      method: "DELETE",
+    });
+    fetchProduct();
+  };
+
   const handleImageChange = async (image: Image) => {
     const response = await fetch(`/api/products/${productId}`, {
       method: "PUT",
@@ -147,6 +154,7 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
         <LocationsCard
           stock={product.stock}
           onAdd={() => setIsAddStockModalVisible(true)}
+          onDelete={handleDeleteStock}
         ></LocationsCard>
         {product.category && (
           <PropertyValuesCard
