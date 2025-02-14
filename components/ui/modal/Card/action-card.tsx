@@ -1,15 +1,22 @@
 import React from "react";
+import { string } from "zod";
 
 interface ClickableIconProps {
   icon: React.ReactNode;
   onClick: () => void;
+  e2e: string;
 }
 
-const ClickableIcon: React.FC<ClickableIconProps> = ({ icon, onClick }) => {
+const ClickableIcon: React.FC<ClickableIconProps> = ({
+  icon,
+  onClick,
+  e2e,
+}) => {
   return (
     <span
       onClick={onClick}
       className="cursor-pointer text-xl hover:text-blue-500 transition-colors"
+      data-e2e={e2e}
     >
       {icon}
     </span>
@@ -18,7 +25,11 @@ const ClickableIcon: React.FC<ClickableIconProps> = ({ icon, onClick }) => {
 
 interface CardHeaderProps {
   title: string;
-  actions: { icon: React.ReactNode; onClick: () => void }[];
+  actions: {
+    icon: React.ReactNode;
+    onClick: () => void;
+    e2e: string;
+  }[];
 }
 
 const CardHeader: React.FC<CardHeaderProps> = ({ title, actions }) => {
@@ -32,6 +43,7 @@ const CardHeader: React.FC<CardHeaderProps> = ({ title, actions }) => {
             key={index}
             icon={action.icon}
             onClick={action.onClick}
+            e2e={action.e2e}
           />
         ))}
       </div>

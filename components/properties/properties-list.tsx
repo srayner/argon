@@ -56,6 +56,7 @@ const PropertiesLst: React.FC<PropertiesLstProps> = ({
         title="Properties"
         actions={[
           {
+            e2e: "add-property-button",
             icon: <MdAddCircle className="text-black-500 text-3xl" />,
             onClick: onAddClicked,
           },

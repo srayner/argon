@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 async function clearData() {
   // Models should be cleared in the correct order, dependencies first.
   const models: (keyof PrismaClient)[] = [
+    "stock",
     "propertyValue",
     "product",
     "property",
