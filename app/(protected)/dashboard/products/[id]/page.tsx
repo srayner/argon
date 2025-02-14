@@ -207,16 +207,18 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
         product={product}
       />
 
-      <EditStockModal
-        isVisible={isEditStockModalVisible}
-        onSubmit={() => {
-          setIsEditStockModalVisible(false);
-          fetchProduct();
-        }}
-        onClose={() => setIsEditStockModalVisible(false)}
-        product={product}
-        stock={stockData}
-      />
+      {stockData && (
+        <EditStockModal
+          isVisible={isEditStockModalVisible}
+          onSubmit={() => {
+            setIsEditStockModalVisible(false);
+            fetchProduct();
+          }}
+          onClose={() => setIsEditStockModalVisible(false)}
+          product={product}
+          stock={stockData}
+        />
+      )}
     </>
   );
 };

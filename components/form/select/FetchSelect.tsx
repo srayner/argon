@@ -58,7 +58,7 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
         selectedItemRequest,
       ]);
 
-      const pageData = pageResponse.data.map((item) => ({
+      const pageData = pageResponse.data.map((item: any) => ({
         value: item[valueField],
         name: item[nameField],
       }));

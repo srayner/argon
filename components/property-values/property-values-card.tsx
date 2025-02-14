@@ -25,6 +25,7 @@ const PropertyValuesCard: React.FC<PropertyValuesCardProps> = ({
           {
             icon: <MdAddCircle className="text-black-500 text-3xl" />,
             onClick: handleAddClick,
+            e2e: "add-property-value-button",
           },
         ]}
       />
