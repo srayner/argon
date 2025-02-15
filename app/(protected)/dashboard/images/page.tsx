@@ -2,7 +2,7 @@
 
 import { NextPage } from "next";
 import React, { useRef, useState } from "react";
-import Header from "../../../ui/header/header";
+import Header from "@/components/ui/header/Header";
 import Button from "@/app/ui/button/button";
 
 const ImagesPage: NextPage = () => {
@@ -38,9 +38,7 @@ const ImagesPage: NextPage = () => {
 
   return (
     <>
-      <Header>
-        <div>Images</div>
-      </Header>
+      <Header caption="Images" />
       <form onSubmit={onsubmit} className="w-[500px]">
         <label htmlFor="file-input">Upload file:</label>
         <input
