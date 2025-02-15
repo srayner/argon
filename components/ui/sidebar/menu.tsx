@@ -1,6 +1,5 @@
 "use client";
 
-import styles from "./menu.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -40,8 +39,8 @@ export function Menu() {
   ];
 
   return (
-    <div className={styles.container}>
-      <ul className={styles.menu}>
+    <div className="mt-8">
+      <ul>
         {menuItems.map((item) => {
           return (
             <li
