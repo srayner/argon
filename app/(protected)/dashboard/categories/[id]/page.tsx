@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Button from "@/app/ui/button/button";
-import Header from "@/app/ui/header/header";
+import Header from "@/components/ui/header/Header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import ChildCategoriesList from "@/components/categories/ChildCategoriesList";
 import PropertiesList from "@/components/properties/properties-list";
@@ -85,8 +85,7 @@ const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
 
   return (
     <>
-      <Header>
-        <span>{category.name}</span>
+      <Header caption={category.name}>
         <Button onClick={handleEditClick}>Edit</Button>
         <Button color="danger" onClick={handleDeleteClick}>
           Delete

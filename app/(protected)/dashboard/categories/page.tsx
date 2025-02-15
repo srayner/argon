@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ICellRendererParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "@/components/ui/datagrid/DataGrid";
-import Header from "../../../ui/header/header";
+import Header from "@/components/ui/header/Header";
 import SearchInput from "@/components/ui/SearchInput";
 
 const CategoriesPage: NextPage = () => {
@@ -51,8 +51,7 @@ const CategoriesPage: NextPage = () => {
 
   return (
     <>
-      <Header>
-        <div>Categories</div>
+      <Header caption="Categories">
         <SearchInput handleSearchChange={handleSearchChange} />
         <Button color="primary" href="/dashboard/categories/add">
           Add
