@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ICellRendererParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "@/components/ui/datagrid/DataGrid";
-import Header from "../../../ui/header/header";
+import Header from "@/components/ui/header/Header";
 import SearchInput from "@/components/ui/SearchInput";
 
 const ManufacturersPage: NextPage = () => {
@@ -35,8 +35,7 @@ const ManufacturersPage: NextPage = () => {
 
   return (
     <>
-      <Header>
-        <div>Manufacturers</div>
+      <Header caption="Manufacturers">
         <SearchInput handleSearchChange={handleSearchChange} />
         <Button color="primary" href="/dashboard/manufacturers/add">
           Add
