@@ -10,9 +10,9 @@ export const Card = ({ href, icon: Icon, title, text, count, testid }: any) => {
         <div className="shrink-0">
           <Icon className="text-6xl" />
         </div>
-        <div>
+        <div className="flex-1">
           <div className="text-xl font-medium text-black">{title}</div>
-          <p className="text-slate-500">{text}</p>
+          <p className="text-slate-500 leading-tight">{text}</p>
         </div>
         <p className="text-black text-5xl">{count}</p>
       </div>

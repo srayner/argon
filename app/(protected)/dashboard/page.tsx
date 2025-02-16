@@ -29,7 +29,7 @@ export default function Home() {
       <div>
         <h1 className="mb-5">Stock Control</h1>
 
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-[repeat(auto-fill,_minmax(400px,_1fr))] gap-4">
           <Card
             href="/dashboard/categories"
             icon={FcTreeStructure}
@@ -78,14 +78,13 @@ export default function Home() {
             count={data && data.images.count}
             testid="images-count"
           />
-          <div className="col-span-2">
-            <Card
-              href="/dashboard/search"
-              icon={FaSearch}
-              title="Advanced Search"
-              text="Search products by custom properties."
-            />
-          </div>
+
+          <Card
+            href="/dashboard/search"
+            icon={FaSearch}
+            title="Advanced Search"
+            text="Search products by custom properties."
+          />
         </div>
       </div>
     </main>
