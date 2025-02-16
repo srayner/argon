@@ -25,6 +25,7 @@ export interface Location {
   name: string;
   parent: Location | null;
   children: Location[];
+  stock: Stock[];
   image?: Image;
 }
 

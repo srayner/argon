@@ -33,7 +33,7 @@ const ActionCellRenderer: React.FC<ActionCellRendererProps> = ({
   };
 
   return (
-    <>
+    <div className="flex h-full gap-2">
       <button
         onClick={handleEdit}
         style={{ border: "none", background: "transparent" }}
@@ -46,7 +46,7 @@ const ActionCellRenderer: React.FC<ActionCellRendererProps> = ({
       >
         <MdDelete className="text-red-400 hover:text-red-600" size={20} />
       </button>
-    </>
+    </div>
   );
 };
 
