@@ -4,9 +4,10 @@ import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Button from "@/app/ui/button/button";
-import Header from "@/app/ui/header/header";
+import Header from "@/components/ui/header/Header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import ChildLocationsList from "@/components/locations/ChildLocationsList";
+import ProductsCard from "@/components/products/ProductsCard";
 import { Location, Image } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 
@@ -58,6 +59,13 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
     fetchLocation();
   };
 
+  const handleDeleteStock = async (stockId: string) => {
+    await fetch(`/api/stock/${stockId}`, {
+      method: "DELETE",
+    });
+    fetchLocation();
+  };
+
   const fetchLocation = async () => {
     const response = await fetch(`/api/locations/${locationId}`);
     const location = await response.json();
@@ -78,8 +86,7 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
 
   return (
     <>
-      <Header>
-        <span>{location.name}</span>
+      <Header caption={location.name}>
         <Button onClick={handleEditClick}>Edit</Button>
         <Button color="danger" onClick={handleDeleteClick}>
           Delete
@@ -102,6 +109,12 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
             )}
           </DetailViewCard>
         </div>
+        <ProductsCard
+          stock={location.stock}
+          onAdd={() => {}}
+          onDelete={handleDeleteStock}
+          onEdit={() => {}}
+        ></ProductsCard>
         <ChildLocationsList locations={location.children} />
       </div>
 

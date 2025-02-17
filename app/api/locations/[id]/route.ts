@@ -13,6 +13,9 @@ export async function GET(
         children: true,
         parent: true,
         image: true,
+        stock: {
+          include: { product: true },
+        },
       },
     });
 

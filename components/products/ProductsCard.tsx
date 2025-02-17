@@ -11,14 +11,14 @@ interface LocationsCardProps {
   onEdit: (something: any) => void;
 }
 
-const LocationsCard: React.FC<LocationsCardProps> = ({
+const ProductsCard: React.FC<LocationsCardProps> = ({
   stock,
   onAdd,
   onDelete,
   onEdit,
 }) => {
   const columnDefs = [
-    { headerName: "Location", field: "location.name" },
+    { headerName: "Product", field: "product.name" },
     { headerName: "Qty", field: "qty" },
     {
       headerName: "Actions",
@@ -55,4 +55,4 @@ const LocationsCard: React.FC<LocationsCardProps> = ({
   );
 };
 
-export default LocationsCard;
+export default ProductsCard;
