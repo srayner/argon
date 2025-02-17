@@ -1,5 +1,6 @@
 "use client";
 
+import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import PropertyValuesFilter, {
@@ -10,7 +11,7 @@ import SimpleDataGrid from "@/components/ui/datagrid/SimpleDataGrid";
 import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
 import { Product } from "@/types/entities";
 
-const SearchPage: React.FC = () => {
+const SearchPage: NextPage = () => {
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [categories, setCategories] = useState([]);
   const [properties, setProperties] = useState([]);
@@ -149,7 +150,7 @@ const SearchPage: React.FC = () => {
     <>
       {categories.length !== 0 && (
         <div className="w-full">
-          <h2 className="text-2xl font-bold mb-4">Product Cateogires</h2>
+          <h2 className="text-2xl font-bold mb-4">All Products</h2>
           <CategoryExplorer
             categories={categories}
             onCategorySelect={handleCategorySelect}
