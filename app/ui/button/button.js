@@ -2,7 +2,16 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import styles from "./button.module.css";
 
-const Button = ({ size, color, type, children, onClick, href }) => {
+const Button = ({
+  size,
+  color,
+  type,
+  children,
+  onClick,
+  href,
+  disabled = false,
+}) => {
+  console.log(disabled);
   const getSizeClass = (size) => {
     switch (size) {
       case "small":
@@ -38,7 +47,12 @@ const Button = ({ size, color, type, children, onClick, href }) => {
       {children}
     </Link>
   ) : (
-    <button className={buttonClasses} type={type} onClick={onClick}>
+    <button
+      className={buttonClasses}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
