@@ -1,16 +1,20 @@
 import prisma from "@/app/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextResponse, NextRequest } from "next/server";
+import buildChildrenInclude from "../../functions/build-children-include";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const { searchParams } = new URL(request.url);
+  const depth = parseInt(searchParams.get("depth") || "1", 10);
+
   try {
     const category = await prisma.category.findUnique({
       where: { id: params.id },
       include: {
-        children: true,
+        ...buildChildrenInclude(depth),
         parent: true,
         properties: true,
         image: true,
