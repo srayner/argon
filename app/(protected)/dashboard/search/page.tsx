@@ -6,21 +6,20 @@ import Link from "next/link";
 import PropertyValuesFilter, {
   Filter,
 } from "@/components/property-values/PropertyValuesFilter";
+import Header from "@/components/ui/header/Header";
 import CategoryExplorer from "@/components/categories/CategoryExplorer";
 import SimpleDataGrid from "@/components/ui/datagrid/SimpleDataGrid";
 import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
-import { Product } from "@/types/entities";
+import { Product, Category, Property } from "@/types/entities";
 
 const SearchPage: NextPage = () => {
-  const [categoryId, setCategoryId] = useState<string | null>(null);
-  const [categories, setCategories] = useState([]);
-  const [properties, setProperties] = useState([]);
+  const [category, setCategory] = useState<Category | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [properties, setProperties] = useState<Property[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
 
-  const fetchCategories = async () => {
-    const queryParam =
-      categoryId === null ? "parentId=null" : `parentId=${categoryId}`;
-    const response = await fetch(`/api/categories?${queryParam}`);
+  const fetchRootCategories = async () => {
+    const response = await fetch("/api/categories?parentId=null");
 
     if (!response.ok) {
       throw new Error("Failed to fetch categories");
@@ -28,17 +27,6 @@ const SearchPage: NextPage = () => {
 
     const { data } = await response.json();
     setCategories(data);
-  };
-
-  const fetchProperties = async () => {
-    const response = await fetch(`/api/properties?categoryId=${categoryId}`);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch properties");
-    }
-
-    const { data } = await response.json();
-    setProperties(data);
   };
 
   const fetchProducts = async (filters: Filter[]) => {
@@ -63,22 +51,23 @@ const SearchPage: NextPage = () => {
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      try {
-        await Promise.all([
-          fetchCategories(),
-          categoryId !== null ? fetchProperties() : Promise.resolve([]),
-        ]);
-      } catch (error) {
-        console.error("Error fetching initial data:", error);
-      }
+      fetchRootCategories();
     };
 
     fetchInitialData();
-  }, [categoryId]);
+  }, []);
 
   const handleCategorySelect = (categoryId: string) => {
-    console.log(`Category selected: ${categoryId}`);
-    setCategoryId(categoryId);
+    fetch(`/api/categories/${categoryId}?depth=2`)
+      .then((response) => response.json())
+      .then((c) => {
+        setCategory(c);
+        setCategories(c.children);
+        setProperties(c.properties);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   };
 
   const columnDefs = [
@@ -146,11 +135,13 @@ const SearchPage: NextPage = () => {
     },
   ];
 
+  const title = category ? category.name : "All Products";
+
   return (
     <>
+      <Header caption={title} />
       {categories.length !== 0 && (
         <div className="w-full">
-          <h2 className="text-2xl font-bold mb-4">All Products</h2>
           <CategoryExplorer
             categories={categories}
             onCategorySelect={handleCategorySelect}
@@ -160,7 +151,6 @@ const SearchPage: NextPage = () => {
 
       {properties.length !== 0 && (
         <div className="w-full">
-          <h2 className="text-2xl font-bold mb-4">Advanced Search</h2>
           <PropertyValuesFilter
             properties={properties}
             onRefresh={fetchProducts}
