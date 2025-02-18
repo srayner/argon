@@ -19,16 +19,21 @@ const CategoryExplorer: React.FC<CategoryExplorerProps> = ({
 
   return (
     <div>
-      <ul>
+      <ul className="grid grid-cols-2 gap-6">
         {categories.map((category) => (
-          <li key={category.id}>
-            <div className="bg-gray-200 border border-gray-600 rounded-md py-1 px-2 mb-4">
-              <Link href="#" onClick={() => handleCategoryClick(category.id)}>
+          <li key={category.id} className="bg-white shadow-lg rounded-md">
+            <div className="bg-gradient-to-br from-slate-700 to-slate-600 text-white rounded-t-md py-4 px-3">
+              <Link
+                href="#"
+                onClick={() => handleCategoryClick(category.id)}
+                className="text-white text-xl hover:underline hover:text-white"
+              >
                 {category.name}
               </Link>
             </div>
-            <div className="flex flex-col space-y-4">
-              <ul className="text-sm px-2 mb-4">
+
+            {category.children && category.children.length > 0 ? (
+              <ul className="grid grid-cols-3 text-sm px-4 py-4">
                 {category.children.map((child) => (
                   <li key={child.id}>
                     <Link
@@ -40,7 +45,9 @@ const CategoryExplorer: React.FC<CategoryExplorerProps> = ({
                   </li>
                 ))}
               </ul>
-            </div>
+            ) : (
+              <div className="text-sm text-slate-400 p-4">No subcategories</div>
+            )}
           </li>
         ))}
       </ul>

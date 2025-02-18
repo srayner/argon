@@ -17,7 +17,7 @@ const Breadcrumb: React.FC = () => {
   ];
 
   return (
-    <nav aria-label="breadcrumb" className="pb-2">
+    <nav aria-label="breadcrumb" className="pb-4">
       <ol className="list-none flex flex-wrap">
         {breadcrumbs.map((breadcrumb, index) => {
           const isLast = index === breadcrumbs.length - 1;
