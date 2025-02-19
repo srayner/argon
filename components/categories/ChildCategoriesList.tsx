@@ -2,6 +2,8 @@
 
 import React from "react";
 import SimpleDataGrid from "../ui/datagrid/SimpleDataGrid";
+import Link from "next/link";
+import { ICellRendererParams } from "ag-grid-community";
 import { CardHeader, CardBody } from "../ui/modal/Card/action-card";
 
 interface ChildCategoriesListProps {
@@ -11,7 +13,21 @@ interface ChildCategoriesListProps {
 const ChildCategoriesList: React.FC<ChildCategoriesListProps> = ({
   categories,
 }) => {
-  const columnDefs = [{ headerName: "Name", field: "name" }];
+  const columnDefs = [
+    {
+      headerName: "Name",
+      field: "name",
+      cellRenderer: (params: ICellRendererParams) => {
+        return params.data ? (
+          <Link href={`/dashboard/categories/${params.data.id}`}>
+            {params.value}
+          </Link>
+        ) : (
+          ""
+        );
+      },
+    },
+  ];
 
   return (
     <div className="w-full bg-white shadow-md rounded-lg">
