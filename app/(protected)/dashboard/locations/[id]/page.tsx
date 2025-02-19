@@ -3,6 +3,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
@@ -81,7 +82,11 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
   const productFields = [
     { label: "Code", value: location.code },
     { label: "Name", value: location.name },
-    { label: "Parent Location", value: location.parent?.name },
+    {
+      label: "Parent Location",
+      value: location.parent?.name,
+      href: `/dashboard/locations/${location.parent?.id}`,
+    },
   ];
 
   return (
@@ -103,7 +108,8 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
               (field, index) =>
                 field.value && (
                   <FieldRow key={index} name={field.label}>
-                    {field.value}
+                    {field.href && <Link href={field.href}>{field.value}</Link>}
+                    {!field.href && field.value}
                   </FieldRow>
                 )
             )}
