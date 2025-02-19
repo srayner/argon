@@ -63,10 +63,16 @@ const SearchPage: NextPage = () => {
       .then((c) => {
         setCategory(c);
         setCategories(c.children);
-        setProperties(c.properties);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+      });
+
+    fetch(`/api/properties?categoryId=${categoryId}`)
+      .then((response) => response.json())
+      .then(({ data }) => setProperties(data))
+      .catch((error) => {
+        console.error("Error fetching properties:", error);
       });
   };
 
@@ -150,7 +156,8 @@ const SearchPage: NextPage = () => {
       )}
 
       {properties.length !== 0 && (
-        <div className="w-full">
+        <div className="w-full mb-4">
+          <h3>Filters</h3>
           <PropertyValuesFilter
             properties={properties}
             onRefresh={fetchProducts}
@@ -159,11 +166,14 @@ const SearchPage: NextPage = () => {
       )}
 
       {products.length !== 0 && (
-        <SimpleDataGrid
-          rowData={products}
-          rowHeight={100}
-          columnDefs={columnDefs}
-        />
+        <div>
+          <h3>Search Results</h3>
+          <SimpleDataGrid
+            rowData={products}
+            rowHeight={100}
+            columnDefs={columnDefs}
+          />
+        </div>
       )}
     </>
   );
