@@ -10,9 +10,11 @@ export async function GET(request: NextRequest) {
     const searchTerm = url.searchParams.get("search") || "";
     const searchFields = [
       "name",
+      "category.name",
+      "manufacturer.name",
       "manufacturerPartNo",
+      "supplier.name",
       "supplierPartNo",
-      "location",
     ];
     const searchObject = createSearchObject(searchFields, searchTerm);
     const page = parseInt(url.searchParams.get("page") || "1", 10);
