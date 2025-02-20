@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ICellRendererParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "@/components/ui/datagrid/DataGrid";
-import Header from "../../../ui/header/header";
+import Header from "@/components/ui/header/Header";
 import SearchInput from "@/components/ui/SearchInput";
 
 export default function SuppliersPage() {
@@ -34,8 +34,7 @@ export default function SuppliersPage() {
 
   return (
     <>
-      <Header>
-        <div>Suppliers</div>
+      <Header caption="Suppliers">
         <SearchInput handleSearchChange={handleSearchChange} />
         <Button color="primary" href="/dashboard/suppliers/add">
           Add

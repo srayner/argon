@@ -6,7 +6,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
-import Header from "@/app/ui/header/header";
+import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
 import Form from "@/components/form/Form";
 import TextInput from "@/components/form/input/TextInput";
@@ -63,7 +63,7 @@ const SupplierEditPage: React.FC<SupplierEditPageProps> = ({ params }) => {
 
   return (
     <>
-      <Header>Edit Supplier</Header>
+      <Header caption="Edit Supplier" />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           fieldName="name"
