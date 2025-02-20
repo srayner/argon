@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "@/app/ui/modal/modal";
+import Modal from "@/components/ui/modal/modal";
 import { Paginator } from "@/components/data/paginator";
 import { Image } from "@/types/entities";
 import { Meta } from "@/types/pagination";
@@ -41,7 +41,7 @@ const ImageGalleryModal: React.FC<ImageGalleryModalProps> = ({
   }, [isOpen]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isVisible={isOpen} onClose={onClose} showCloseCross>
       <div className="grid grid-cols-2 gap-4">
         {images.map((image: Image, index) => (
           <div key={index} className="relative group">
