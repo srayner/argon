@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Form from "@/components/form/Form";
-import Header from "@/app/ui/header/header";
+import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
 import Select from "@/components/form/select";
 import NumberInput from "@/components/form/input/NumberInput";
@@ -120,7 +120,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
 
   return (
     <>
-      <Header>Edit Product</Header>
+      <Header caption="Edit Product" />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           label={"Name"}

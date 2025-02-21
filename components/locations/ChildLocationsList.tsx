@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { ICellRendererParams } from "ag-grid-community";
 import SimpleDataGrid from "../ui/datagrid/SimpleDataGrid";
 import { CardHeader, CardBody } from "../ui/modal/Card/action-card";
 
@@ -11,7 +13,21 @@ interface ChildLocationsListProps {
 const ChildLocationsList: React.FC<ChildLocationsListProps> = ({
   locations,
 }) => {
-  const columnDefs = [{ headerName: "Name", field: "name" }];
+  const columnDefs = [
+    {
+      headerName: "Name",
+      field: "name",
+      cellRenderer: (params: ICellRendererParams) => {
+        return params.data ? (
+          <Link href={`/dashboard/locations/${params.data.id}`}>
+            {params.value}
+          </Link>
+        ) : (
+          ""
+        );
+      },
+    },
+  ];
 
   return (
     <div className="w-full bg-white shadow-md rounded-lg">

@@ -7,7 +7,7 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
 import Button from "../../../ui/button/button";
 import DataGrid from "@/components/ui/datagrid/DataGrid";
-import Header from "../../../ui/header/header";
+import Header from "@/components/ui/header/Header";
 import SearchInput from "@/components/ui/SearchInput";
 
 type Params = { id: string };
@@ -108,8 +108,7 @@ const Products: NextPage<ProductsPageProps> = ({ params }) => {
 
   return (
     <>
-      <Header>
-        <div>Products</div>
+      <Header caption="Products">
         <SearchInput handleSearchChange={handleSearchChange} />
         <Button color="primary" href="/dashboard/products/add">
           Add

@@ -28,7 +28,9 @@ describe("Adds some new property values", () => {
       cy.get('[data-e2e="add-property-value-button"]').click();
       cy.get('select[name="propertyId"]')
         .should("be.visible")
+        .should("have.length.gt", 0)
         .should("not.be.disabled")
+        .focus()
         .select(value.type);
       cy.get('input[name="value"]').clear().type(value.value);
       cy.contains("button", "Add").click();

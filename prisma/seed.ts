@@ -209,6 +209,7 @@ async function seedCategories(
           data: {
             name: prop.name,
             type: prop.type, // Using PropertyType enum
+            units: prop.units || undefined,
             categoryId: createdCategory.id, // Link property to category
           },
         });
@@ -330,7 +331,14 @@ async function main() {
         {
           name: "Resistors",
           children: [
-            { name: "Through Hole Resistors", children: [] },
+            {
+              name: "Through Hole Resistors",
+              children: [],
+              properties: [
+                { name: "Resistance", type: "METRIC", units: "Ω" },
+                { name: "Power Rating", type: "METRIC", units: "W" },
+              ],
+            },
             { name: "Surface Mount Resistors", children: [] },
             { name: "Variable Resistors", children: [] },
           ],

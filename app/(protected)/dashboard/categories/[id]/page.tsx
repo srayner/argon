@@ -3,6 +3,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
@@ -80,7 +81,11 @@ const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
   const productFields = [
     { label: "Code", value: category.code },
     { label: "Name", value: category.name },
-    { label: "Parent Category", value: category.parent?.name },
+    {
+      label: "Parent Category",
+      value: category.parent?.name,
+      href: `/dashboard/categories/${category.parent?.id}`,
+    },
   ];
 
   return (
@@ -102,7 +107,8 @@ const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
               (field, index) =>
                 field.value && (
                   <FieldRow key={index} name={field.label}>
-                    {field.value}
+                    {field.href && <Link href={field.href}>{field.value}</Link>}
+                    {!field.href && field.value}
                   </FieldRow>
                 )
             )}

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "@/app/ui/button/button";
-import Header from "@/app/ui/header/header";
+import Header from "@/components/ui/header/Header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
 import Modal from "@/components/ui/modal/modal";
 import PropertyValuesCard from "@/components/property-values/property-values-card";
@@ -131,8 +131,7 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
 
   return (
     <>
-      <Header>
-        <span>{product.name}</span>
+      <Header caption={product.name}>
         <Button onClick={handleEditClick}>Edit</Button>
         <Button color="danger" onClick={handleDeleteClick}>
           Delete
