@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Page not found" }, { status: 404 });
     }
 
-    const sortString = url.searchParams.get("sort") || "code";
+    const sortString = url.searchParams.get("sort") || "name";
     const orderBy = sortString ? parseSortParams(sortString) : {};
 
     const products = await prisma.product.findMany({
