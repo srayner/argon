@@ -48,7 +48,7 @@ const ProductAddPage: React.FC = () => {
       try {
         const [categoriesResponse, manufacturersResponse, suppliersResponse] =
           await Promise.all([
-            fetch("/api/categories?sort=name&pageSize=50"),
+            fetch("/api/categories?sort=name&pageSize=100"),
             fetch("/api/manufacturers?pageSize=50"),
             fetch("/api/suppliers?pageSize=50"),
           ]);
