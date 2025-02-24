@@ -59,7 +59,7 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
       try {
         const [categoryResponse, categoriesResponse] = await Promise.all([
           fetch(`/api/categories/${categoryId}`),
-          fetch(`/api/categories?pageSize=50&exclude=${categoryId}`),
+          fetch(`/api/categories?pageSize=100&sort=name&exclude=${categoryId}`),
         ]);
 
         if (!categoryResponse || !categoriesResponse) {
