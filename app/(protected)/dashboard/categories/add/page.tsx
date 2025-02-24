@@ -33,7 +33,7 @@ const CategoryAddPage: NextPage = () => {
     const fetchData = async () => {
       try {
         const [categoriesResponse] = await Promise.all([
-          fetch("/api/categories?pageSize=50"),
+          fetch("/api/categories?pageSize=100&sort=name"),
         ]);
 
         if (!categoriesResponse.ok) {
