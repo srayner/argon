@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
 export type option = {
@@ -22,10 +22,13 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   onScrollToBottom,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
   const [selected, setSelected] = useState<option | null>(null);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const dropdownRef = useRef<HTMLUListElement>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (value) {
@@ -96,21 +99,58 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     }
   };
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        document.body.contains(event.target) &&
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target)
+      ) {
+        setIsFocused(false);
+        setIsOpen(false);
+      }
+    }
+
+    if (isFocused) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isFocused, wrapperRef]);
+
   return (
     <div
+      ref={wrapperRef}
       className={`relative inline-block text-base text-[var(--text-color)] ${width}`}
     >
       <div
-        tabIndex={0}
-        onClick={toggleDropdown}
-        onBlur={() => setIsOpen(false)}
-        className={`flex justify-between items-center gap-2 px-2 py-1.5 border border-[var(--seperator-color)] bg-white shadow-md cursor-pointer focus:outline focus:outline-2 focus:outline-offset-[-2px]
+        onClick={(e) => {
+          setIsFocused(true);
+          toggleDropdown();
+        }}
+        className={`flex justify-between items-center gap-2 px-2 py-1.5 border border-[var(--seperator-color)] bg-white shadow-md cursor-pointer
+          ${isFocused ? "outline outline-2 outline-offset-[-2px]" : ""}
           ${isOpen ? "rounded-t" : "rounded"}
         `}
       >
-        <span className="flex-grow">
-          {selected?.name || "Select an option"}
-        </span>
+        {isOpen ? (
+          <input
+            type="text"
+            className="flex-grow border-none focus:outline-none"
+            value={searchTerm}
+            placeholder="Search..."
+            autoFocus
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onBlur={(e) => e.stopPropagation}
+            onClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          <span className="flex-grow">
+            {selected?.name || "Select an option"}
+          </span>
+        )}
         <span className="text-gray-600 cursor-pointer">
           <FaChevronDown />
         </span>
