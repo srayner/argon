@@ -1,3 +1,4 @@
+import { useDebounce } from "@/hooks/debounce";
 import { useCallback, useState, useRef, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
@@ -27,7 +28,8 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [selected, setSelected] = useState<option | null>(null);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
+  const debouncedSearch = useDebounce(search);
 
   const dropdownRef = useRef<HTMLUListElement>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -72,6 +74,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [options, highlightedIndex, isOpen]);
+
+  useEffect(() => {
+    onSearchChanged?.(debouncedSearch);
+  }, [debouncedSearch]);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -141,12 +147,11 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           <input
             type="text"
             className="flex-grow border-none focus:outline-none"
-            value={searchTerm}
+            value={search}
             placeholder="Search..."
             autoFocus
             onChange={(e) => {
-              setSearchTerm(e.target.value);
-              onSearchChanged?.(e.target.value);
+              setSearch(e.target.value);
             }}
             onBlur={(e) => e.stopPropagation}
             onClick={(e) => e.stopPropagation()}

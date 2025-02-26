@@ -24,18 +24,12 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
   nameField = "name",
   pageSize = 10,
 }) => {
-  console.log(control);
-
   const [options, setOptions] = useState<option[]>([]);
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
-  if (control._defaultValues[fieldName]) {
-    console.log(control._defaultValues[fieldName]);
-  }
 
   const fetchData = useCallback(async () => {
     if (loading) return;
@@ -89,6 +83,7 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
     url,
     page,
     pageSize,
+    search,
     loading,
     hasMore,
     valueField,
@@ -108,9 +103,6 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
   };
 
   const handleSearch = (searchTerm: string) => {
-    if (loading) {
-      return;
-    }
     setOptions([]);
     setPage(1);
     setSearch(searchTerm);
