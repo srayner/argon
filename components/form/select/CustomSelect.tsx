@@ -12,6 +12,7 @@ interface CustomSelectProps {
   width?: string;
   onChange?: (value: string | number) => void;
   onScrollToBottom?: () => void;
+  onSearchChanged?: (searchTerm: string) => void;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
@@ -20,6 +21,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   width = "",
   onChange,
   onScrollToBottom,
+  onSearchChanged,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -142,7 +144,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
             value={searchTerm}
             placeholder="Search..."
             autoFocus
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              onSearchChanged?.(e.target.value);
+            }}
             onBlur={(e) => e.stopPropagation}
             onClick={(e) => e.stopPropagation()}
           />

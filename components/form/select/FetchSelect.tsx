@@ -28,6 +28,7 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
 
   const [options, setOptions] = useState<option[]>([]);
   const [page, setPage] = useState<number>(1);
+  const [search, setSearch] = useState<string>("");
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,16 +43,15 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
     setLoading(true);
     try {
       const pageRequest = await fetch(
-        `${url}?page=${page}&pageSize=${pageSize}&sort=name`
+        `${url}?page=${page}&pageSize=${pageSize}&search=${search}&sort=name`
       ).then((res) => res.json());
 
       const selectedValue = control._defaultValues?.[fieldName];
 
-      const selectedItemRequest = !options.some(
-        (opt) => opt.value === selectedValue
-      )
-        ? fetch(`${url}/${selectedValue}`).then((res) => res.json())
-        : Promise.resolve(null);
+      const selectedItemRequest =
+        selectedValue && !options.some((opt) => opt.value === selectedValue)
+          ? fetch(`${url}/${selectedValue}`).then((res) => res.json())
+          : Promise.resolve(null);
 
       const [pageResponse, selectedItemResponse] = await Promise.all([
         pageRequest,
@@ -96,25 +96,24 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
     options.length,
   ]);
 
-  // const isFetching = useRef(false);
-
   useEffect(() => {
-    // if (isFetching.current) {
-    //  return;
-    // }
-
-    // isFetching.current = true;
-
-    fetchData().finally(() => {
-      // isFetching.current = false; // Reset after fetch completes
-    });
-  }, [page]);
+    fetchData();
+  }, [page, search]);
 
   const handleScroll = () => {
     if (loading || !hasMore) {
       return;
     }
     setPage((prev) => prev + 1);
+  };
+
+  const handleSearch = (searchTerm: string) => {
+    if (loading) {
+      return;
+    }
+    setOptions([]);
+    setPage(1);
+    setSearch(searchTerm);
   };
 
   return (
@@ -135,6 +134,7 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
                 options={options}
                 width="w-[300px]"
                 onScrollToBottom={handleScroll}
+                onSearchChanged={handleSearch}
               />
               {fieldState.error && fieldState.error.message && (
                 <Error message={fieldState.error.message} />
