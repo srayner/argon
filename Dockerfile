@@ -18,6 +18,7 @@ COPY actions ./actions
 COPY app ./app
 COPY components ./components
 COPY data ./data
+COPY hooks ./hooks
 COPY lib ./lib
 COPY prisma ./prisma
 COPY public ./public
