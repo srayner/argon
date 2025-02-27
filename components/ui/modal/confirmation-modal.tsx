@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "@/app/ui/button/button";
 import Modal from "./modal";
-import styles from "./confirmation.modal.module.css";
 
 interface ConfirmationModalProps {
   isVisible: boolean;
@@ -20,11 +19,9 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
   return (
     <Modal isVisible={isVisible} onClose={onClose}>
-      <h2 className={styles.heading}>Are you sure?</h2>
-      <p
-        className={styles.question}
-      >{`Do you really want to delete this ${entityName}?`}</p>
-      <div className={styles.buttons}>
+      <h2>Are you sure?</h2>
+      <p>{`Do you really want to delete this ${entityName}?`}</p>
+      <div className="flex gap-2">
         <Button color="secondary" onClick={onClose}>
           No
         </Button>
