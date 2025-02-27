@@ -1,12 +1,11 @@
 import React, { ReactNode } from "react";
-import Styles from "./form.module.css";
 
 interface FormRowProps {
   children: ReactNode;
 }
 
 const FormRow: React.FC<FormRowProps> = ({ children }) => {
-  return <div className={Styles.formRow}>{children}</div>;
+  return <div className="flex gap-2 items-center">{children}</div>;
 };
 
 export default FormRow;
