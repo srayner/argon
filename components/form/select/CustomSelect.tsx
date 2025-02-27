@@ -1,5 +1,5 @@
 import { useDebounce } from "@/hooks/debounce";
-import { useCallback, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
 export type option = {
