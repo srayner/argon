@@ -108,7 +108,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   };
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    function handleClickOutside(event: MouseEvent) {
+      if (!(event.target instanceof HTMLElement)) return;
+
       if (
         document.body.contains(event.target) &&
         wrapperRef.current &&
