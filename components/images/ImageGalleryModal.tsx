@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Modal from "@/components/ui/modal/modal";
+import Modal from "@/components/ui/modal/Modal";
 import { Paginator } from "@/components/data/paginator";
 import { Image } from "@/types/entities";
 import { Meta } from "@/types/pagination";

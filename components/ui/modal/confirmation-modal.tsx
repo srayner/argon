@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@/app/ui/button/button";
-import Modal from "./modal";
+import Modal from "./Modal";
 
 interface ConfirmationModalProps {
   isVisible: boolean;

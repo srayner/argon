@@ -1,5 +1,4 @@
 import React from "react";
-import { string } from "zod";
 
 interface ClickableIconProps {
   icon: React.ReactNode;

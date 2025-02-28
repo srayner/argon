@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "@/components/ui/modal/modal";
+import Modal from "@/components/ui/modal/Modal";
 import EditStockForm from "./EditStockForm";
 import { Product, Stock } from "@/types/entities";
 

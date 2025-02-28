@@ -7,7 +7,7 @@ import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
-import Modal from "@/components/ui/modal/modal";
+import Modal from "@/components/ui/modal/Modal";
 import PropertyValuesCard from "@/components/property-values/property-values-card";
 import PropertyValueForm from "@/components/property-values/property-value-form";
 import LocationsCard from "@/components/locations/locations-card";

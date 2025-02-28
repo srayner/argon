@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "@/components/ui/modal/confirmation.modal.module.css";
 import PropertyAddForm from "@/components/form/property-add-form";
-import Modal from "@/components/ui/modal/modal";
+import Modal from "@/components/ui/modal/Modal";
 
 interface PropertyModalProps {
   isVisible: boolean;
