@@ -3,7 +3,7 @@
 import React from "react";
 import { MdAddCircle, MdEdit, MdDelete } from "react-icons/md";
 import SimpleDataGrid from "../ui/datagrid/SimpleDataGrid";
-import { CardHeader, CardBody } from "../ui/modal/Card/action-card";
+import { CardHeader, CardBody } from "../ui/card/ActionCard";
 
 interface PropertiesLstProps {
   properties: any;

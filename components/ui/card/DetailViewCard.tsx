@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { CardHeader, CardBody } from "../modal/Card/action-card";
+import { CardHeader, CardBody } from "./ActionCard";
 import EditableImage from "@/components/images/EditableImage";
 import { Image } from "@/types/entities";
 

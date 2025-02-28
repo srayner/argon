@@ -36,7 +36,6 @@ const CardHeader: React.FC<CardHeaderProps> = ({ title, actions }) => {
     <div className="bg-zinc-300 w-full min-h-[46px] py-2 px-4 flex justify-between items-center rounded-t-lg">
       <h3 className="text-black text-sm font-semibold">{title}</h3>
       <div className="flex space-x-4">
-        {/* Render each clickable action */}
         {actions.map((action, index) => (
           <ClickableIcon
             key={index}

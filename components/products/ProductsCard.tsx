@@ -1,6 +1,6 @@
 import React from "react";
 import { MdAddCircle } from "react-icons/md";
-import { CardBody, CardHeader } from "../ui/modal/Card/action-card";
+import { CardBody, CardHeader } from "../ui/card/ActionCard";
 import SimpleDataGrid from "../ui/datagrid/SimpleDataGrid";
 import { Stock } from "@/types/entities";
 

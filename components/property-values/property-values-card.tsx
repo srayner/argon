@@ -1,5 +1,5 @@
 import React from "react";
-import { CardBody, CardHeader } from "../ui/modal/Card/action-card";
+import { CardBody, CardHeader } from "../ui/card/ActionCard";
 import { MdAddCircle, MdEdit, MdDelete } from "react-icons/md";
 import { PropertyValue } from "@/types/entities";
 import formatPropertyValue from "@/lib/value-formatter";

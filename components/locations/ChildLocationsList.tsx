@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ICellRendererParams } from "ag-grid-community";
 import SimpleDataGrid from "../ui/datagrid/SimpleDataGrid";
-import { CardHeader, CardBody } from "../ui/modal/Card/action-card";
+import { CardHeader, CardBody } from "../ui/card/ActionCard";
 
 interface ChildLocationsListProps {
   locations: any;
