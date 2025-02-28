@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
-import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
+import ConfirmationModal from "@/components/ui/modal/ConfirmationModal";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 import { Supplier, Image } from "@/types/entities";
 

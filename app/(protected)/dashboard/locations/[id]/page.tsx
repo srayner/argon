@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
-import ConfirmationModal from "@/components/ui/modal/confirmation-modal";
+import ConfirmationModal from "@/components/ui/modal/ConfirmationModal";
 import ChildLocationsList from "@/components/locations/ChildLocationsList";
 import ProductsCard from "@/components/products/ProductsCard";
 import { Location, Image } from "@/types/entities";
