@@ -24,7 +24,6 @@ const LocationsCard: React.FC<LocationsCardProps> = ({
       headerName: "Location",
       field: "location.name",
       cellRenderer: (params: ICellRendererParams) => {
-        console.log(params.data);
         return params.data ? (
           <Link href={`/dashboard/locations/${params.data.location.id}`}>
             {params.value}

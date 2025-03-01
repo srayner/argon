@@ -45,7 +45,6 @@ export const LoginForm = () => {
 
     startTransition(() => {
       login(values).then((data) => {
-        console.log(data);
         if (data) {
           setError(data?.error);
           // TODO: Add when we add 2FA

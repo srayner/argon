@@ -24,7 +24,6 @@ const ProductsCard: React.FC<LocationsCardProps> = ({
       headerName: "Product",
       field: "product.name",
       cellRenderer: (params: ICellRendererParams) => {
-        console.log(params.data);
         return params.data ? (
           <Link href={`/dashboard/products/${params.data.product.id}`}>
             {params.value}

@@ -11,7 +11,6 @@ const Button = ({
   href,
   disabled = false,
 }) => {
-  console.log(disabled);
   const getSizeClass = (size) => {
     switch (size) {
       case "small":

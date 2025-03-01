@@ -114,7 +114,6 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
   };
 
   const handleSubmit = () => {
-    console.log(filters);
     const filterData = filters
       .map((property) => {
         const selectedValues = property.values
