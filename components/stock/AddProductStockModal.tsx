@@ -1,16 +1,16 @@
 import React from "react";
 import Modal from "@/components/ui/modal/Modal";
-import AddStockForm from "./addStockForm";
+import AddStockForm from "./AddProductStockForm";
 import { Product } from "@/types/entities";
 
-interface PropertyModalProps {
+interface AddProductStockModalProps {
   isVisible: boolean;
   onClose: () => void;
   onSubmit: () => void;
   product: Product;
 }
 
-const AddStockModal: React.FC<PropertyModalProps> = ({
+const AddProductStockModal: React.FC<AddProductStockModalProps> = ({
   isVisible,
   onClose,
   onSubmit,
@@ -30,4 +30,4 @@ const AddStockModal: React.FC<PropertyModalProps> = ({
   );
 };
 
-export default AddStockModal;
+export default AddProductStockModal;

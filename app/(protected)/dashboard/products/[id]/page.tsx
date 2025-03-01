@@ -13,7 +13,7 @@ import PropertyValueForm from "@/components/property-values/property-value-form"
 import LocationsCard from "@/components/locations/locations-card";
 import { Image, Product, PropertyValue, Stock } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
-import AddStockModal from "@/components/stock/addStockModal";
+import AddStockModal from "@/components/stock/AddProductStockModal";
 import EditStockModal from "@/components/stock/EditStockModal";
 
 type Params = { id: string };

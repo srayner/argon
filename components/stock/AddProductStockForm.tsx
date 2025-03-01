@@ -8,13 +8,13 @@ import NumberInput from "../form/input/NumberInput";
 import FetchSelect from "@/components/form/select/FetchSelect";
 import SubmitContainer from "@/components/form/SubmitContainer";
 
-interface AddStockFormProps {
+interface AddProductStockFormProps {
   productId: number;
   onSubmit?: () => void;
   onCancel?: () => void;
 }
 
-const EditStockForm: React.FC<AddStockFormProps> = ({
+const AddProductStockForm: React.FC<AddProductStockFormProps> = ({
   productId,
   onSubmit,
   onCancel,
@@ -77,4 +77,4 @@ const EditStockForm: React.FC<AddStockFormProps> = ({
   );
 };
 
-export default EditStockForm;
+export default AddProductStockForm;
