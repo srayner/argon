@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { MdAddCircle } from "react-icons/md";
 import { CardBody, CardHeader } from "../ui/card/ActionCard";
 import SimpleDataGrid from "../ui/datagrid/SimpleDataGrid";
@@ -18,7 +19,20 @@ const LocationsCard: React.FC<LocationsCardProps> = ({
   onEdit,
 }) => {
   const columnDefs = [
-    { headerName: "Location", field: "location.name" },
+    {
+      headerName: "Location",
+      field: "location.name",
+      cellRenderer: (params: ICellRendererParams) => {
+        console.log(params.data);
+        return params.data ? (
+          <Link href={`/dashboard/locations/${params.data.location.id}`}>
+            {params.value}
+          </Link>
+        ) : (
+          ""
+        );
+      },
+    },
     { headerName: "Qty", field: "qty" },
     {
       headerName: "Actions",
