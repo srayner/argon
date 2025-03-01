@@ -7,10 +7,11 @@ import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import AddLocationStockModal from "@/components/stock/AddLocationStockModal";
+import EditLocationStockModal from "@/components/stock/EditLocationStockModal";
 import ConfirmationModal from "@/components/ui/modal/ConfirmationModal";
 import ChildLocationsList from "@/components/locations/ChildLocationsList";
 import ProductsCard from "@/components/products/ProductsCard";
-import { Location, Image } from "@/types/entities";
+import { Location, Image, Stock } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 
 type Params = { id: string };
@@ -25,6 +26,8 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
   const [location, setLocation] = useState<Location | null>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isAddStockModalVisible, setIsAddStockModalVisible] = useState(false);
+  const [isEditStockModalVisible, setIsEditStockModalVisible] = useState(false);
+  const [stockData, setStockData] = useState<Stock | null>(null);
 
   const handleEditClick = () => {
     router.push(`/dashboard/locations/${locationId}/edit`);
@@ -44,6 +47,11 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
     });
 
     router.push("/dashboard/locations");
+  };
+
+  const handleStartEditingStock = (stock: Stock) => {
+    setStockData(stock);
+    setIsEditStockModalVisible(true);
   };
 
   const handleImageChange = async (image: Image) => {
@@ -121,7 +129,7 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
           stock={location.stock}
           onAdd={() => setIsAddStockModalVisible(true)}
           onDelete={handleDeleteStock}
-          onEdit={() => {}}
+          onEdit={handleStartEditingStock}
         ></ProductsCard>
         <ChildLocationsList locations={location.children} />
       </div>
@@ -142,6 +150,18 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
         onClose={() => setIsAddStockModalVisible(false)}
         location={location}
       />
+      {stockData && (
+        <EditLocationStockModal
+          isVisible={isEditStockModalVisible}
+          onSubmit={() => {
+            setIsEditStockModalVisible(false);
+            fetchLocation();
+          }}
+          onClose={() => setIsEditStockModalVisible(false)}
+          location={location}
+          stock={stockData}
+        />
+      )}
     </>
   );
 };
