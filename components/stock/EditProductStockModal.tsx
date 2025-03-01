@@ -1,9 +1,9 @@
 import React from "react";
 import Modal from "@/components/ui/modal/Modal";
-import EditStockForm from "./EditStockForm";
+import EditStockForm from "./EditProductStockForm";
 import { Product, Stock } from "@/types/entities";
 
-interface EditStockModalProps {
+interface EditProductStockModalProps {
   isVisible: boolean;
   onClose: () => void;
   onSubmit: () => void;
@@ -11,7 +11,7 @@ interface EditStockModalProps {
   stock: Stock;
 }
 
-const EditStockModal: React.FC<EditStockModalProps> = ({
+const EditProductStockModal: React.FC<EditProductStockModalProps> = ({
   isVisible,
   onClose,
   onSubmit,
@@ -33,4 +33,4 @@ const EditStockModal: React.FC<EditStockModalProps> = ({
   );
 };
 
-export default EditStockModal;
+export default EditProductStockModal;

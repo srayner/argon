@@ -9,14 +9,14 @@ import FetchSelect from "@/components/form/select/FetchSelect";
 import SubmitContainer from "@/components/form/SubmitContainer";
 import { Stock } from "@/types/entities";
 
-interface EditStockFormProps {
+interface EditProductStockFormProps {
   productId: number;
   stock: Stock;
   onSubmit?: () => void;
   onCancel?: () => void;
 }
 
-const EditStockForm: React.FC<EditStockFormProps> = ({
+const EditProductStockForm: React.FC<EditProductStockFormProps> = ({
   productId,
   stock,
   onSubmit,
@@ -88,4 +88,4 @@ const EditStockForm: React.FC<EditStockFormProps> = ({
   );
 };
 
-export default EditStockForm;
+export default EditProductStockForm;

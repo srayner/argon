@@ -14,7 +14,7 @@ import LocationsCard from "@/components/locations/locations-card";
 import { Image, Product, PropertyValue, Stock } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 import AddStockModal from "@/components/stock/AddProductStockModal";
-import EditStockModal from "@/components/stock/EditStockModal";
+import EditStockModal from "@/components/stock/EditProductStockModal";
 
 type Params = { id: string };
 
