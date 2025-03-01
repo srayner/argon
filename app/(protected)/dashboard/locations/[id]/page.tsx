@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
+import AddLocationStockModal from "@/components/stock/AddLocationStockModal";
 import ConfirmationModal from "@/components/ui/modal/ConfirmationModal";
 import ChildLocationsList from "@/components/locations/ChildLocationsList";
 import ProductsCard from "@/components/products/ProductsCard";
@@ -23,6 +24,7 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
   const locationId = params.id;
   const [location, setLocation] = useState<Location | null>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isAddStockModalVisible, setIsAddStockModalVisible] = useState(false);
 
   const handleEditClick = () => {
     router.push(`/dashboard/locations/${locationId}/edit`);
@@ -117,7 +119,7 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
         </div>
         <ProductsCard
           stock={location.stock}
-          onAdd={() => {}}
+          onAdd={() => setIsAddStockModalVisible(true)}
           onDelete={handleDeleteStock}
           onEdit={() => {}}
         ></ProductsCard>
@@ -129,6 +131,16 @@ const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
         onClose={handleCloseModal}
         onConfirm={handleConfirmDelete}
         entityName="location"
+      />
+
+      <AddLocationStockModal
+        isVisible={isAddStockModalVisible}
+        onSubmit={() => {
+          setIsAddStockModalVisible(false);
+          fetchLocation();
+        }}
+        onClose={() => setIsAddStockModalVisible(false)}
+        location={location}
       />
     </>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { MdAddCircle } from "react-icons/md";
+import { ICellRendererParams } from "ag-grid-community";
 import { CardBody, CardHeader } from "../ui/card/ActionCard";
 import SimpleDataGrid from "../ui/datagrid/SimpleDataGrid";
 import { Stock } from "@/types/entities";
