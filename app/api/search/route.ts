@@ -8,10 +8,6 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
     const searchObject = buildPropertiesSearchObject(data.customProperties);
-
-    //console.log(JSON.stringify(searchObject, null, 2));
-    //return NextResponse.json({ data: [] });
-
     const page = parseInt(data.page || "1", 10);
     const pageSize = parseInt(data.page || "10", 10);
 
@@ -22,7 +18,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const totalItems = await prisma.product.count({ where: searchObject });
+    const whereFilter = {
+      ...searchObject,
+      ...(data.categoryId ? { categoryId: data.categoryId } : {}),
+    };
+
+    const totalItems = await prisma.product.count({ where: whereFilter });
     const totalPages = Math.ceil(totalItems / pageSize);
 
     if (page > 1 && page > totalPages) {
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest) {
     const products = await prisma.product.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
-      where: searchObject,
+      where: whereFilter,
       orderBy: orderBy,
       include: {
         category: true,
