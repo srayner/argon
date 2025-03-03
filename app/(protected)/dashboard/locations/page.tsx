@@ -40,8 +40,10 @@ export default function LocationsPage() {
         );
       },
     },
-    { headerName: "Full Path", field: "fullPathString", flex: 1 },
-    { headerName: "Depth", field: "depth" },
+    {
+      headerName: "Products",
+      field: "productCount",
+    },
   ];
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
