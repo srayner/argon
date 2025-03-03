@@ -14,6 +14,7 @@ import { Product, Category, Property } from "@/types/entities";
 
 const SearchPage: NextPage = () => {
   const [category, setCategory] = useState<Category | null>(null);
+  const [filters, setFilters] = useState<Filter[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -29,25 +30,32 @@ const SearchPage: NextPage = () => {
     setCategories(data);
   };
 
-  const fetchProducts = async (filters: Filter[]) => {
-    const response = await fetch("/api/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sort: "name",
-        customProperties: filters,
-      }),
-    });
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await fetch("/api/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sort: "name",
+          customProperties: filters,
+          categoryId: category?.id,
+        }),
+      });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch products");
+      if (!response.ok) {
+        throw new Error("Failed to fetch products");
+      }
+
+      const { data } = await response.json();
+      setProducts(data);
+    };
+
+    if (category !== null) {
+      fetchProducts();
     }
-
-    const { data } = await response.json();
-    setProducts(data);
-  };
+  }, [category, filters]);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -160,7 +168,7 @@ const SearchPage: NextPage = () => {
           <h3>Filters</h3>
           <PropertyValuesFilter
             properties={properties}
-            onRefresh={fetchProducts}
+            onRefresh={setFilters}
           />
         </div>
       )}

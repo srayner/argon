@@ -40,7 +40,9 @@ export async function GET(request: NextRequest) {
     const categories = await prisma.category.findMany({
       include: {
         parent: true,
-        children: true,
+        children: {
+          orderBy: { name: "asc" },
+        },
       },
       skip: (page - 1) * pageSize,
       take: pageSize,

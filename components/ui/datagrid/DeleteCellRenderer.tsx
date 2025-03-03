@@ -22,12 +22,14 @@ const DeleteCellRenderer: React.FC<DeleteCellRendererProps> = ({
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      style={{ border: "none", background: "transparent" }}
-    >
-      <MdDelete className="text-red-400 hover:text-red-600" size={20} />
-    </button>
+    <div className="flex h-full">
+      <button
+        onClick={handleDelete}
+        style={{ border: "none", background: "transparent" }}
+      >
+        <MdDelete className="text-red-400 hover:text-red-600" size={20} />
+      </button>
+    </div>
   );
 };
 
