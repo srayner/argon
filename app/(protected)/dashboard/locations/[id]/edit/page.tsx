@@ -64,7 +64,7 @@ const LocationEditPage: React.FC<LocationEditPageProps> = ({ params }) => {
       try {
         const [locationResponse, locationsResponse] = await Promise.all([
           fetch(`/api/locations/${locationId}`),
-          fetch(`/api/locations?pageSize=50&exclude=${locationId}`),
+          fetch(`/api/locations?pageSize=100&exclude=${locationId}`),
         ]);
 
         if (!locationResponse || !locationsResponse) {

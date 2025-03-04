@@ -32,7 +32,7 @@ const LocationAddPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const [locationsResponse] = await Promise.all([
-          fetch("/api/locations?pageSize=50"),
+          fetch("/api/locations?pageSize=100"),
         ]);
 
         if (!locationsResponse.ok) {
