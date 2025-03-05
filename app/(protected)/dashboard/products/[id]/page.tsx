@@ -163,6 +163,7 @@ const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
           onAdd={() => setIsAddStockModalVisible(true)}
           onDelete={handleDeleteStock}
           onEdit={handleStartEditingStock}
+          e2e="stock-locations-panel"
         ></LocationsCard>
         {product.category && (
           <PropertyValuesCard

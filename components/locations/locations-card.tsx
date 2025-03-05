@@ -8,6 +8,7 @@ import { Stock } from "@/types/entities";
 
 interface LocationsCardProps {
   stock: Stock[];
+  e2e?: string;
   onAdd: () => void;
   onDelete: (stockId: string) => void;
   onEdit: (something: any) => void;
@@ -15,6 +16,7 @@ interface LocationsCardProps {
 
 const LocationsCard: React.FC<LocationsCardProps> = ({
   stock,
+  e2e = "",
   onAdd,
   onDelete,
   onEdit,
@@ -51,7 +53,7 @@ const LocationsCard: React.FC<LocationsCardProps> = ({
   ];
 
   return (
-    <div className="w-full bg-white shadow-md rounded-lg">
+    <div className="w-full bg-white shadow-md rounded-lg" data-e2e={e2e}>
       <CardHeader
         title="Stock Locations"
         actions={[

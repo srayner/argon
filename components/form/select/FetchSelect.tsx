@@ -125,6 +125,7 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
                 {...field}
                 options={options}
                 width="w-[300px]"
+                e2e={fieldName + "-select"}
                 onScrollToBottom={handleScroll}
                 onSearchChanged={handleSearch}
               />

@@ -11,6 +11,7 @@ interface CustomSelectProps {
   value: string | number;
   options: option[];
   width?: string;
+  e2e?: string;
   onChange?: (value: string | number) => void;
   onScrollToBottom?: () => void;
   onSearchChanged?: (searchTerm: string) => void;
@@ -20,6 +21,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   value,
   options,
   width = "",
+  e2e = "",
   onChange,
   onScrollToBottom,
   onSearchChanged,
@@ -134,6 +136,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     <div
       ref={wrapperRef}
       className={`relative inline-block text-base text-[var(--text-color)] ${width}`}
+      data-e2e={e2e}
     >
       <div
         onClick={(e) => {
