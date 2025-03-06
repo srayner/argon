@@ -72,7 +72,13 @@ const LocationAddPage: React.FC = () => {
       },
       body: JSON.stringify(transformedData),
     });
-    router.push("/dashboard/locations");
+
+    let nextPage = "/dashboard/locations";
+    if (response.ok) {
+      const newLocation = await response.json();
+      nextPage = `/dashboard/locations/${newLocation.id}`;
+    }
+    router.push(nextPage);
   };
 
   const parentOptions = [
