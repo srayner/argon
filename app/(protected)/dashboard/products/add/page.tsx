@@ -88,14 +88,20 @@ const ProductAddPage: React.FC = () => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    await fetch("/api/products", {
+    const response = await fetch("/api/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
-    router.push("/dashboard/products");
+
+    let nextPage = "/dashboard/products";
+    if (response.ok) {
+      const newProduct = await response.json();
+      nextPage = `/dashboard/products/${newProduct.id}`;
+    }
+    router.push(nextPage);
   };
 
   if (loading) return <p>Loading...</p>;
