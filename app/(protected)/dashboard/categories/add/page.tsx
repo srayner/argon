@@ -69,7 +69,13 @@ const CategoryAddPage: NextPage = () => {
       },
       body: JSON.stringify(data),
     });
-    router.push("/dashboard/categories");
+
+    let nextPage = "/dashboard/categories";
+    if (response.ok) {
+      const newCategory = await response.json();
+      nextPage = `/dashboard/categories/${newCategory.id}`;
+    }
+    router.push(nextPage);
   };
 
   const parentOptions = [
