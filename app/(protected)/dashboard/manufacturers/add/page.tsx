@@ -36,7 +36,13 @@ const ManufacturerAddPage: React.FC = () => {
       },
       body: JSON.stringify(data),
     });
-    router.push("/dashboard/manufacturers");
+
+    let nextPage = "/dashboard/manufacturers";
+    if (response.ok) {
+      const newManufacturer = await response.json();
+      nextPage = `/dashboard/manufacturers/${newManufacturer.id}`;
+    }
+    router.push(nextPage);
   };
 
   return (
