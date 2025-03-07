@@ -9,7 +9,7 @@ import Button from "@/app/ui/button/button";
 import Form from "@/components/form/Form";
 import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import Select from "@/components/form/select";
+import Select from "@/components/form/select/Select";
 import NumberInput from "@/components/form/input/NumberInput";
 import TextInput from "@/components/form/input/TextInput";
 
