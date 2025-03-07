@@ -8,6 +8,7 @@ interface SelectProps<TOption> {
   optionNameField?: keyof TOption;
   defaultValue?: string | number;
   isOptional?: boolean;
+  width: number;
 }
 
 export default function Select<TOption>({
@@ -20,6 +21,7 @@ export default function Select<TOption>({
   optionNameField = "name" as keyof TOption,
   defaultValue,
   isOptional = true,
+  width = 300,
 }: SelectProps<TOption>) {
   return (
     <div className="flex">
@@ -36,7 +38,8 @@ export default function Select<TOption>({
           },
         })}
         defaultValue={defaultValue}
-        className="w-[300px] h-[32px] border border-[var(--seperator-color)] rounded px-2.5 py-1 text-[var(--text-color)] text-base"
+        className="h-[32px] border border-[var(--seperator-color)] rounded px-2.5 py-1 text-[var(--text-color)] text-base"
+        style={{ width: `${width}px` }}
       >
         {isOptional && (
           <option key="!" value="">

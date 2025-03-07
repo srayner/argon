@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Form from "@/components/form/Form";
 import FormRow from "@/components/form/form-row";
-import Select from "@/components/form/select";
+import Select from "@/components/form/select/Select";
 import TextInput from "@/components/form/text-input";
 import SubmitContainer from "@/components/form/SubmitContainer";
 import { Property } from "@/types/entities";
@@ -127,6 +127,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
           isValueNumeric={false}
           options={properties}
           isOptional={false}
+          width={200}
         />
 
         {selectedProperty &&
