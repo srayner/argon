@@ -6,7 +6,7 @@ import Button from "@/app/ui/button/button";
 import Form from "@/components/form/Form";
 import FormRow from "@/components/form/form-row";
 import Select from "@/components/form/select/Select";
-import TextInput from "@/components/form/text-input";
+import TextInput from "@/components/form/input/TextInput";
 import SubmitContainer from "@/components/form/SubmitContainer";
 import { Property } from "@/types/entities";
 
@@ -136,7 +136,12 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
           selectedProperty.unitPosition === "PREFIX" && (
             <span>{selectedProperty.units}</span>
           )}
-        <TextInput register={register} fieldName="value" errors={errors} />
+        <TextInput
+          register={register}
+          fieldName="value"
+          errors={errors}
+          width={150}
+        />
         {selectedProperty &&
           ["NUMERIC", "METRIC", "IMPERIAL"].includes(selectedProperty.type) &&
           selectedProperty.units &&

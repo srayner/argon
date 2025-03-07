@@ -8,7 +8,7 @@ interface SelectProps<TOption> {
   optionNameField?: keyof TOption;
   defaultValue?: string | number;
   isOptional?: boolean;
-  width: number;
+  width?: number;
 }
 
 export default function Select<TOption>({

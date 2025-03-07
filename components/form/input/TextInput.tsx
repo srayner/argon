@@ -6,6 +6,7 @@ interface TextInputProps {
   register: any;
   fieldName: string;
   errors: any;
+  width?: number;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -13,6 +14,7 @@ const TextInput: React.FC<TextInputProps> = ({
   register,
   fieldName,
   errors,
+  width = 300,
 }) => {
   return (
     <div className="flex">
@@ -26,7 +28,8 @@ const TextInput: React.FC<TextInputProps> = ({
           {...register(fieldName)}
           type="text"
           autoComplete="off"
-          className="w-[300px] border border-[var(--seperator-color)] rounded px-2 py-1.5 text-[var(--text-color)] text-base shadow-md"
+          className="border border-[var(--seperator-color)] rounded px-2 py-1.5 text-[var(--text-color)] text-base shadow-md"
+          style={{ width: `${width}px` }}
         ></input>
         {errors && errors[fieldName] && (
           <Error message={`${errors[fieldName].message}`} />
