@@ -9,7 +9,7 @@ import Header from "@/components/ui/header/Header";
 import ConfirmationModal from "@/components/ui/modal/ConfirmationModal";
 import ChildCategoriesList from "@/components/categories/ChildCategoriesList";
 import PropertiesList from "@/components/properties/PropertiesList";
-import PropertyModal from "@/components/properties/property-add-modal";
+import PropertyModal from "@/components/properties/PropertyAddModal";
 import { Category, Image } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 
