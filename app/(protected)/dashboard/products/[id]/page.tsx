@@ -10,7 +10,7 @@ import ConfirmationModal from "@/components/ui/modal/ConfirmationModal";
 import Modal from "@/components/ui/modal/Modal";
 import PropertyValuesCard from "@/components/property-values/PropertyValuesCard";
 import PropertyValueForm from "@/components/property-values/PropertyValueForm";
-import LocationsCard from "@/components/locations/locations-card";
+import LocationsCard from "@/components/locations/LocationsCard";
 import { Image, Product, PropertyValue, Stock } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 import AddStockModal from "@/components/stock/AddProductStockModal";
