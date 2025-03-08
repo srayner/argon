@@ -2,9 +2,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
 import Button from "@/app/ui/button/button";
+import Form from "@/components/form/Form";
 import Select from "@/components/form/select/Select";
 import SubmitContainer from "@/components/form/SubmitContainer";
-import TextInput from "@/components/form/text-input";
+import TextInput from "@/components/form/input/TextInput";
 
 interface PropertyAddFormProps {
   categoryId: string;
@@ -63,7 +64,7 @@ const PropertyAddForm: React.FC<PropertyAddFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <TextInput
         label={"Name"}
         register={register}
@@ -109,7 +110,7 @@ const PropertyAddForm: React.FC<PropertyAddFormProps> = ({
           Add
         </Button>
       </SubmitContainer>
-    </form>
+    </Form>
   );
 };
 
