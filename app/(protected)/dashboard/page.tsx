@@ -10,7 +10,7 @@ import {
   FcTreeStructure,
 } from "react-icons/fc";
 import { FaSearch } from "react-icons/fa";
-import { Card } from "@/components/dashboard/card";
+import { Card } from "@/components/dashboard/Card";
 
 export default function Home() {
   const [data, setData] = useState<any>(null);
