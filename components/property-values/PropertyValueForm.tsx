@@ -4,7 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Form from "@/components/form/Form";
-import FormRow from "@/components/form/form-row";
+import FormRow from "@/components/form/FormRow";
 import Select from "@/components/form/select/Select";
 import TextInput from "@/components/form/input/TextInput";
 import SubmitContainer from "@/components/form/SubmitContainer";
