@@ -20,15 +20,19 @@ describe("Adds multiple products", () => {
       cy.get('[data-e2e="products-link"]').click();
       cy.url().should("include", "/products");
 
-      // Add a new product
+      // Navigate to 'Add' page.
       cy.contains("a", "Add").click();
+      cy.url().should("include", "/dashboard/products/add");
+
+      // Add a new product
       cy.get('input[name="name"]').clear().type(product.name);
       cy.get('input[name="qtyInStock"]').clear().type(product.qtyInStock);
       cy.contains("button", "Add").click();
 
-      // Verify product is added
-      cy.get("#search").clear().type(product.name);
-      cy.contains("a", product.name).first().click();
+      // Check we redirected to location detail page.
+      cy.url().should("match", /\/dashboard\/products\/[a-z0-9]+$/);
+
+      // Check details of the product we added.
       cy.contains("h1", product.name);
     });
   });

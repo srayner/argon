@@ -10,17 +10,22 @@ describe("Adds a new location", () => {
   it("adds a location", () => {
     const data = { name: "New Location" };
 
+    // Navigate to locations.
     cy.get('[data-e2e="locations-link"]').click();
     cy.url().should("include", "/locations");
 
+    // Navigate to 'Add' page.
     cy.contains("a", "Add").click();
+    cy.url().should("include", "/dashboard/locations/add");
+
+    // Enter the details and submit form.
     cy.get('input[name="name"]').clear().type(data.name);
     cy.contains("button", "Add").click();
 
-    cy.get("#search").clear().type(data.name);
+    // Check we redirected to location detail page.
+    cy.url().should("match", /\/dashboard\/locations\/[a-z0-9]+$/);
 
-    cy.contains("a", data.name).first().click();
-
+    // Check details of the location we added.
     cy.contains("h1", data.name);
   });
 });

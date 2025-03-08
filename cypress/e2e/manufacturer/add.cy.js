@@ -10,17 +10,22 @@ describe("Adds a new manufacturer", () => {
   it("adds a manufacturer", () => {
     const data = { name: "New Manufacturer" };
 
+    // Navigate to manufacturers.
     cy.get('[data-e2e="manufacturers-link"]').click();
     cy.url().should("include", "/manufacturers");
 
+    // Navigate to 'Add' page.
     cy.contains("a", "Add").click();
+    cy.url().should("include", "/dashboard/manufacturers/add");
+
+    // Enter the details and submit form.
     cy.get('input[name="name"]').clear().type(data.name);
     cy.contains("button", "Add").click();
 
-    cy.get("#search").clear().type(data.name);
+    // Check we redirected to manufacturer detail page.
+    cy.url().should("match", /\/dashboard\/manufacturers\/[a-z0-9]+$/);
 
-    cy.contains("a", data.name).first().click();
-
+    // Check details of the manufacturer we added.
     cy.contains("h1", data.name);
   });
 });
