@@ -30,6 +30,7 @@ const Breadcrumb: React.FC = () => {
                   ? "text-neutral font-bold"
                   : "text-primary after:content-['/'] after:mx-2"
               }`}
+              aria-disabled={isLast ? "true" : undefined}
             >
               {isLast ? (
                 breadcrumb.name
