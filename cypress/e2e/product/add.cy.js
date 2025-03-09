@@ -26,7 +26,6 @@ describe("Adds multiple products", () => {
 
       // Add a new product
       cy.get('input[name="name"]').clear().type(product.name);
-      cy.get('input[name="qtyInStock"]').clear().type(product.qtyInStock);
       cy.contains("button", "Add").click();
 
       // Check we redirected to location detail page.

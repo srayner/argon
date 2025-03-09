@@ -22,10 +22,6 @@ const ProductAddPage: React.FC = () => {
     supplierId: z.number().nullable(),
     supplierPartNo: z.string().optional(),
     cost: z.number().nullable(),
-    qtyInStock: z
-      .number({ message: "Quantity is required, but may be zero." })
-      .int(),
-    location: z.string().optional(),
   });
 
   type AddProductSchema = z.infer<typeof addProductSchema>;
@@ -163,20 +159,6 @@ const ProductAddPage: React.FC = () => {
           fieldName={"cost"}
           errors={errors}
           isFloat={true}
-        />
-
-        <NumberInput
-          label={"Qty In Stock"}
-          register={register}
-          fieldName={"qtyInStock"}
-          errors={errors}
-        />
-
-        <TextInput
-          label={"Location"}
-          register={register}
-          fieldName={"location"}
-          errors={errors}
         />
 
         <SubmitContainer>

@@ -72,6 +72,7 @@ export async function PUT(
   try {
     const data = await request.json();
     delete data.id;
+    delete data.qtyInStock;
 
     const updatedProduct = await prisma.product.update({
       where: { id: parsedId },

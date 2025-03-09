@@ -28,10 +28,6 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
     supplierId: z.number().nullable(),
     supplierPartNo: z.string().nullable(),
     cost: z.number().nullable(),
-    qtyInStock: z
-      .number({ message: "Quantity is required, but may be zero." })
-      .int(),
-    location: z.string().nullable(),
   });
 
   type EditProductSchema = z.infer<typeof editProductSchema>;
@@ -173,20 +169,6 @@ const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
           fieldName={"cost"}
           errors={errors}
           isFloat={true}
-        />
-
-        <NumberInput
-          label={"Qty In Stock"}
-          register={register}
-          fieldName={"qtyInStock"}
-          errors={errors}
-        />
-
-        <TextInput
-          label={"Location"}
-          register={register}
-          fieldName={"location"}
-          errors={errors}
         />
 
         <SubmitContainer>

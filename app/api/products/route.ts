@@ -76,6 +76,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
+
+    data.qtyInStock = 0;
     const createdProduct = await prisma.product.create({ data: data });
 
     return NextResponse.json(createdProduct, { status: 201 });
@@ -99,6 +101,8 @@ export async function POST(request: NextRequest) {
           );
       }
     }
+
+    console.log(error);
     return NextResponse.json(
       { error: "An unknown error occured" },
       { status: 500 }
