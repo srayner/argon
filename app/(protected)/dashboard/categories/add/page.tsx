@@ -3,6 +3,7 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ToastContext";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +29,7 @@ const CategoryAddPage: NextPage = () => {
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,12 +72,14 @@ const CategoryAddPage: NextPage = () => {
       body: JSON.stringify(data),
     });
 
-    let nextPage = "/dashboard/categories";
     if (response.ok) {
       const newCategory = await response.json();
-      nextPage = `/dashboard/categories/${newCategory.id}`;
+      router.push(`/dashboard/categories/${newCategory.id}`);
+    } else {
+      const responseData = await response.json();
+      showToast(responseData.error || "An error occured.");
+      router.push("/dashboard/categories");
     }
-    router.push(nextPage);
   };
 
   const parentOptions = [
@@ -83,6 +87,7 @@ const CategoryAddPage: NextPage = () => {
     ...categories.map(({ id, name }) => ({ id, name })),
   ];
 
+  console.timeLog("page");
   return (
     <>
       <Header caption="Add Category" />

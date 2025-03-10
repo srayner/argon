@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import { ToastProvider } from "@/components/ToastContext";
+import Toast from "@/components/ui/Toast";
 
 const fontSans = FontSans({
   weight: ["400", "500", "600", "700"],
@@ -25,7 +27,10 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        {children}
+        <ToastProvider>
+          {children}
+          <Toast />
+        </ToastProvider>
       </body>
     </html>
   );
