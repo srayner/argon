@@ -1,7 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { NextPage } from "next";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ToastContext";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +15,7 @@ import Select from "@/components/form/select/Select";
 import NumberInput from "@/components/form/input/NumberInput";
 import TextInput from "@/components/form/input/TextInput";
 
-const ProductAddPage: React.FC = () => {
+const ProductAddPage: NextPage = () => {
   const addProductSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
     categoryId: z.string().nullable(),
@@ -38,6 +40,7 @@ const ProductAddPage: React.FC = () => {
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,12 +95,14 @@ const ProductAddPage: React.FC = () => {
       body: JSON.stringify(data),
     });
 
-    let nextPage = "/dashboard/products";
     if (response.ok) {
       const newProduct = await response.json();
-      nextPage = `/dashboard/products/${newProduct.id}`;
+      router.push(`/dashboard/products/${newProduct.id}`);
+    } else {
+      const responseData = await response.json();
+      showToast(responseData.error || "An error occured.");
+      router.push("/dashboard/products");
     }
-    router.push(nextPage);
   };
 
   if (loading) return <p>Loading...</p>;
