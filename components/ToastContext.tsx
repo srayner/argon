@@ -6,6 +6,7 @@ interface ToastContextType {
   toastMessage: string | null;
   isVisible: boolean;
   showToast: (message: string) => void;
+  hideToast: () => void;
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -22,11 +23,18 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     setTimeout(() => {
       setIsVisible(false);
       setToastMessage(null);
-    }, 3000);
+    }, 4000);
+  };
+
+  const hideToast = () => {
+    setIsVisible(false);
+    setToastMessage(null);
   };
 
   return (
-    <ToastContext.Provider value={{ toastMessage, isVisible, showToast }}>
+    <ToastContext.Provider
+      value={{ toastMessage, isVisible, showToast, hideToast }}
+    >
       {children}
     </ToastContext.Provider>
   );
