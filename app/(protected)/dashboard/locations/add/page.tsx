@@ -35,7 +35,7 @@ const LocationAddPage: NextPage = () => {
     const fetchData = async () => {
       try {
         const [locationsResponse] = await Promise.all([
-          fetch("/api/locations?pageSize=100"),
+          fetch("/api/locations?pageSize=200"),
         ]);
 
         if (!locationsResponse.ok) {
