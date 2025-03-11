@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { NextPage } from "next";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ToastContext";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +14,7 @@ import Form from "@/components/form/Form";
 import TextInput from "@/components/form/input/TextInput";
 import Select from "@/components/form/select/Select";
 
-const LocationAddPage: React.FC = () => {
+const LocationAddPage: NextPage = () => {
   const addLocationSchema = z.object({
     code: z.string().nullable().optional(),
     name: z.string().min(1, { message: "Name is required." }),
@@ -27,6 +29,7 @@ const LocationAddPage: React.FC = () => {
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,12 +76,14 @@ const LocationAddPage: React.FC = () => {
       body: JSON.stringify(transformedData),
     });
 
-    let nextPage = "/dashboard/locations";
     if (response.ok) {
       const newLocation = await response.json();
-      nextPage = `/dashboard/locations/${newLocation.id}`;
+      router.push(`/dashboard/locations/${newLocation.id}`);
+    } else {
+      const responseData = await response.json();
+      showToast(responseData.error || "An error occured.");
+      router.push("/dashboard/locations");
     }
-    router.push(nextPage);
   };
 
   const parentOptions = [
