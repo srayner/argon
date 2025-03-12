@@ -50,14 +50,19 @@ export async function PUT(
 
     return NextResponse.json(updatedCategory, { status: 200 });
   } catch (error) {
-    if (
-      error instanceof PrismaClientKnownRequestError &&
-      error.code === "P2025"
-    ) {
-      return NextResponse.json(
-        { error: "Category not found" },
-        { status: 404 }
-      );
+    if (error instanceof PrismaClientKnownRequestError) {
+      switch (error.code) {
+        case "P2002":
+          return NextResponse.json(
+            { error: "A category with this unique field already exists" },
+            { status: 409 }
+          );
+        case "P2025":
+          return NextResponse.json(
+            { error: "Category not found" },
+            { status: 404 }
+          );
+      }
     }
     console.log(error);
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });

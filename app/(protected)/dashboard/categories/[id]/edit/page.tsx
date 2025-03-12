@@ -3,6 +3,7 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ToastContext";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,6 +34,7 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>();
   const router = useRouter();
+  const { showToast } = useToast();
 
   const {
     formState: { errors, isSubmitting },
@@ -51,7 +53,13 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
       },
       body: JSON.stringify(data),
     });
-    router.push(`/dashboard/categories/${categoryId}`);
+
+    if (response.ok) {
+      router.push(`/dashboard/categories/${categoryId}`);
+    } else {
+      const responseData = await response.json();
+      showToast(responseData.error || "An error occured.");
+    }
   };
 
   useEffect(() => {
