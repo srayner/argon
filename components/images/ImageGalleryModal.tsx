@@ -24,7 +24,7 @@ const ImageGalleryModal: React.FC<ImageGalleryModalProps> = ({
   });
   const fetchImages = async (page: number) => {
     try {
-      const response = await fetch(`/api/images?page=${page}`);
+      const response = await fetch(`/api/images?page=${page}&sort=-id`);
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
       setImages(data.data);
