@@ -36,9 +36,18 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
 
     setLoading(true);
     try {
-      const pageRequest = await fetch(
-        `${url}?page=${page}&pageSize=${pageSize}&search=${search}&sort=name`
-      ).then((res) => res.json());
+      const urlObj = new URL(url, window.location.origin);
+
+      urlObj.searchParams.set("page", page.toString());
+      urlObj.searchParams.set("pageSize", pageSize.toString());
+      urlObj.searchParams.set("search", search);
+      urlObj.searchParams.set("sort", "name");
+
+      console.log("URL: " + urlObj.toString());
+
+      const pageRequest = await fetch(urlObj.toString()).then((res) =>
+        res.json()
+      );
 
       const selectedValue = control._defaultValues?.[fieldName];
 
@@ -75,6 +84,7 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
 
       setHasMore(pageResponse.meta.totalPages > pageResponse.meta.currentPage);
     } catch (err) {
+      console.error(err);
       setError("Failed to load options.");
     } finally {
       setLoading(false);

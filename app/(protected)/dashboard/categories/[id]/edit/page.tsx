@@ -10,9 +10,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
+import FetchSelect from "@/components/form/select/FetchSelect";
 import Form from "@/components/form/Form";
 import TextInput from "@/components/form/input/TextInput";
-import Select from "@/components/form/select/Select";
 
 interface CategoryEditPageProps {
   params: { id: string };
@@ -28,9 +28,6 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
   type EditCategorySchema = z.infer<typeof editCategorySchema>;
 
   const categoryId = params.id;
-  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
-    []
-  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>();
   const router = useRouter();
@@ -38,6 +35,7 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
 
   const {
     formState: { errors, isSubmitting },
+    control,
     register,
     handleSubmit,
     reset,
@@ -65,20 +63,16 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [categoryResponse, categoriesResponse] = await Promise.all([
+        const [categoryResponse] = await Promise.all([
           fetch(`/api/categories/${categoryId}`),
-          fetch(`/api/categories?pageSize=100&sort=name&exclude=${categoryId}`),
         ]);
 
-        if (!categoryResponse || !categoriesResponse) {
+        if (!categoryResponse) {
           throw new Error("Failed to fetch data");
         }
 
         const category = await categoryResponse.json();
         const { id, ...rest } = category;
-        const { data: categories } = await categoriesResponse.json();
-
-        setCategories(categories);
         reset(rest);
       } catch (error) {
         setError("Failed to fetch data from API.");
@@ -92,11 +86,6 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
-
-  const parentOptions = [
-    { id: "", name: "None - root category" },
-    ...categories.map(({ id, name }) => ({ id, name })),
-  ];
 
   return (
     <>
@@ -116,13 +105,11 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
           errors={errors}
         />
 
-        <Select
-          label="Parent Category"
-          register={register}
-          fieldName="parentId"
-          isValueNumeric={false}
-          isOptional={false}
-          options={parentOptions}
+        <FetchSelect
+          label={"Parent Category"}
+          control={control}
+          fieldName={"parentId"}
+          url={`/api/categories?exclude=${categoryId}`}
         />
 
         <SubmitContainer>

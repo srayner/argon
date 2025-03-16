@@ -7,11 +7,14 @@ import parseSortParams from "../functions/parse-sort-params";
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
+    const excludeId = url.searchParams.get("exclude") || null;
     const searchTerm = url.searchParams.get("search") || "";
     const searchFields = ["code", "name", "parent.name"];
     const searchObject = createSearchObject(searchFields, searchTerm);
     const page = parseInt(url.searchParams.get("page") || "1", 10);
     const pageSize = parseInt(url.searchParams.get("pageSize") || "10", 10);
+
+    const excludeFilter = excludeId ? { id: { not: excludeId } } : {};
 
     const parentId = url.searchParams.get("parentId");
     const parentFilter = parentId
@@ -26,7 +29,7 @@ export async function GET(request: NextRequest) {
     }
 
     const totalItems = await prisma.category.count({
-      where: { ...searchObject, ...parentFilter },
+      where: { ...searchObject, ...parentFilter, ...excludeFilter },
     });
     const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -46,7 +49,7 @@ export async function GET(request: NextRequest) {
       },
       skip: (page - 1) * pageSize,
       take: pageSize,
-      where: { ...searchObject, ...parentFilter },
+      where: { ...searchObject, ...parentFilter, ...excludeFilter },
       orderBy: orderBy,
     });
 
