@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
 export type option = {
-  value: string | number;
+  value: string | number | null;
   name: string;
 };
 

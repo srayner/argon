@@ -110,6 +110,7 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
           control={control}
           fieldName={"parentId"}
           url={`/api/categories?exclude=${categoryId}`}
+          defaultOption={{ value: null, name: "None - root category" }}
         />
 
         <SubmitContainer>

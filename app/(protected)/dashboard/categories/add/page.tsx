@@ -77,6 +77,7 @@ const CategoryAddPage: NextPage = () => {
           control={control}
           fieldName={"parentId"}
           url={"/api/categories"}
+          defaultOption={{ value: null, name: "None - root category" }}
         />
 
         <SubmitContainer>

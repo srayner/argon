@@ -11,6 +11,7 @@ type FetchSelectProps = {
   url: string;
   valueField?: string;
   nameField?: string;
+  defaultOption?: option;
   isValueNumeric?: boolean;
   pageSize?: number;
 };
@@ -22,9 +23,12 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
   url,
   valueField = "id",
   nameField = "name",
+  defaultOption = null,
   pageSize = 10,
 }) => {
-  const [options, setOptions] = useState<option[]>([]);
+  const initialOptions = defaultOption ? [defaultOption] : [];
+
+  const [options, setOptions] = useState<option[]>(initialOptions);
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -73,14 +77,14 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
           }
         : null;
 
-      setOptions((prevOptions) =>
-        mergeArraysNoDuplicates(
+      setOptions((prevOptions) => {
+        return mergeArraysNoDuplicates(
           prevOptions,
           [...pageData, ...(selectedItem ? [selectedItem] : [])],
           "value",
           "name"
-        )
-      );
+        );
+      });
 
       setHasMore(pageResponse.meta.totalPages > pageResponse.meta.currentPage);
     } catch (err) {
@@ -89,17 +93,7 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [
-    url,
-    page,
-    pageSize,
-    search,
-    loading,
-    hasMore,
-    valueField,
-    nameField,
-    options.length,
-  ]);
+  }, [url, page, pageSize, search, loading, hasMore, valueField, nameField]);
 
   useEffect(() => {
     fetchData();
@@ -113,7 +107,7 @@ const FetchSelect: React.FC<FetchSelectProps> = ({
   };
 
   const handleSearch = (searchTerm: string) => {
-    setOptions([]);
+    setOptions(initialOptions);
     setPage(1);
     setSearch(searchTerm);
   };

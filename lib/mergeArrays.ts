@@ -16,6 +16,7 @@ export const mergeArraysNoDuplicates = <T>(
 ): T[] => {
   // Merge both arrays into one
   const mergedData = [...originalData, ...newData];
+  console.log(mergedData);
 
   // Remove duplicates based on the keyField
   const uniqueData = mergedData.filter(
@@ -25,8 +26,12 @@ export const mergeArraysNoDuplicates = <T>(
 
   // Sort the merged data by the specified sortField
   uniqueData.sort((a, b) => {
+    if (a[keyField] === null || a[keyField] === "") return -1;
+    if (b[keyField] === null || b[keyField] === "") return 1;
+
     if (a[sortField] < b[sortField]) return -1;
     if (a[sortField] > b[sortField]) return 1;
+
     return 0;
   });
 
