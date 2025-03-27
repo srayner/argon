@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function Menu() {
+interface InputProps {
+  onSelect: () => void;
+}
+
+const Menu: React.FC<InputProps> = ({ onSelect }) => {
   const currentPage = usePathname();
   const menuItems = [
     {
@@ -55,6 +59,7 @@ export function Menu() {
                 href={item.url}
                 className="text-white text-opacity-60 no-underline block py-2 px-4 hover:text-white"
                 data-e2e={item.e2e}
+                onClick={onSelect}
               >
                 {item.caption}
               </Link>
@@ -64,4 +69,6 @@ export function Menu() {
       </ul>
     </div>
   );
-}
+};
+
+export default Menu;
