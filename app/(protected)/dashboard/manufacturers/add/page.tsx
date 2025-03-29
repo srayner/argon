@@ -14,6 +14,7 @@ import TextInput from "@/components/form/input/TextInput";
 const ManufacturerAddPage: React.FC = () => {
   const addManufacturerSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
+    website: z.string(),
   });
 
   type AddManufacturerSchema = z.infer<typeof addManufacturerSchema>;
@@ -52,6 +53,13 @@ const ManufacturerAddPage: React.FC = () => {
         <TextInput
           fieldName="name"
           label="Name"
+          register={register}
+          errors={errors}
+        />
+
+        <TextInput
+          fieldName="website"
+          label="Website"
           register={register}
           errors={errors}
         />

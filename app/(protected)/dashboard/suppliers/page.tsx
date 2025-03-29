@@ -11,11 +11,11 @@ import SearchInput from "@/components/ui/SearchInput";
 export default function SuppliersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const columnDefs = [
-    { headerName: "ID", field: "id" },
+    { headerName: "ID", field: "id", flex: 2 },
     {
       headerName: "Name",
       field: "name",
-      flex: 1,
+      flex: 4,
       cellRenderer: (params: ICellRendererParams) => {
         return params.data ? (
           <Link href={`/dashboard/suppliers/${params.data.id}`}>
@@ -26,6 +26,7 @@ export default function SuppliersPage() {
         );
       },
     },
+    { headerName: "Website", field: "website", flex: 4 },
   ];
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {

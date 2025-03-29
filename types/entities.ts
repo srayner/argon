@@ -32,6 +32,7 @@ export interface Location {
 export interface Manufacturer {
   id: number;
   name: string;
+  website: string | null;
   image?: Image;
 }
 
@@ -89,6 +90,7 @@ export interface AggregatedPropertyValue {
 export interface Supplier {
   id: number;
   name: string;
+  website: string | null;
   image?: Image;
 }
 

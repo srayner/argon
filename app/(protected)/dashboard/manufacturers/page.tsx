@@ -12,11 +12,11 @@ import SearchInput from "@/components/ui/SearchInput";
 const ManufacturersPage: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const columnDefs = [
-    { headerName: "ID", field: "id" },
+    { headerName: "ID", field: "id", flex: 1 },
     {
       headerName: "Name",
       field: "name",
-      flex: 1,
+      flex: 4,
       cellRenderer: (params: ICellRendererParams) => {
         return params.data ? (
           <Link href={`/dashboard/manufacturers/${params.data.id}`}>
@@ -27,6 +27,7 @@ const ManufacturersPage: NextPage = () => {
         );
       },
     },
+    { headerName: "Website", field: "website", flex: 4 },
   ];
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {

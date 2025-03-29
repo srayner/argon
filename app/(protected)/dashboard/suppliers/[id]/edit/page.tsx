@@ -20,6 +20,7 @@ interface SupplierEditPageProps {
 const SupplierEditPage: React.FC<SupplierEditPageProps> = ({ params }) => {
   const editSupplierSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
+    website: z.string(),
   });
 
   type EditSupplierSchema = z.infer<typeof editSupplierSchema>;
@@ -68,6 +69,13 @@ const SupplierEditPage: React.FC<SupplierEditPageProps> = ({ params }) => {
         <TextInput
           fieldName="name"
           label="Name"
+          register={register}
+          errors={errors}
+        />
+
+        <TextInput
+          fieldName="website"
+          label="Website"
           register={register}
           errors={errors}
         />

@@ -22,6 +22,7 @@ const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = ({
 }) => {
   const editManufacturerSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
+    website: z.string(),
   });
 
   type EditManufacturerSchema = z.infer<typeof editManufacturerSchema>;
@@ -70,6 +71,13 @@ const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = ({
         <TextInput
           fieldName="name"
           label="Name"
+          register={register}
+          errors={errors}
+        />
+
+        <TextInput
+          fieldName="website"
+          label="Website"
           register={register}
           errors={errors}
         />

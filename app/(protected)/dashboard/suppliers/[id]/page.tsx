@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Button from "@/app/ui/button/button";
+import ExternalLink from "@/components/ui/ExternalLink";
 import Header from "@/components/ui/header/Header";
 import ConfirmationModal from "@/components/ui/modal/ConfirmationModal";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
@@ -69,7 +70,10 @@ const SupplierDetailPage: NextPage<SupplierDetailPageProps> = ({ params }) => {
 
   if (!supplier) return <div>Loading...</div>;
 
-  const fields = [{ label: "Name", value: supplier.name }];
+  const fields = [
+    { label: "Name", value: supplier.name },
+    { label: "Website", value: supplier.website, link: true },
+  ];
 
   return (
     <>
@@ -86,14 +90,17 @@ const SupplierDetailPage: NextPage<SupplierDetailPageProps> = ({ params }) => {
             image={supplier.image}
             onImageChange={handleImageChange}
           >
-            {fields.map(
-              (field, index) =>
-                field.value && (
-                  <FieldRow key={index} name={field.label}>
-                    {field.value}
-                  </FieldRow>
-                )
-            )}
+            {fields
+              .filter((field) => field.value)
+              .map((field, index) => (
+                <FieldRow key={index} name={field.label}>
+                  {field.link && typeof field.value === "string" ? (
+                    <ExternalLink href={field.value} />
+                  ) : (
+                    field.value
+                  )}
+                </FieldRow>
+              ))}
           </DetailViewCard>
         </div>
       </div>
