@@ -48,7 +48,9 @@ export const formatMetricValue = (
   }
 
   const formattedValue =
-    scaledValue % 1 === 0 ? scaledValue.toFixed(0) : scaledValue.toFixed(1);
+    scaledValue % 1 === 0
+      ? scaledValue.toFixed(0)
+      : scaledValue.toFixed(3).replace(/\.?0+$/, "");
 
   return `${formattedValue}${selectedPrefix}${units}`;
 };
