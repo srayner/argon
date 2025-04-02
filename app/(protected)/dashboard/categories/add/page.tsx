@@ -17,7 +17,7 @@ const CategoryAddPage: NextPage = () => {
   const addCategorySchema = z.object({
     code: z.string(),
     name: z.string().min(1, { message: "Name is required." }),
-    parentId: z.string().nullable(),
+    parentId: z.string().nullable().default(null),
   });
 
   type AddCategorySchema = z.infer<typeof addCategorySchema>;

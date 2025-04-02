@@ -8,11 +8,11 @@ export type option = {
 };
 
 interface CustomSelectProps {
-  value: string | number;
+  value: string | number | null | undefined;
   options: option[];
   width?: string;
   e2e?: string;
-  onChange?: (value: string | number) => void;
+  onChange?: (value: string | number | null) => void;
   onScrollToBottom?: () => void;
   onSearchChanged?: (searchTerm: string) => void;
 }
@@ -37,11 +37,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (value) {
-      const selectedItem = options.find((opt) => opt.value === value);
-      if (selectedItem) {
-        setSelected(selectedItem);
-      }
+    const normalisedValue = value ?? null;
+    const selectedItem = options.find((opt) => opt.value === normalisedValue);
+    if (selectedItem) {
+      setSelected(selectedItem);
     }
   }, [value, options]);
 
