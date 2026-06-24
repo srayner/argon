@@ -15,7 +15,7 @@ import TextInput from "@/components/form/input/TextInput";
 
 const CategoryAddPage: NextPage = () => {
   const addCategorySchema = z.object({
-    code: z.string(),
+    code: z.string().transform((val) => val || null).nullable(),
     name: z.string().min(1, { message: "Name is required." }),
     parentId: z.string().nullable().default(null),
   });

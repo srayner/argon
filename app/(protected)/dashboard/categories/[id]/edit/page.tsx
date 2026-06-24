@@ -20,7 +20,7 @@ interface CategoryEditPageProps {
 
 const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
   const editCategorySchema = z.object({
-    code: z.string(),
+    code: z.string().transform((val) => val || null).nullable(),
     name: z.string().min(1, { message: "Name is required." }),
     parentId: z.string().nullable(),
   });
