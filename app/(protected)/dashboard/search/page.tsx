@@ -4,9 +4,8 @@ import { NextPage } from "next";
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import PropertyValuesFilter, {
-  Filter,
-} from "@/components/property-values/PropertyValuesFilter";
+import PropertyValuesFilter from "@/components/property-values/PropertyValuesFilter";
+import { PropertyValueFilter } from "@/types/filter";
 import Header from "@/components/ui/header/Header";
 import CategoryExplorer from "@/components/categories/CategoryExplorer";
 import SimpleDataGrid from "@/components/ui/datagrid/SimpleDataGrid";
@@ -18,7 +17,7 @@ const SearchPage: NextPage = () => {
   const searchParams = useSearchParams();
 
   const [category, setCategory] = useState<Category | null>(null);
-  const [filters, setFilters] = useState<Filter[]>([]);
+  const [filters, setFilters] = useState<PropertyValueFilter[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [products, setProducts] = useState<Product[]>([]);

@@ -7,12 +7,7 @@ import {
   formatImperialValue,
 } from "@/lib/value-formatter";
 import { Property, PropertyType } from "@/types/entities";
-
-export interface Filter {
-  property: string;
-  type: string;
-  values: (string | number)[];
-}
+import { PropertyValueFilter } from "@/types/filter";
 
 interface PropertyFilter {
   id: string;
@@ -28,7 +23,7 @@ interface PropertyFilter {
 
 interface PropertyValuesFilterProps {
   properties: Property[];
-  onRefresh: (newFilterData: Filter[]) => void;
+  onRefresh: (newFilterData: PropertyValueFilter[]) => void;
 }
 
 const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
@@ -130,7 +125,7 @@ const PropertiesValueFilter: React.FC<PropertyValuesFilterProps> = ({
 
         return null;
       })
-      .filter(Boolean) as Filter[];
+      .filter(Boolean) as PropertyValueFilter[];
 
     onRefresh(filterData);
   };

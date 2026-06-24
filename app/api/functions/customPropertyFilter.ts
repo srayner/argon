@@ -1,4 +1,4 @@
-import { Filter } from "@/components/property-values/PropertyValuesFilter";
+import { PropertyValueFilter } from "@/types/filter";
 
 type Condition =
   | {
@@ -16,7 +16,7 @@ type WhereCondition = {
   };
 };
 
-export function buildPropertiesSearchObject(filters: Filter[]) {
+export function buildPropertiesSearchObject(filters: PropertyValueFilter[]) {
   const whereConditions: WhereCondition[] = [];
   filters.forEach((filter) => {
     const condition = {
