@@ -1,8 +1,9 @@
 "use client";
 
 import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import PropertyValuesFilter, {
   Filter,
 } from "@/components/property-values/PropertyValuesFilter";
@@ -13,13 +14,16 @@ import { ICellRendererParams, ValueFormatterParams } from "ag-grid-community";
 import { Product, Category, Property } from "@/types/entities";
 
 const SearchPage: NextPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [category, setCategory] = useState<Category | null>(null);
   const [filters, setFilters] = useState<Filter[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
 
-  const fetchRootCategories = async () => {
+  const fetchRootCategories = useCallback(async () => {
     const response = await fetch("/api/categories?parentId=null");
 
     if (!response.ok) {
@@ -28,7 +32,39 @@ const SearchPage: NextPage = () => {
 
     const { data } = await response.json();
     setCategories(data);
-  };
+  }, []);
+
+  const loadCategory = useCallback(async (categoryId: string) => {
+    try {
+      const [catResponse, propsResponse] = await Promise.all([
+        fetch(`/api/categories/${categoryId}?depth=2`),
+        fetch(`/api/properties?categoryId=${categoryId}`),
+      ]);
+
+      const cat = await catResponse.json();
+      const { data: props } = await propsResponse.json();
+
+      setCategory(cat);
+      setCategories(cat.children);
+      setProperties(props);
+      setFilters([]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    const categoryId = searchParams.get("categoryId");
+    if (categoryId) {
+      loadCategory(categoryId);
+    } else {
+      fetchRootCategories();
+      setCategory(null);
+      setProperties([]);
+      setProducts([]);
+      setFilters([]);
+    }
+  }, [searchParams, loadCategory, fetchRootCategories]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -57,36 +93,12 @@ const SearchPage: NextPage = () => {
     }
   }, [category, filters]);
 
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      fetchRootCategories();
-    };
-
-    fetchInitialData();
-  }, []);
-
   const handleCategorySelect = (categoryId: string) => {
-    fetch(`/api/categories/${categoryId}?depth=2`)
-      .then((response) => response.json())
-      .then((c) => {
-        setCategory(c);
-        setCategories(c.children);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-
-    fetch(`/api/properties?categoryId=${categoryId}`)
-      .then((response) => response.json())
-      .then(({ data }) => setProperties(data))
-      .catch((error) => {
-        console.error("Error fetching properties:", error);
-      });
+    router.push(`/dashboard/search?categoryId=${categoryId}`);
   };
 
   const columnDefs = [
     {
-      headerName: "Image",
       field: "image",
       width: 150,
       maxWidth: 150,
@@ -143,7 +155,6 @@ const SearchPage: NextPage = () => {
       sortable: true,
     },
     {
-      header: "Qty in stock",
       field: "qtyInStock",
       cellStyle: { textAlign: "right" },
     },

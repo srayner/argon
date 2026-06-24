@@ -13,8 +13,9 @@ const CategoryExplorer: React.FC<CategoryExplorerProps> = ({
   categories,
   onCategorySelect,
 }) => {
-  const handleCategoryClick = (categoryId: string) => {
-    onCategorySelect(categoryId); // Notify parent about the selected category
+  const handleCategoryClick = (e: React.MouseEvent, categoryId: string) => {
+    e.preventDefault();
+    onCategorySelect(categoryId);
   };
 
   return (
@@ -25,7 +26,7 @@ const CategoryExplorer: React.FC<CategoryExplorerProps> = ({
             <div className="bg-gradient-to-br from-slate-700 to-slate-600 text-white rounded-t-md py-4 px-3">
               <Link
                 href="#"
-                onClick={() => handleCategoryClick(category.id)}
+                onClick={(e) => handleCategoryClick(e, category.id)}
                 className="text-white text-xl hover:underline hover:text-white"
               >
                 {category.name}
@@ -38,7 +39,7 @@ const CategoryExplorer: React.FC<CategoryExplorerProps> = ({
                   <li key={child.id}>
                     <Link
                       href="#"
-                      onClick={() => handleCategoryClick(child.id)}
+                      onClick={(e) => handleCategoryClick(e, child.id)}
                     >
                       {child.name}
                     </Link>
