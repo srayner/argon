@@ -1,5 +1,5 @@
 # Use a base image
-FROM node:18-alpine
+FROM node:26-alpine
 
 # Add openssl
 RUN apk add --no-cache openssl
