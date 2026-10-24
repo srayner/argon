@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.swc
+coverage
+test-results
+playwright
+e2e
+__tests__
+.env*
+*.tsbuildinfo
