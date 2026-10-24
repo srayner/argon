@@ -9,10 +9,8 @@ interface Params {
   filename: string;
 }
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Params }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<Params> }) {
+  const params = await props.params;
   const { type, filename } = params;
   const baseDirectory = path.join(process.cwd(), "uploads");
   const fileDirectory = path.join(baseDirectory, type);

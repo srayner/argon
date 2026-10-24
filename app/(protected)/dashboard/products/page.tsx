@@ -10,13 +10,7 @@ import DataGrid from "@/components/ui/datagrid/DataGrid";
 import Header from "@/components/ui/header/Header";
 import SearchInput from "@/components/ui/SearchInput";
 
-type Params = { id: string };
-
-type ProductsPageProps = {
-  params: Params;
-};
-
-const Products: NextPage<ProductsPageProps> = ({ params }) => {
+const Products: NextPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

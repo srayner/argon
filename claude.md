@@ -4,7 +4,7 @@ A full-stack web application built with Next.js, providing authenticated dashboa
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
 - **Auth**: NextAuth v5 (beta) with Prisma adapter
 - **Database ORM**: Prisma 5

@@ -2,7 +2,7 @@
 
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import Button from "@/app/ui/button/button";
 import ExternalLink from "@/components/ui/ExternalLink";
 import Header from "@/components/ui/header/Header";
@@ -13,12 +13,11 @@ import { Image, Manufacturer } from "@/types/entities";
 type Params = { id: string };
 
 type ManufacturerPageProps = {
-  params: Params;
+  params: Promise<Params>;
 };
 
-const ManufacturerDetailPage: NextPage<ManufacturerPageProps> = ({
-  params,
-}) => {
+const ManufacturerDetailPage: NextPage<ManufacturerPageProps> = props => {
+  const params = use(props.params);
   const router = useRouter();
   const manufacturerId = params.id;
   const [manufacturer, setManufacturer] = useState<Manufacturer | null>(null);

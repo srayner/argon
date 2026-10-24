@@ -4,9 +4,10 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { productId: string; propertyValueId: string } }
+  props: { params: Promise<{ id: string; propertyValueId: string }> }
 ) {
-  const { productId, propertyValueId } = params;
+  const params = await props.params;
+  const { propertyValueId } = params;
   try {
     const deletedPropertyValue = await prisma.propertyValue.delete({
       where: { id: propertyValueId },

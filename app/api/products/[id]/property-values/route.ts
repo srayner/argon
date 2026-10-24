@@ -2,10 +2,8 @@ import prisma from "@/app/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextResponse, NextRequest } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const parsedProductId = parseInt(params.id, 10);
     console.log(parsedProductId);
@@ -50,10 +48,8 @@ export async function GET(
   }
 }
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     // Parse the productId from the URL
     const parsedProductId = parseInt(params.id, 10);

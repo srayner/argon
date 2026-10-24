@@ -2,10 +2,8 @@ import prisma from "@/app/prisma";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextResponse, NextRequest } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const location = await prisma.location.findUnique({
       where: { id: params.id },
@@ -33,10 +31,8 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const data = await request.json();
     delete data.id;
@@ -62,10 +58,8 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const deletedLocation = await prisma.location.delete({
       where: { id: params.id },
