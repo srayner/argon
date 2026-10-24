@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -12,12 +12,13 @@ import Form from "@/components/form/Form";
 import TextInput from "@/components/form/input/TextInput";
 
 interface SupplierEditPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-const SupplierEditPage: React.FC<SupplierEditPageProps> = ({ params }) => {
+const SupplierEditPage: React.FC<SupplierEditPageProps> = props => {
+  const params = use(props.params);
   const editSupplierSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
     website: z.string(),

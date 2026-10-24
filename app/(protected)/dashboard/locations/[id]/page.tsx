@@ -2,7 +2,7 @@
 
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
@@ -17,10 +17,11 @@ import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 type Params = { id: string };
 
 type LocationDetailPageProps = {
-  params: Params;
+  params: Promise<Params>;
 };
 
-const CategoryDetailPage: NextPage<LocationDetailPageProps> = ({ params }) => {
+const CategoryDetailPage: NextPage<LocationDetailPageProps> = props => {
+  const params = use(props.params);
   const router = useRouter();
   const locationId = params.id;
   const [location, setLocation] = useState<Location | null>(null);

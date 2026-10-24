@@ -7,7 +7,6 @@ import {
   publicRoutes,
 } from "@/routes";
 import { NextResponse } from "next/server";
-import { CgChevronDoubleLeft } from "react-icons/cg";
 
 const { auth } = NextAuth(authConfig);
 

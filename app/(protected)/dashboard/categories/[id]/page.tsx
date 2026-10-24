@@ -2,7 +2,7 @@
 
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
@@ -14,10 +14,11 @@ import { Category, Image } from "@/types/entities";
 import { DetailViewCard, FieldRow } from "@/components/ui/card/DetailViewCard";
 
 type CategoryDetailPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-const CategoryDetailPage: NextPage<CategoryDetailPageProps> = ({ params }) => {
+const CategoryDetailPage: NextPage<CategoryDetailPageProps> = props => {
+  const params = use(props.params);
   const router = useRouter();
   const categoryId = params.id;
   const [category, setCategory] = useState<Category | null>(null);

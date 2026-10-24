@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,12 +13,13 @@ import TextInput from "@/components/form/input/TextInput";
 import Select from "@/components/form/select/Select";
 
 interface LocationEditPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-const LocationEditPage: React.FC<LocationEditPageProps> = ({ params }) => {
+const LocationEditPage: React.FC<LocationEditPageProps> = props => {
+  const params = use(props.params);
   const editLocationSchema = z.object({
     code: z.string(),
     name: z.string().min(1, { message: "Name is required." }),

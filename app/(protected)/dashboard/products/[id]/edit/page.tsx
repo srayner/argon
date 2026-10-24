@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,12 +14,13 @@ import NumberInput from "@/components/form/input/NumberInput";
 import TextInput from "@/components/form/input/TextInput";
 
 interface ProductEditPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-const ProductEditPage: React.FC<ProductEditPageProps> = ({ params }) => {
+const ProductEditPage: React.FC<ProductEditPageProps> = props => {
+  const params = use(props.params);
   const editProductSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
     categoryId: z.string().nullable(),

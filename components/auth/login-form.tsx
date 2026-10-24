@@ -50,6 +50,11 @@ export const LoginForm = () => {
           // TODO: Add when we add 2FA
           //setSuccess(data?.success);
         }
+      }).catch((error) => {
+        // A successful login redirects; Next 15 surfaces that as a rejection.
+        if (!String(error?.digest).startsWith("NEXT_REDIRECT")) {
+          setError("Something went wrong!");
+        }
       });
     });
   };

@@ -2,7 +2,7 @@
 
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
@@ -19,10 +19,11 @@ import EditStockModal from "@/components/stock/EditProductStockModal";
 type Params = { id: string };
 
 type ProductPageProps = {
-  params: Params;
+  params: Promise<Params>;
 };
 
-const ProductDetailPage: NextPage<ProductPageProps> = ({ params }) => {
+const ProductDetailPage: NextPage<ProductPageProps> = props => {
+  const params = use(props.params);
   const router = useRouter();
   const productId = params.id;
   const [product, setProduct] = useState<Product | null>(null);

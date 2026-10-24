@@ -1,7 +1,7 @@
 "use client";
 
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ToastContext";
 import { FieldValues, useForm } from "react-hook-form";
@@ -15,10 +15,11 @@ import Form from "@/components/form/Form";
 import TextInput from "@/components/form/input/TextInput";
 
 interface CategoryEditPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-const CategoryEditPage: NextPage<CategoryEditPageProps> = ({ params }) => {
+const CategoryEditPage: NextPage<CategoryEditPageProps> = props => {
+  const params = use(props.params);
   const editCategorySchema = z.object({
     code: z.string().transform((val) => val || null).nullable(),
     name: z.string().min(1, { message: "Name is required." }),
