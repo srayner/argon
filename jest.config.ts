@@ -11,6 +11,8 @@ const config: Config = {
   coverageProvider: "v8",
   collectCoverageFrom: ["app/**/*.{js,ts,tsx}", "components/**/*.{js,ts,tsx}"],
   testEnvironment: "jsdom",
+  // next/jest only rewrites "@/" in static imports; jest.mock("@/...") needs this.
+  moduleNameMapper: { "^@/(.*)$": "<rootDir>/$1" },
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/", "<rootDir>/e2e/"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   coverageReporters: [
