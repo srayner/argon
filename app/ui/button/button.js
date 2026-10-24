@@ -8,7 +8,7 @@ const Button = ({
   type = "button",
   children,
   onClick = () => {},
-  href = null,
+  href,
   disabled = false,
 }) => {
   const getSizeClass = (size) => {
