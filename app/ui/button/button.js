@@ -3,12 +3,12 @@ import Link from "next/link";
 import styles from "./button.module.css";
 
 const Button = ({
-  size,
-  color,
-  type,
+  size = "medium",
+  color = "primary",
+  type = "button",
   children,
-  onClick,
-  href,
+  onClick = () => {},
+  href = null,
   disabled = false,
 }) => {
   const getSizeClass = (size) => {
@@ -64,14 +64,6 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   href: PropTypes.string,
-};
-
-Button.defaultProps = {
-  size: "medium",
-  color: "primary",
-  type: "button",
-  onClick: () => {},
-  href: null,
 };
 
 export default Button;

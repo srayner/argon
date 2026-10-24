@@ -11,6 +11,7 @@ const config: Config = {
   coverageProvider: "v8",
   collectCoverageFrom: ["app/**/*.{js,ts,tsx}", "components/**/*.{js,ts,tsx}"],
   testEnvironment: "jsdom",
+  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/", "<rootDir>/e2e/"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   coverageReporters: [
     "text", // Text summary in the terminal

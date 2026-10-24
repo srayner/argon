@@ -41,5 +41,7 @@ next-env.d.ts
 !/uploads/**/
 !/uploads/**/.gitkeep
 
-# cypress
-/cypress/screenshots
+# playwright
+/test-results
+/playwright-report
+/playwright/.auth
