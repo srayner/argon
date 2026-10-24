@@ -6,6 +6,9 @@ const mockData = {
     categories: {
       count: 15,
     },
+    locations: {
+      count: 4,
+    },
     manufacturers: {
       count: 5,
     },
@@ -38,6 +41,7 @@ describe("Dashboard Page", () => {
 
     const cards = [
       { testId: "categories-count", count: mockData.data.categories.count },
+      { testId: "locations-count", count: mockData.data.locations.count },
       { testId: "manufacturers-count", count: mockData.data.manufacturers.count },
       { testId: "suppliers-count", count: mockData.data.suppliers.count },
       { testId: "products-count", count: mockData.data.products.count },
