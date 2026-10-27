@@ -1,6 +1,6 @@
 {
   "name": "argon",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -61,6 +61,11 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
     "vitest": "^5.0.5"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "^8.5.18"
+    }
   },
   "allowScripts": {
     "@prisma/client@5.17.0": true,
