@@ -28,7 +28,7 @@ describe("LoginSchema", () => {
 
   it("uses the library default message when a field is missing entirely", () => {
     expect(errorsOf(LoginSchema, { email: "a@b.com" })).toEqual([
-      "password: Required",
+      "password: Invalid input: expected string, received undefined",
     ]);
   });
 });

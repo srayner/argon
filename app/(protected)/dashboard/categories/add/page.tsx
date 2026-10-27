@@ -25,6 +25,7 @@ const CategoryAddPage: NextPage = () => {
     handleSubmit,
   } = useForm<AddCategoryValues>({
     resolver: zodResolver(addCategorySchema),
+    defaultValues: { parentId: null },
   });
 
   const onSubmit = async (data: FieldValues) => {

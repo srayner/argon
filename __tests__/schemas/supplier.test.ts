@@ -25,12 +25,12 @@ describe.each([
   });
 
   it("requires the website key", () => {
-    expect(errorsOf(schema, { name: "Acme" })).toEqual(["website: Required"]);
+    expect(errorsOf(schema, { name: "Acme" })).toEqual(["website: Invalid input: expected string, received undefined"]);
   });
 
   it("rejects a null website", () => {
     expect(errorsOf(schema, { name: "Acme", website: null })).toEqual([
-      "website: Expected string, received null",
+      "website: Invalid input: expected string, received null",
     ]);
   });
 });

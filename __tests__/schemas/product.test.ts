@@ -39,19 +39,19 @@ describe.each([
   // NumberInput yields NaN for an empty numeric box unless isFloat is set.
   it("rejects NaN for a numeric field", () => {
     expect(errorsOf(schema, { ...valid, manufacturerId: NaN })).toEqual([
-      "manufacturerId: Expected number, received nan",
+      "manufacturerId: Invalid input: expected number, received NaN",
     ]);
   });
 
   it("rejects a numeric string for cost", () => {
     expect(errorsOf(schema, { ...valid, cost: "1.5" })).toEqual([
-      "cost: Expected number, received string",
+      "cost: Invalid input: expected number, received string",
     ]);
   });
 
   it("requires the nullable keys to be present", () => {
     const { cost, ...rest } = valid;
-    expect(errorsOf(schema, rest)).toEqual(["cost: Required"]);
+    expect(errorsOf(schema, rest)).toEqual(["cost: Invalid input: expected number, received undefined"]);
   });
 });
 
@@ -59,7 +59,7 @@ describe("part numbers", () => {
   it("are optional strings when adding", () => {
     expect(errorsOf(addProductSchema, base)).toEqual([]);
     expect(errorsOf(addProductSchema, { ...base, manufacturerPartNo: null })).toEqual([
-      "manufacturerPartNo: Expected string, received null",
+      "manufacturerPartNo: Invalid input: expected string, received null",
     ]);
   });
 
@@ -68,8 +68,8 @@ describe("part numbers", () => {
       errorsOf(editProductSchema, { ...base, manufacturerPartNo: null, supplierPartNo: null })
     ).toEqual([]);
     expect(errorsOf(editProductSchema, base)).toEqual([
-      "manufacturerPartNo: Required",
-      "supplierPartNo: Required",
+      "manufacturerPartNo: Invalid input: expected string, received undefined",
+      "supplierPartNo: Invalid input: expected string, received undefined",
     ]);
   });
 });
