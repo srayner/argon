@@ -1,7 +1,7 @@
 import React from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { locationStockSchema, LocationStockValues } from "@/schemas";
 import Button from "@/app/ui/button/button";
 import Form from "@/components/form/Form";
 import NumberInput from "../form/input/NumberInput";
@@ -19,23 +19,13 @@ const AddLocationStockForm: React.FC<AddLocationStockFormProps> = ({
   onSubmit,
   onCancel,
 }) => {
-  const addStockSchema = z.object({
-    productId: z.number({ message: "Product is required." }),
-    qty: z
-      .number({ message: "Qty is required." })
-      .min(1, { message: "Quantity must be at least 1." })
-      .max(10000, { message: "Quantity cannot exceed 10,000." }),
-  });
-
-  type AddStockSchema = z.infer<typeof addStockSchema>;
-
   const {
     formState: { errors, isSubmitting },
     control,
     register,
     handleSubmit,
-  } = useForm<AddStockSchema>({
-    resolver: zodResolver(addStockSchema),
+  } = useForm<LocationStockValues>({
+    resolver: zodResolver(locationStockSchema),
   });
 
   const processSubmit = async (data: FieldValues) => {

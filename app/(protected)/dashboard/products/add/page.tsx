@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ToastContext";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { addProductSchema, AddProductValues } from "@/schemas";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
@@ -16,18 +16,6 @@ import NumberInput from "@/components/form/input/NumberInput";
 import TextInput from "@/components/form/input/TextInput";
 
 const ProductAddPage: NextPage = () => {
-  const addProductSchema = z.object({
-    name: z.string().min(1, { message: "Name is required." }),
-    categoryId: z.string().nullable(),
-    manufacturerId: z.number().nullable(),
-    manufacturerPartNo: z.string().optional(),
-    supplierId: z.number().nullable(),
-    supplierPartNo: z.string().optional(),
-    cost: z.number().nullable(),
-  });
-
-  type AddProductSchema = z.infer<typeof addProductSchema>;
-
   const router = useRouter();
   const [categories, setCategories] = useState<{ id: string; name: string }[]>(
     []
@@ -82,7 +70,7 @@ const ProductAddPage: NextPage = () => {
     formState: { errors, isSubmitting },
     register,
     handleSubmit,
-  } = useForm<AddProductSchema>({
+  } = useForm<AddProductValues>({
     resolver: zodResolver(addProductSchema),
   });
 

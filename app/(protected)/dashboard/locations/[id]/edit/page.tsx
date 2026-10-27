@@ -3,8 +3,8 @@
 import React, { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { editLocationSchema, EditLocationValues } from "@/schemas";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
@@ -20,14 +20,6 @@ interface LocationEditPageProps {
 
 const LocationEditPage: React.FC<LocationEditPageProps> = props => {
   const params = use(props.params);
-  const editLocationSchema = z.object({
-    code: z.string(),
-    name: z.string().min(1, { message: "Name is required." }),
-    parentId: z.string().nullable(),
-  });
-
-  type EditLocationSchema = z.infer<typeof editLocationSchema>;
-
   const locationId = params.id;
   const [locations, setLocations] = useState<{ id: string; name: string }[]>(
     []
@@ -41,7 +33,7 @@ const LocationEditPage: React.FC<LocationEditPageProps> = props => {
     register,
     handleSubmit,
     reset,
-  } = useForm<EditLocationSchema>({
+  } = useForm<EditLocationValues>({
     resolver: zodResolver(editLocationSchema),
   });
 

@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { addPropertySchema, AddPropertyValues } from "@/schemas";
 import { FieldValues, useForm } from "react-hook-form";
 import Button from "@/app/ui/button/button";
 import Form from "@/components/form/Form";
@@ -30,21 +30,12 @@ const PropertyAddForm: React.FC<PropertyAddFormProps> = ({
     { id: "SUFFIX", name: "Suffix" },
   ];
 
-  const addPropertySchema = z.object({
-    name: z.string().min(1, { message: "Name is required." }),
-    type: z.string(),
-    units: z.string().optional(),
-    unitPosition: z.string().optional(),
-  });
-
-  type AddPropertySchema = z.infer<typeof addPropertySchema>;
-
   const {
     formState: { errors, isSubmitting },
     register,
     handleSubmit,
     watch,
-  } = useForm<AddPropertySchema>({
+  } = useForm<AddPropertyValues>({
     resolver: zodResolver(addPropertySchema),
   });
 

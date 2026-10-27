@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ToastContext";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { addLocationSchema, AddLocationValues } from "@/schemas";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
@@ -15,14 +15,6 @@ import TextInput from "@/components/form/input/TextInput";
 import Select from "@/components/form/select/Select";
 
 const LocationAddPage: NextPage = () => {
-  const addLocationSchema = z.object({
-    code: z.string().nullable().optional(),
-    name: z.string().min(1, { message: "Name is required." }),
-    parentId: z.string().nullable(),
-  });
-
-  type AddLocationSchema = z.infer<typeof addLocationSchema>;
-
   const router = useRouter();
   const [locations, setLocations] = useState<{ id: string; name: string }[]>(
     []
@@ -59,7 +51,7 @@ const LocationAddPage: NextPage = () => {
     formState: { errors, isSubmitting },
     register,
     handleSubmit,
-  } = useForm<AddLocationSchema>({
+  } = useForm<AddLocationValues>({
     resolver: zodResolver(addLocationSchema),
   });
 

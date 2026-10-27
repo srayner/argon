@@ -3,8 +3,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { addSupplierSchema, SupplierValues } from "@/schemas";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
@@ -12,20 +12,13 @@ import Form from "@/components/form/Form";
 import TextInput from "@/components/form/input/TextInput";
 
 const SupplierAddPage: React.FC = () => {
-  const addSupplierSchema = z.object({
-    name: z.string().min(1, { message: "Name is required." }),
-    website: z.string(),
-  });
-
-  type AddSupplierSchema = z.infer<typeof addSupplierSchema>;
-
   const router = useRouter();
 
   const {
     formState: { errors, isSubmitting },
     register,
     handleSubmit,
-  } = useForm<AddSupplierSchema>({
+  } = useForm<SupplierValues>({
     resolver: zodResolver(addSupplierSchema),
   });
 
