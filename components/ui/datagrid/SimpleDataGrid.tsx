@@ -4,7 +4,6 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import ActionCellRenderer from "./ActionCellRenderer";
 import DeleteCellRenderer from "./DeleteCellRenderer";
-import { any, number } from "zod";
 
 interface SimpleDataGridProps {
   columnDefs: any;

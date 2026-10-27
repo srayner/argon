@@ -25,7 +25,7 @@ describe("addPropertySchema", () => {
   });
 
   it("requires a type", () => {
-    expect(errorsOf(addPropertySchema, { name: "Length" })).toEqual(["type: Required"]);
+    expect(errorsOf(addPropertySchema, { name: "Length" })).toEqual(["type: Invalid input: expected string, received undefined"]);
   });
 
   it("does not restrict type to known property types", () => {

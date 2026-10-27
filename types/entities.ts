@@ -1,5 +1,3 @@
-import { number } from "zod";
-
 export type PropertyType = "STRING" | "NUMERIC" | "METRIC" | "IMPERIAL";
 export type UnitPosition = "PREFIX" | "SUFFIX";
 

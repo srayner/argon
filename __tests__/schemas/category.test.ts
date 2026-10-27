@@ -32,7 +32,7 @@ describe.each([
 
   it("requires a code key (undefined is rejected)", () => {
     expect(errorsOf(schema, { name: "Bolts", parentId: null })).toEqual([
-      "code: Required",
+      "code: Invalid input: expected string, received undefined",
     ]);
   });
 
@@ -42,19 +42,21 @@ describe.each([
 
   it("uses the library default message for a non-string, non-null parentId", () => {
     expect(errorsOf(schema, { ...valid, parentId: 5 })).toEqual([
-      "parentId: Expected string, received number",
+      "parentId: Invalid input: expected string, received number",
     ]);
   });
 });
 
 describe("parentId when omitted", () => {
   const input = { code: "C1", name: "Bolts" };
+  const required = ["parentId: Invalid input: expected string, received undefined"];
 
-  it("defaults to null when adding", () => {
-    expect(parsed(addCategorySchema, input).parentId).toBeNull();
+  // The add form supplies null itself, via defaultValues.
+  it("is required when adding", () => {
+    expect(errorsOf(addCategorySchema, input)).toEqual(required);
   });
 
   it("is required when editing", () => {
-    expect(errorsOf(editCategorySchema, input)).toEqual(["parentId: Required"]);
+    expect(errorsOf(editCategorySchema, input)).toEqual(required);
   });
 });

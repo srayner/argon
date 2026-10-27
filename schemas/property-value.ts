@@ -36,10 +36,7 @@ export const createPropertyValueSchema = (properties: Property[]) =>
 
         return true;
       },
-      () => ({
-        path: ["value"],
-        message: "`value` must be a number",
-      })
+      { path: ["value"], error: "`value` must be a number" }
     );
 
 export type PropertyValueFormData = z.infer<

@@ -23,7 +23,7 @@ describe("addLocationSchema", () => {
 
   it("requires the parentId key but allows null", () => {
     expect(errorsOf(addLocationSchema, { name: "Shelf 1" })).toEqual([
-      "parentId: Required",
+      "parentId: Invalid input: expected string, received undefined",
     ]);
     expect(errorsOf(addLocationSchema, { ...valid, parentId: "p1" })).toEqual([]);
   });
@@ -42,10 +42,10 @@ describe("editLocationSchema", () => {
 
   it("does not allow a null or missing code (unlike add)", () => {
     expect(errorsOf(editLocationSchema, { ...valid, code: null })).toEqual([
-      "code: Expected string, received null",
+      "code: Invalid input: expected string, received null",
     ]);
     expect(errorsOf(editLocationSchema, { name: "Shelf 1", parentId: null })).toEqual([
-      "code: Required",
+      "code: Invalid input: expected string, received undefined",
     ]);
   });
 
