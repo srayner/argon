@@ -59,6 +59,11 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Nothing at runtime needs npm: the app starts via node and migrations run from
+# the locked prisma CLI in node_modules. Removing it drops npm's bundled deps
+# (undici, brace-expansion, http-cache-semantics, ...) from the image.
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
+
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=prod-deps /app/prisma ./prisma
 COPY --from=builder /app/.next ./.next
@@ -69,4 +74,4 @@ COPY --from=builder /app/next.config.mjs ./next.config.mjs
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["node", "node_modules/next/dist/bin/next", "start"]
