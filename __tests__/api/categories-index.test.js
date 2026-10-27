@@ -1,16 +1,16 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 import { NextRequest } from "next/server";
 import { GET } from "@/app/api/categories/route";
 import prisma from "@/app/prisma";
 
-jest.mock("@/app/prisma", () => ({
+vi.mock("@/app/prisma", () => ({
   __esModule: true,
   default: {
     category: {
-      count: jest.fn(),
-      findMany: jest.fn(),
+      count: vi.fn(),
+      findMany: vi.fn(),
     },
   },
 }));

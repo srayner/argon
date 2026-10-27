@@ -28,7 +28,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # ---- Stage 2: production dependencies ----
-# Dev dependencies (jest, playwright, ts-node, ...) are never installed here.
+# Dev dependencies (vitest, playwright, ts-node, ...) are never installed here.
 # The prisma CLI is a regular dependency so `prisma migrate deploy` works from the
 # final image at the exact version pinned in package-lock.json.
 FROM node:26-alpine AS prod-deps
