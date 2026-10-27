@@ -3,8 +3,8 @@
 import React, { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { editManufacturerSchema, ManufacturerValues } from "@/schemas";
 import Header from "@/components/ui/header/Header";
 import Button from "@/app/ui/button/button";
 import SubmitContainer from "@/components/form/SubmitContainer";
@@ -19,13 +19,6 @@ interface ManufacturerEditPageProps {
 
 const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = props => {
   const params = use(props.params);
-  const editManufacturerSchema = z.object({
-    name: z.string().min(1, { message: "Name is required." }),
-    website: z.string(),
-  });
-
-  type EditManufacturerSchema = z.infer<typeof editManufacturerSchema>;
-
   const manufacturerId = params.id;
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -35,7 +28,7 @@ const ManufacturerEditPage: React.FC<ManufacturerEditPageProps> = props => {
     register,
     handleSubmit,
     reset,
-  } = useForm<EditManufacturerSchema>({
+  } = useForm<ManufacturerValues>({
     resolver: zodResolver(editManufacturerSchema),
   });
 

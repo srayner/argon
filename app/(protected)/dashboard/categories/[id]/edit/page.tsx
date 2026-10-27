@@ -5,8 +5,8 @@ import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ToastContext";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { editCategorySchema, EditCategoryValues } from "@/schemas";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
@@ -20,14 +20,6 @@ interface CategoryEditPageProps {
 
 const CategoryEditPage: NextPage<CategoryEditPageProps> = props => {
   const params = use(props.params);
-  const editCategorySchema = z.object({
-    code: z.string().transform((val) => val || null).nullable(),
-    name: z.string().min(1, { message: "Name is required." }),
-    parentId: z.string().nullable(),
-  });
-
-  type EditCategorySchema = z.infer<typeof editCategorySchema>;
-
   const categoryId = params.id;
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>();
@@ -40,7 +32,7 @@ const CategoryEditPage: NextPage<CategoryEditPageProps> = props => {
     register,
     handleSubmit,
     reset,
-  } = useForm<EditCategorySchema>({
+  } = useForm<EditCategoryValues>({
     resolver: zodResolver(editCategorySchema),
   });
 

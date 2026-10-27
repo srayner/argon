@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState, use } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { editProductSchema, EditProductValues } from "@/schemas";
 import Button from "@/app/ui/button/button";
 import Form from "@/components/form/Form";
 import Header from "@/components/ui/header/Header";
@@ -21,18 +21,6 @@ interface ProductEditPageProps {
 
 const ProductEditPage: React.FC<ProductEditPageProps> = props => {
   const params = use(props.params);
-  const editProductSchema = z.object({
-    name: z.string().min(1, { message: "Name is required." }),
-    categoryId: z.string().nullable(),
-    manufacturerId: z.number().nullable(),
-    manufacturerPartNo: z.string().nullable(),
-    supplierId: z.number().nullable(),
-    supplierPartNo: z.string().nullable(),
-    cost: z.number().nullable(),
-  });
-
-  type EditProductSchema = z.infer<typeof editProductSchema>;
-
   const productId = params.id;
   const [categories, setCategories] = useState<{ id: string; name: string }[]>(
     []
@@ -52,7 +40,7 @@ const ProductEditPage: React.FC<ProductEditPageProps> = props => {
     register,
     handleSubmit,
     reset,
-  } = useForm<EditProductSchema>({
+  } = useForm<EditProductValues>({
     resolver: zodResolver(editProductSchema),
   });
 

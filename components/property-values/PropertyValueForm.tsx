@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createPropertyValueSchema, PropertyValueFormData } from "@/schemas";
 import Button from "@/app/ui/button/button";
 import Form from "@/components/form/Form";
 import FormRow from "@/components/form/FormRow";
@@ -23,45 +23,7 @@ const PropertyValueForm: React.FC<PropertyValueFormProps> = ({
   onSubmit,
   onClose,
 }) => {
-  const propertyValueSchema = z
-    .object({
-      propertyId: z.string().min(1, "Property is required"),
-      value: z.string().min(1, "Value is required"),
-    })
-    .refine(
-      ({ propertyId, value }) => {
-        const property = properties.find(
-          (property) => property.id === propertyId
-        );
-
-        // If the property doesn't exist, return false (validation fails)
-        if (!property) {
-          return false;
-        }
-
-        if (value.trim() === "") {
-          return false;
-        }
-
-        // If the property type is "STRING", ensure the value is a string
-        if (property.type === "STRING" && typeof value !== "string") {
-          return false;
-        }
-
-        // If the property type is numeric (any other type), ensure the value is a valid number
-        if (property.type !== "STRING" && isNaN(Number(value))) {
-          return false;
-        }
-
-        return true;
-      },
-      () => ({
-        path: ["value"],
-        message: "`value` must be a number",
-      })
-    );
-
-  type PropertyValueFormData = z.infer<typeof propertyValueSchema>;
+  const propertyValueSchema = createPropertyValueSchema(properties);
 
   const {
     register,

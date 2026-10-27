@@ -4,8 +4,8 @@ import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ToastContext";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { addCategorySchema, AddCategoryValues } from "@/schemas";
 import Button from "@/app/ui/button/button";
 import Header from "@/components/ui/header/Header";
 import SubmitContainer from "@/components/form/SubmitContainer";
@@ -14,14 +14,6 @@ import Form from "@/components/form/Form";
 import TextInput from "@/components/form/input/TextInput";
 
 const CategoryAddPage: NextPage = () => {
-  const addCategorySchema = z.object({
-    code: z.string().transform((val) => val || null).nullable(),
-    name: z.string().min(1, { message: "Name is required." }),
-    parentId: z.string().nullable().default(null),
-  });
-
-  type AddCategorySchema = z.infer<typeof addCategorySchema>;
-
   const router = useRouter();
 
   const { showToast } = useToast();
@@ -31,7 +23,7 @@ const CategoryAddPage: NextPage = () => {
     control,
     register,
     handleSubmit,
-  } = useForm<AddCategorySchema>({
+  } = useForm<AddCategoryValues>({
     resolver: zodResolver(addCategorySchema),
   });
 
