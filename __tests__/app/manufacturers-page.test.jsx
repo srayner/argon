@@ -20,7 +20,7 @@ const mockData = {
 };
 
 // Mocking the global fetch API
-global.fetch = jest.fn((url) => {
+global.fetch = vi.fn((url) => {
   if (url.startsWith("/api/manufacturers")) {
     return Promise.resolve({
       json: () => Promise.resolve(mockData),
@@ -40,6 +40,11 @@ describe("Manufacturers Page", () => {
     // Wait for the Add button to be rendered
     await waitFor(() => {
       expect(screen.getByRole("link", { name: /Add/i })).toBeInTheDocument();
+    });
+
+    // Let the grid load its data before the test ends and RTL unmounts it
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalled();
     });
   });
 });

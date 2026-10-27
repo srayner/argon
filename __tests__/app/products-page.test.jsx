@@ -21,7 +21,7 @@ const mockData = {
 };
 
 // Mocking the global fetch API
-global.fetch = jest.fn((url) => {
+global.fetch = vi.fn((url) => {
   if (url.startsWith("/api/products")) {
     return Promise.resolve({
       json: () => Promise.resolve(mockData),
@@ -30,20 +30,20 @@ global.fetch = jest.fn((url) => {
 });
 
 // Mock next/navigation hooks
-jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-  usePathname: jest.fn(),
-  useSearchParams: jest.fn(),
+vi.mock("next/navigation", () => ({
+  useRouter: vi.fn(),
+  usePathname: vi.fn(),
+  useSearchParams: vi.fn(),
 }));
 
 describe("Products Page", () => {
   beforeEach(() => {
     useRouter.mockReturnValue({
-      push: jest.fn(), // ToDo: Mock the push function for shallow routing
+      push: vi.fn(), // ToDo: Mock the push function for shallow routing
     });
     usePathname.mockImplementation(() => "/mock-path");
     useSearchParams.mockImplementation(() => ({
-      get: jest.fn().mockReturnValue("123"), //ToDo:Mock query param
+      get: vi.fn().mockReturnValue("123"), //ToDo:Mock query param
     }));
   });
 
@@ -62,6 +62,11 @@ describe("Products Page", () => {
     // Wait for the Add button to be rendered
     await waitFor(() => {
       expect(screen.getByRole("link", { name: /Add/i })).toBeInTheDocument();
+    });
+
+    // Let the grid load its data before the test ends and RTL unmounts it
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalled();
     });
   });
 });

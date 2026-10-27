@@ -25,7 +25,7 @@ const mockData = {
 };
 
 // Mocking the global fetch API
-global.fetch = jest.fn((url) => {
+global.fetch = vi.fn((url) => {
   if (url === "/api/dashboard") {
     return Promise.resolve({
       json: () => Promise.resolve(mockData),
