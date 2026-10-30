@@ -1,4 +1,12 @@
 import { test, expect } from "@playwright/test";
+import { checkEveryColumnCanBeSorted } from "./helpers/grid";
+
+test("every column on the suppliers list can be sorted", async ({ page }) => {
+  await checkEveryColumnCanBeSorted(page, {
+    path: "/dashboard/suppliers",
+    endpoint: "/api/suppliers",
+  });
+});
 
 test("adds supplier", async ({ page }) => {
   const data = { name: "New Supplier" };

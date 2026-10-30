@@ -7,6 +7,7 @@ test("adds stock", async ({ page }) => {
   await page.locator('[data-e2e="products-link"]').click();
   await expect(page).toHaveURL(/\/products/);
 
+  await page.getByLabel("Search").fill("100 Ohm Resistor");
   await page.getByRole("link", { name: "100 Ohm Resistor" }).first().click();
 
   await page.locator('[data-e2e="add-stock-button"]').click();

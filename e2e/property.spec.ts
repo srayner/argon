@@ -9,18 +9,19 @@ type NewProperty = {
 
 test("adds properties", async ({ page }) => {
   const properties: NewProperty[] = [
-    { name: "Type" },
-    { name: "Pack Qty", type: "Numeric" },
-    { name: "Lead Diameter", type: "Numeric", units: "mm" },
-    { name: "Prefix", type: "Numeric", units: "#", unitPosition: "Prefix" },
-    { name: "Resistance", type: "Metric", units: "Ω" },
-    { name: "Length", type: "Imperial", units: '"' },
+    { name: "Test Property A" },
+    { name: "Test Property B", type: "Numeric" },
+    { name: "Test Property C", type: "Numeric", units: "mm" },
+    { name: "Test Property D", type: "Numeric", units: "#", unitPosition: "Prefix" },
+    { name: "Test Property E", type: "Metric", units: "Ω" },
+    { name: "Test Property F", type: "Imperial", units: '"' },
   ];
 
   await page.goto("/dashboard");
   await page.locator('[data-e2e="categories-link"]').click();
   await expect(page).toHaveURL(/\/categories/);
 
+  await page.getByLabel("Search").fill("Through Hole Resistors");
   await page.getByRole("link", { name: "Through Hole Resistors" }).first().click();
 
   for (const property of properties) {

@@ -26,9 +26,11 @@ npm run test:watch   # Run Vitest in watch mode
 npm run test:coverage # Run Vitest with v8 coverage
 
 npm run seed         # Seed the database (ts-node prisma/seed.ts)
-npm run test:e2e     # Seed the database and run Playwright E2E tests
+npm run test:e2e     # Seed the database and run Playwright E2E tests against the production build
 npm run migrate-stock  # Run stock migration script (ts-node prisma/migrate-stock.ts)
 ```
+
+`test:e2e` does not build, so repeated runs (e.g. checking for flaky tests) stay fast. Run `npm run build` first whenever the code has changed. `next start` serves whatever is in `.next`, so a stale or broken build tests old code or makes every test fail at login. Set `E2E_DEV=1` to run against the dev server instead.
 
 ## Testing standards
 
