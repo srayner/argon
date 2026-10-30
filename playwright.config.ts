@@ -5,9 +5,7 @@ dotenv.config();
 
 export default defineConfig({
   testDir: "./e2e",
-  // Specs share seeded data and build on each other, so run them in order.
-  fullyParallel: false,
-  workers: 1,
+  fullyParallel: true,
   reporter: "list",
   use: {
     baseURL: "http://localhost:3000",
@@ -25,8 +23,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run dev",
+    command: process.env.E2E_DEV ? "npm run dev" : "npm start",
     url: "http://localhost:3000",
-    reuseExistingServer: true,
+    reuseExistingServer: !!process.env.E2E_DEV,
   },
 });

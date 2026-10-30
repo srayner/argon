@@ -6,6 +6,7 @@ test("adds some property values", async ({ page }) => {
   // Navigate to product.
   await page.locator('[data-e2e="products-link"]').click();
   await expect(page).toHaveURL(/\/products/);
+  await page.getByLabel("Search").fill("100 Ohm Resistor");
   await page.getByRole("link", { name: "100 Ohm Resistor" }).first().click();
 
   const valuesToAdd = [

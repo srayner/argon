@@ -41,7 +41,6 @@ const CategoriesPage: NextPage = () => {
         );
       },
     },
-    { headerName: "Full Path", field: "fullPathString", flex: 1 },
     { headerName: "Depth", field: "depth" },
   ];
 
