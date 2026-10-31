@@ -8,7 +8,7 @@ export default defineConfig({
   fullyParallel: true,
   reporter: "list",
   use: {
-    baseURL: "http://localhost:3000",
+    baseURL: "http://localhost:3001",
     trace: "on-first-retry",
   },
   projects: [
@@ -22,9 +22,11 @@ export default defineConfig({
       dependencies: ["setup"],
     },
   ],
+  // Uses a server already running on port 3001 as it is. Otherwise seeds,
+  // builds and starts a production server, and stops it after the run.
   webServer: {
-    command: process.env.E2E_DEV ? "npm run dev" : "npm start",
-    url: "http://localhost:3000",
-    reuseExistingServer: !!process.env.E2E_DEV,
+    command: "npm run seed && npm run build && npm start",
+    url: "http://localhost:3001",
+    reuseExistingServer: true,
   },
 });

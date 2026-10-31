@@ -16,9 +16,9 @@ A full-stack web application built with Next.js, providing authenticated dashboa
 ## Scripts
 
 ```bash
-npm run dev          # Start development server
+npm run dev          # Start development server (port 3001)
 npm run build        # Build for production
-npm run start        # Start production server
+npm run start        # Start production server (port 3001)
 npm run lint         # Run ESLint
 
 npm run test         # Run Vitest unit tests (single run)
@@ -26,11 +26,14 @@ npm run test:watch   # Run Vitest in watch mode
 npm run test:coverage # Run Vitest with v8 coverage
 
 npm run seed         # Seed the database (ts-node prisma/seed.ts)
-npm run test:e2e     # Seed the database and run Playwright E2E tests against the production build
+npm run test:e2e     # Run Playwright E2E tests (see below for which server they use)
 npm run migrate-stock  # Run stock migration script (ts-node prisma/migrate-stock.ts)
 ```
 
-`test:e2e` does not build, so repeated runs (e.g. checking for flaky tests) stay fast. Run `npm run build` first whenever the code has changed. `next start` serves whatever is in `.next`, so a stale or broken build tests old code or makes every test fail at login. Set `E2E_DEV=1` to run against the dev server instead.
+Run e2e tests only with `npm run test:e2e`; pass Playwright options after `--` (e.g. `npm run test:e2e -- e2e/category.spec.ts`). Which server the tests run against depends on whether one is already running on port 3001:
+
+- **No server running** (the default): Playwright seeds the database, builds, starts a production server, runs the tests and stops the server.
+- **Server already running**: Playwright uses it as it is. It does not seed, build or stop it. You are responsible for it being the right server with the right code, and for running `npm run seed` before each run. Use this for fast repeated runs, e.g. `npm run seed && npm run test:e2e`.
 
 ## Testing standards
 
@@ -40,4 +43,7 @@ npm run migrate-stock  # Run stock migration script (ts-node prisma/migrate-stoc
 - **Parameterization**: use `describe.each` only for variants of one module (e.g. add and edit versions of a schema), not to cover separate modules.
 - **Component and page tests**: assert what a user sees, wait for async work (e.g. the grid's data fetch) to finish before the test ends, and don't duplicate what Playwright already covers.
 - **Mocking**: mock only at the boundary (`fetch`, Prisma, `next/navigation`). Never mock the thing under test.
-- **Mutation spot-check**: when adding tests for logic, temporarily break the code and confirm a test fails, then restore it.
+
+## Merging
+
+Before merging, run the checks in the `pre-merge-checks` skill (`.claude/skills/pre-merge-checks/`).
