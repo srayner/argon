@@ -1,12 +1,7 @@
 import { test, expect } from "@playwright/test";
-import { checkEveryColumnCanBeSorted } from "./helpers/grid";
+import { testGrid } from "./helpers/grid";
 
-test("every column on the categories list can be sorted", async ({ page }) => {
-  await checkEveryColumnCanBeSorted(page, {
-    path: "/dashboard/categories",
-    endpoint: "/api/categories",
-  });
-});
+testGrid({ path: "/dashboard/categories", endpoint: "/api/categories" });
 
 test("adds category", async ({ page }) => {
   const data = { name: "New Category" };
