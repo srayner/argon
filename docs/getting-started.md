@@ -83,7 +83,7 @@ npm run dev
 
 Open your web browser and navigate to:
 
-http://localhost:3000
+http://localhost:3001
 You should see the application running locally.
 
 Additional Notes
