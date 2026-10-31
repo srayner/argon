@@ -31,6 +31,7 @@ const SimpleDataGrid: React.FC<SimpleDataGridProps> = ({
         rowHeight={rowHeight}
         columnDefs={columnDefs}
         components={components}
+        suppressColumnVirtualisation={true}
       />
     </div>
   );

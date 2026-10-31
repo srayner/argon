@@ -49,6 +49,7 @@ const LocationsCard: React.FC<LocationsCardProps> = ({
       },
       width: 100,
       menuTabs: [],
+      sortable: false,
     },
   ];
 

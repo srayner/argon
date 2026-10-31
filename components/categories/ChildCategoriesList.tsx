@@ -30,7 +30,7 @@ const ChildCategoriesList: React.FC<ChildCategoriesListProps> = ({
   ];
 
   return (
-    <div className="w-full bg-white shadow-md rounded-lg">
+    <div className="w-full bg-white shadow-md rounded-lg" data-e2e="child-categories-grid">
       <CardHeader title="Child Categories" actions={[]} />
 
       <CardBody>

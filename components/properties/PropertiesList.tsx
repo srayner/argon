@@ -47,11 +47,12 @@ const PropertiesLst: React.FC<PropertiesLstProps> = ({
       },
       width: 100,
       menuTabs: [],
+      sortable: false,
     },
   ];
 
   return (
-    <div className="w-full bg-white shadow-md rounded-lg">
+    <div className="w-full bg-white shadow-md rounded-lg" data-e2e="properties-grid">
       <CardHeader
         title="Properties"
         actions={[

@@ -30,7 +30,7 @@ const ChildLocationsList: React.FC<ChildLocationsListProps> = ({
   ];
 
   return (
-    <div className="w-full bg-white shadow-md rounded-lg">
+    <div className="w-full bg-white shadow-md rounded-lg" data-e2e="child-locations-grid">
       <CardHeader title="Child Locations" actions={[]} />
 
       <CardBody>

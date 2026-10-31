@@ -91,7 +91,7 @@ async function seedManufacturers() {
     return `${adjective} ${companyType}`;
   });
 
-  manufacturerNames.push("acme works", "zenith group");
+  manufacturerNames.push("acme works", "Acme Works", "zenith group");
 
   for (const [i, name] of manufacturerNames.entries()) {
     await prisma.manufacturer.create({
@@ -198,6 +198,8 @@ async function seedLocations() {
       name: `Tray ${200 + i}`,
       parentId: office.id,
     })),
+    { code: "SB", name: "spares box", parentId: garage.id },
+    { code: "TC", name: "tool chest", parentId: workshop.id },
   ];
 
   for (const data of children) {
@@ -261,13 +263,18 @@ async function seedProducts() {
   const suppliers = await prisma.supplier.findMany({});
   const categories = await prisma.category.findMany({});
 
-  const productData = [
+  const productData: {
+    name: string;
+    category?: string;
+    manufacturer?: string;
+    supplier?: string;
+    cost?: number;
+  }[] = [
     {
       name: '8 x 3/8" PP/ST Zinc Screw',
       category: "Mechanical",
       supplier: "acme supplies",
       cost: 0.05,
-      qtyInStock: 100,
     },
     {
       name: '8 x 1/2" PP/ST Zinc Screw',
@@ -275,27 +282,23 @@ async function seedProducts() {
       manufacturer: "acme works",
       supplier: "Advanced Distribution",
       cost: 0.06,
-      qtyInStock: 75,
     },
     {
       name: '8 x 3/4" PP/ST Zinc Screw',
       category: "Mechanical",
       manufacturer: "acme works",
       cost: 0.07,
-      qtyInStock: 50,
     },
     {
       name: "SN74LS32 OR Gate",
       category: "Logic Gates",
       supplier: "Global Supplies",
       cost: 0.45,
-      qtyInStock: 0,
     },
     {
       name: "Special Connector",
       category: "Connectors",
       manufacturer: "Solar Solutions",
-      qtyInStock: 5,
     },
     {
       name: "100 Ohm Resistor",
@@ -303,7 +306,6 @@ async function seedProducts() {
       supplier: "Global Supplies",
       category: "Through Hole Resistors",
       cost: 0.1,
-      qtyInStock: 4,
     },
     {
       name: "220 Ohm Resistor",
@@ -311,7 +313,6 @@ async function seedProducts() {
       supplier: "Global Supplies",
       category: "Through Hole Resistors",
       cost: 0.12,
-      qtyInStock: 17,
     },
     {
       name: "330 Ohm Resistor",
@@ -319,7 +320,6 @@ async function seedProducts() {
       supplier: "Global Supplies",
       category: "Through Hole Resistors",
       cost: 0.15,
-      qtyInStock: 10,
     },
     {
       name: "470 Ohm Resistor",
@@ -327,7 +327,6 @@ async function seedProducts() {
       supplier: "Global Supplies",
       category: "Through Hole Resistors",
       cost: 0.2,
-      qtyInStock: 9,
     },
     {
       name: "m3 nylon washer",
@@ -335,19 +334,78 @@ async function seedProducts() {
       manufacturer: "zenith group",
       supplier: "zenith traders",
       cost: 0.02,
-      qtyInStock: 250,
     },
     {
       name: "zip tie 200mm",
       supplier: "Global Supplies",
-      qtyInStock: 40,
+    },
+    {
+      name: "M4 Hex Nut",
+      category: "Mechanical",
+      manufacturer: "Titanic Engineering",
+      supplier: "Peak Imports",
+      cost: 0.06,
+    },
+    {
+      name: "M4 Hex Nut",
+      category: "Mechanical",
+      manufacturer: "Eagle Industries",
+      supplier: "acme supplies",
+      cost: 0.05,
+    },
+    {
+      name: "M3 Hex Nut",
+      category: "Mechanical",
+      manufacturer: "Eagle Industries",
+      supplier: "acme supplies",
+      cost: 0.05,
+    },
+    {
+      name: "Two-Part Epoxy",
+      category: "adhesives",
+      manufacturer: "acme works",
+      supplier: "Prime Logistics",
+      cost: 4.5,
+    },
+    {
+      name: "Heat Shrink Tubing",
+      category: "Cable & Wire",
+      supplier: "Global Supplies",
+      cost: 1.2,
+    },
+    {
+      name: "Heat Shrink Tubing",
+      category: "Cable & Wire",
+      supplier: "Eco Trading",
+      cost: 0.95,
+    },
+    {
+      name: "Precision Screwdriver Set",
+      category: "Screwdrivers",
+      manufacturer: "Nova Group",
+      supplier: "Elite Corporation",
+      cost: 12.5,
+    },
+    {
+      name: "Wire Stripper",
+      category: "tools",
+      manufacturer: "Vanguard Technologies",
+      supplier: "Rapid Exports",
+      cost: 7.5,
+    },
+    {
+      name: "Solder Wire 0.8mm",
+      category: "Cable & Wire",
+      manufacturer: "Solar Solutions",
+      supplier: "Global Supplies",
+      cost: 3.2,
     },
   ];
 
   for (const product of productData) {
     const data = {
       name: product.name,
-      qtyInStock: product.qtyInStock,
+      qtyInStock: 0,
       cost: product.cost,
       categoryId: findIdByName(categories, product.category),
       supplierId: findIdByName(suppliers, product.supplier),
@@ -368,16 +426,24 @@ function findIdByName<T extends { id: string | number; name?: string | null }>(
 }
 
 // Seeds stock in the child locations and sets each location's productCount from it.
+const NOT_STOCKED = ["M4 Hex Nut", "M3 Hex Nut"];
+const HAND_STOCKED_PRODUCT = "Two-Part Epoxy";
+const HAND_STOCKED_LOCATION = "tool chest";
+
 async function seedStock() {
-  const products = await prisma.product.findMany({ orderBy: { id: "asc" } });
-  const locations = await prisma.location.findMany({
-    where: { parentId: { not: null } },
+  const allProducts = await prisma.product.findMany({ orderBy: { id: "asc" } });
+  const products = allProducts.filter(
+    (p) => !NOT_STOCKED.includes(p.name) && p.name !== HAND_STOCKED_PRODUCT
+  );
+  const allLocations = await prisma.location.findMany({
     orderBy: [{ createdAt: "asc" }, { id: "asc" }],
   });
+  const locations = allLocations.filter(
+    (l) => l.parentId !== null && l.name !== HAND_STOCKED_LOCATION
+  );
 
   for (const [i, location] of locations.entries()) {
     const productsHere = i < 2 ? 1 : i % 13 === 5 ? 3 : 2;
-    let count = 0;
 
     for (let k = 0; k < productsHere; k++) {
       const product = products[(i * 3 + k) % products.length];
@@ -394,9 +460,31 @@ async function seedStock() {
           qty: 1 + ((i + k * 7) % 50),
         },
       });
-      count++;
     }
+  }
 
+  const byName = <T extends { name: string | null }>(list: T[], name: string) =>
+    list.find((item) => item.name === name)!;
+  const handStock: [location: string, product: string, qty: number][] = [
+    [HAND_STOCKED_LOCATION, HAND_STOCKED_PRODUCT, 5],
+    [HAND_STOCKED_LOCATION, "Special Connector", 12],
+    [HAND_STOCKED_LOCATION, "zip tie 200mm", 12],
+    ["Bin 104", HAND_STOCKED_PRODUCT, 5],
+    ["Draw 2", HAND_STOCKED_PRODUCT, 12],
+    ["Tray 205", HAND_STOCKED_PRODUCT, 30],
+  ];
+  for (const [locationName, productName, qty] of handStock) {
+    await prisma.stock.create({
+      data: {
+        locationId: byName(allLocations, locationName).id,
+        productId: byName(allProducts, productName).id,
+        qty,
+      },
+    });
+  }
+
+  for (const location of allLocations) {
+    const count = await prisma.stock.count({ where: { locationId: location.id } });
     await prisma.location.update({
       where: { id: location.id },
       data: { productCount: count },
@@ -421,8 +509,11 @@ async function main() {
           properties: [
             { name: "Drive Type", type: "STRING" },
             { name: "Head Type", type: "STRING" },
-            { name: "Thread", type: "NUMERIC" },
-            { name: "Length", type: "IMPERIAL" },
+            { name: "Thread", type: "NUMERIC", units: "M", unitPosition: "PREFIX" },
+            { name: "Length", type: "IMPERIAL", units: '"' },
+            { name: "Head Diameter", type: "IMPERIAL", units: '"' },
+            { name: "Shank Diameter", type: "NUMERIC", units: "mm" },
+            { name: "finish", type: "STRING" },
           ],
         },
       ],
@@ -493,7 +584,11 @@ async function main() {
       noDepth: true,
       children: [],
     },
-    { name: "tools", code: "tl", children: [] },
+    {
+      name: "tools",
+      code: "tl",
+      children: [{ name: "Screwdrivers", code: "SCD", children: [] }],
+    },
   ];
 
   await clearData();
