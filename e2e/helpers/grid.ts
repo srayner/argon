@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { expect, Locator, Page, test } from "@playwright/test";
 
 export type SortDirection = "asc" | "desc";
 
@@ -100,4 +100,13 @@ export async function checkEveryColumnCanBeSorted(
       }).toPass({ timeout: 5000 });
     }
   }
+}
+
+// Registers the standard tests for a server-side data grid.
+export function testGrid({ path, endpoint }: { path: string; endpoint: string }) {
+  test.describe(`grid on ${path}`, () => {
+    test("every column can be sorted", async ({ page }) => {
+      await checkEveryColumnCanBeSorted(page, { path, endpoint });
+    });
+  });
 }
