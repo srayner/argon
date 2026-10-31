@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { testGrid } from "./helpers/grid";
 
-testGrid({ path: "/dashboard/categories", endpoint: "/api/categories" });
+testGrid({ open: "/dashboard/categories", endpoint: "/api/categories" });
 
 test("adds category", async ({ page }) => {
   const data = { name: "New Category" };

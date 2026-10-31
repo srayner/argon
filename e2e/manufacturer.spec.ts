@@ -1,12 +1,7 @@
 import { test, expect } from "@playwright/test";
-import { checkEveryColumnCanBeSorted } from "./helpers/grid";
+import { testGrid } from "./helpers/grid";
 
-test("every column on the manufacturers list can be sorted", async ({ page }) => {
-  await checkEveryColumnCanBeSorted(page, {
-    path: "/dashboard/manufacturers",
-    endpoint: "/api/manufacturers",
-  });
-});
+testGrid({ open: "/dashboard/manufacturers", endpoint: "/api/manufacturers" });
 
 test("adds manufacturer", async ({ page }) => {
   const data = { name: "New Manufacturer" };

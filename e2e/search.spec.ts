@@ -1,4 +1,14 @@
 import { test, expect } from "@playwright/test";
+import { testGrid } from "./helpers/grid";
+
+testGrid({
+  name: "search results",
+  open: async (page) => {
+    await page.goto("/dashboard/search");
+    await page.getByRole("link", { name: "Mechanical", exact: true }).first().click();
+    await expect(page.getByRole("heading", { name: "Search Results" })).toBeVisible();
+  },
+});
 
 test("performs a search", async ({ page }) => {
   await page.goto("/dashboard");

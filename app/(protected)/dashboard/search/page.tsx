@@ -101,6 +101,7 @@ const SearchPage: NextPage = () => {
       field: "image",
       width: 150,
       maxWidth: 150,
+      sortable: false,
       cellRenderer: (params: ICellRendererParams) => {
         return params.data && params.data.image ? (
           <img
@@ -133,6 +134,7 @@ const SearchPage: NextPage = () => {
     {
       headerName: "Category",
       field: "category.name",
+      sortable: false,
     },
     {
       headerName: "Supplier",
