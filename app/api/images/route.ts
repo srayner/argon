@@ -3,7 +3,9 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import { join } from "path";
+import { randomUUID } from "crypto";
 import createSearchObject from "../functions/create-search-object";
+import { IMAGE_EXTENSIONS } from "../functions/image-types";
 import parseSortParams from "../functions/parse-sort-params";
 
 export async function GET(request: NextRequest) {
@@ -64,23 +66,29 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
-  const file: File | null = data.get("file") as unknown as File;
+  const file = data.get("file");
 
-  if (!file) {
+  if (!(file instanceof File)) {
     return NextResponse.json({ success: false }, { status: 400 });
   }
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
+  const extension = IMAGE_EXTENSIONS[file.type];
 
-  const path = join(process.cwd(), "uploads/images", file.name);
-  await writeFile(path, buffer);
+  if (!extension) {
+    return NextResponse.json(
+      { error: "Only PNG, JPEG, WebP and GIF images can be uploaded" },
+      { status: 400 }
+    );
+  }
 
-  const encodedFilename = encodeURIComponent(file.name);
-  const href = join("/api/uploads/images/", encodeURIComponent(file.name));
-  const createdSupplier = await prisma.image.create({
+  const storedName = `${randomUUID()}${extension}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  await writeFile(join(process.cwd(), "uploads", "images", storedName), buffer, { flag: "wx" });
+
+  await prisma.image.create({
     data: {
-      href,
+      href: `/api/uploads/images/${storedName}`,
       name: file.name,
     },
   });

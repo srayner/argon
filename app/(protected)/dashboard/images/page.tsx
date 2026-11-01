@@ -4,11 +4,15 @@ import { NextPage } from "next";
 import React, { useRef, useState } from "react";
 import Header from "@/components/ui/header/Header";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ToastContext";
+
+const UPLOAD_FAILED = "Image upload failed. Please try again.";
 
 const ImagesPage: NextPage = () => {
   const [file, setFile] = useState<File>();
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { showToast } = useToast();
 
   const onsubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,12 +29,16 @@ const ImagesPage: NextPage = () => {
         body: data,
       });
 
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        showToast(body.error || UPLOAD_FAILED);
+        return;
+      }
+
       setFile(undefined);
       if (fileInputRef.current) fileInputRef.current.value = "";
-
-      if (!res.ok) throw new Error(await res.text());
-    } catch (e: any) {
-      console.error(e);
+    } catch {
+      showToast(UPLOAD_FAILED);
     } finally {
       setLoading(false);
     }
